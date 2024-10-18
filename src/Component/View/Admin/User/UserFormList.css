@@ -1,0 +1,40 @@
+
+.tm-avatar-container {
+    position: relative;
+    display: inline-block;
+    border: 5px solid #fff;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 200px;
+   
+}
+
+.tm-avatar {    
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+#avatarUpload {
+    display: none;
+}
+
+
+.tm-signup-form .form-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    box-shadow: none;
+    background-color: #f8f9fa;
+    font-size: 16px;
+    color: #495057;
+    transition: border-color 0.3s ease;
+}
+
+.tm-signup-form .form-group input:focus {
+    border-color: #000000;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+

@@ -1,0 +1,197 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#container {
+  background-color: #eff3f7;
+  width: 850px; /* Tăng chiều rộng của khung chat */
+  height: 800px;
+  margin: 0 auto;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+}
+
+aside {
+  width: 280px; /* Tăng chiều rộng của aside */
+  height: 100%;
+  background-color: #3b3e49;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  width: 570px; /* Tăng chiều rộng của main */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+aside header {
+  padding: 30px 20px;
+}
+
+aside input {
+  width: 100%;
+  padding: 10px;
+  background-color: #5e616a;
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+}
+
+aside ul {
+  flex-grow: 1;
+  padding-left: 0;
+  list-style-type: none;
+  overflow-y: auto;
+}
+
+aside li {
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+aside li:hover {
+  background-color: #5e616a;
+}
+
+aside li img {
+  border-radius: 50%;
+  margin-left: 20px;
+  margin-right: 8px;
+}
+
+aside li div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+aside li h2 {
+  font-size: 14px;
+  color: #fff;
+}
+
+aside li h3 {
+  font-size: 12px;
+  color: #7e818a;
+}
+
+.status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.green {
+  background-color: #58b666;
+}
+
+.orange {
+  background-color: #ff725d;
+}
+
+main header {
+  height: 110px;
+  padding: 30px 40px;
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+}
+
+main header img:first-child {
+  border-radius: 50%;
+}
+
+main header div {
+  margin-left: 10px;
+  flex-grow: 1;
+}
+
+main header h2 {
+  font-size: 16px;
+}
+
+main header h3 {
+  font-size: 14px;
+  color: #7e818a;
+}
+
+#chat {
+  flex-grow: 1;
+  list-style-type: none;
+  overflow-y: auto;
+  padding: 0;
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+
+#chat li {
+  padding: 10px 30px;
+}
+
+#chat .entete {
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#chat .message {
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 5px;
+  max-width: 75%;
+}
+
+#chat .you .message {
+  background-color: #58b666;
+}
+
+#chat .me {
+  text-align: right;
+}
+
+#chat .me .message {
+  background-color: #6fbced;
+}
+
+main footer {
+  padding: 20px 30px;
+  background-color: #f5f5f5;
+  display: flex; /* Thêm để căn chỉnh nút gửi tin nhắn */
+  align-items: center;
+}
+
+main footer textarea {
+  width: 80%;
+  height: 60px; /* Giảm chiều cao của textarea */
+  border-radius: 3px;
+  padding: 15px;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+/* Nút gửi tin nhắn */
+main footer button {
+  width: 18%; /* Thu nhỏ nút gửi tin nhắn */
+  height: 40px;
+  border: none;
+  background-color: #58b666;
+  color: white;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+main footer button:hover {
+  background-color: #46a355;
+}

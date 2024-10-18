@@ -1,0 +1,12 @@
+.container1{
+    width: 80%;
+    margin: 0 auto;
+}
+.inventory-img{
+    width: 130px;
+    padding-bottom:5px;
+  
+}
+.low-stock {
+    color: red; /* Màu chữ đỏ cho số lượng bằng 0 */
+}
