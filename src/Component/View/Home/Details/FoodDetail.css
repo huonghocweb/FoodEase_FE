@@ -1,0 +1,109 @@
+
+.food-details {
+    display: flex; /* Sử dụng flexbox để xếp theo chiều ngang */
+
+ 
+    padding: 16px;
+    max-width: 70%; /* Tăng chiều rộng */
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+  }
+  
+  .food-image {
+    position: relative;
+    flex: 1; /* Cho phép hình ảnh chiếm không gian linh hoạt */
+    width: 100%;
+    text-align: center;
+  }
+  
+  .food-image img {
+    width: 95%;
+    border-radius: 8px;
+    
+  }
+  
+  .out-of-stock {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background-color: rgb(95, 83, 83);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    
+  }
+  .disscount{
+    position :absolute;
+    width: 100px;
+    height: 25px;
+    top: 10px;
+    left: 40px;
+    border-radius: 5px;
+    background-color: red;
+    padding-top: 3px;
+    size: 60px;
+  }
+  
+  .food-info {
+    flex: 1.5; /* Cho phép phần thông tin chiếm nhiều không gian hơn */
+    padding: 0 16px; /* Thêm khoảng cách giữa hình và thông tin */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Căn giữa theo chiều dọc */
+    text-align: left; /* Canh trái cho văn bản */
+  }
+  
+
+  
+  .order-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%; /* Đưa nút chiếm đầy chiều rộng */
+   
+  }
+ 
+  .order-button:hover {
+    background-color: #218838;
+  }
+  
+  .details {
+    flex: 1; /* Cho phần chi tiết chiếm không gian còn lại */
+    margin-top: 16px;
+    text-align: left;
+  }
+  
+  .ingredients, .portion, .nutrition {
+    margin-top: 16px;
+  }
+  .review{
+    text-align: end;
+    color: rgb(255, 254, 254);
+    font-size: medium;
+  }
+  .food-image1 {
+   
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  } 
+  
+ .food-image1 img {
+    width: 30.33%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+  
+  }
+ .details-price{
+  padding-left: 0px;
+  margin-right: 50px;
+  font-size: large;
+  color: red;
+ }

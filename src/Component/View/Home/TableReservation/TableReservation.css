@@ -1,0 +1,175 @@
+/* Áp dụng cho phần tử bao quanh TableReservation */
+.reservation-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Căn giữa và đặt kích thước cho reservation-container */
+.reservation-container {
+  font-family: "Spectral", serif; /* Áp dụng font cho TableReservation */
+  width: 70%;
+  height: 70%;
+  padding: 50px;
+  background-color: rgb(192, 192, 192);
+
+  border-radius: 8px;
+  box-shadow: 0 4px 6px 8px darkgray;
+}
+
+.reservation-wrapper .reservation-container h2 {
+  text-align: center;
+  color: #c0392b;
+  margin: 0 auto;
+  
+  margin-bottom: 25px;
+  font-size: 50px;
+  width: 30%;
+}
+
+.reservation-wrapper .reservation-container h1 {
+  font-size: 60px;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+.reservation-form {
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
+  align-items: center; /* Đảm bảo label và input căn cùng dòng */
+}
+
+.form-group-reservation {
+  display: flex;
+  align-items: center; /* Căn giữa label và input theo chiều dọc */
+  flex: 1;
+  margin-right: 10px;
+  margin: 0 auto;
+  margin-left: -30px;
+}
+
+.form-group:last-child {
+  margin-right: 0; /* Loại bỏ khoảng cách cho phần tử cuối */
+}
+
+.reservation-container .form-group-reservation label {
+  width: 150px; /* Đặt chiều rộng cố định cho label */
+  margin-right: -15px; /* Khoảng cách giữa label và input */
+  font-weight: bold;
+  color: #000;
+  text-align: right; /* Căn phải label */
+  font-size: 23px;
+}
+
+.reservation-wrapper
+  .reservation-container
+  .form-row
+  .form-group-reservation
+  input[type="text"],
+  .reservation-wrapper
+  .reservation-container
+  .form-row
+  .form-group-reservation
+input[type="email"],
+.reservation-wrapper
+  .reservation-container
+  .form-row
+  .form-group-reservation
+input[type="tel"]
+ {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 20px;
+  margin: 20px;
+  margin-bottom: 30px;
+}
+
+.reservation-wrapper
+  .reservation-container
+  .form-row
+  .form-group-reservation
+  input[type="date"],
+  .reservation-wrapper
+  .reservation-container
+  .form-row
+  .form-group-reservation
+select {
+  width: 72%;
+  padding: 10px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 20px;
+  margin: 20px;
+  margin-bottom: 30px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+select:focus {
+  border-color: #c0392b;
+  outline: none;
+}
+
+.success-message {
+  color: #27ae60;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 17px;
+}
+
+/* Áp dụng cho phần tử cha của nút submit để căn giữa */
+.submit-button-wrapper {
+  display: flex;
+  justify-content: center; /* Căn giữa nút theo chiều ngang */
+  margin-top: 25px; /* Khoảng cách phía trên nút */
+}
+
+.submit-button {
+  background-color: #c0392b;
+  color: white;
+  width: 300px;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #a93226;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-group-reservation {
+    margin-right: 0;
+    margin-bottom: 10px;
+    flex-direction: column; /* Đổi thành cột trên màn hình nhỏ */
+  }
+
+  .reservation-container .form-group label {
+    text-align: left; /* Căn trái cho label trên màn hình nhỏ */
+    width: 100%; /* Cho label chiếm toàn bộ chiều rộng */
+  }
+}

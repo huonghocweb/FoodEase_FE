@@ -1,0 +1,81 @@
+.custom-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 350px;
+    height: 45px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 8px 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: fadeIn 0.5s ease-in-out;
+    overflow: hidden; /* Đảm bảo không bị overflow khi có thanh progress */
+}
+
+.custom-alert-success {
+    border-left: 6px solid #28a745;
+}
+
+.custom-alert-error {
+    border-left: 6px solid #dc3545;
+}
+
+.custom-alert-icon {
+    font-size: 40px;
+    margin-right: 12px;
+    color: #28a745;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: #e9f5e1;
+}
+
+.custom-alert-error .custom-alert-icon {
+    color: #dc3545;
+    background-color: #fce4e4;
+}
+
+.custom-alert-message {
+    flex-grow: 1;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 100%;
+    background-color: #f1f1f1;
+    animation: progressBar 3s linear forwards; 
+}
+
+@keyframes progressBar {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

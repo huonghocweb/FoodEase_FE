@@ -1,0 +1,58 @@
+/* Revenue.css */
+
+.revenue-container {
+    max-width: 1500px;
+    margin: auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.revenue-button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.revenue-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.revenue-button:hover {
+    background-color: #0056b3;
+}
+
+.revenue-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.revenue-th,
+.revenue-td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.revenue-th {
+    background-color: #007bff;
+    color: white;
+}
+
+.revenue-odd-row {
+    background-color: #f2f2f2;
+}
+
+.revenue-hover-row:hover {
+    background-color: #e0e0e0;
+}
