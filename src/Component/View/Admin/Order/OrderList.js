@@ -11,18 +11,32 @@ const OrderList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderReturnByOrderId,setOrderReturnByOrderId] = useState([]);
   const [alert,setAlert] = useState(null);
+  const [date,setDate] = useState('');
+  const [page,setPage] =useState(0);
+  const [inputFind, setInputFind] = useState('');
 const featchOrderList = async ()=>{
   try {
-    const responseOrder = await axiosConfig('/order/findAll')
+    const responseOrder = await axiosConfig(`/order/findOrderByOrderDate?date=${date}&page=${page}`)
     .then(responseOrder =>{
-      setOrder(responseOrder.data)
+      setOrder(responseOrder.data.content)
       console.log(responseOrder.data)
     })
   } catch (error) {
     console.log(error,'Lỗi nhận dử liệu order')
   }
 }
-
+const handleinputFind=(e)=>{
+setInputFind(e.target.value);
+console.log(e.target.value);
+}
+const findDate =()=>{
+  const formattedDate = inputFind.replace(/\//g, '-');
+  setDate(formattedDate)
+  if(inputFind == null){
+    setDate('');
+  }
+  console.log(inputFind);
+}
 
 const handleInfoClick = (item,order) => {
   setSelectedItem(item);
@@ -67,7 +81,7 @@ const hanldeApproveOrderReturn = async(orderId,isApprove) => {
 
  useEffect (()=>{
   featchOrderList();
-},[]);
+},[order]);
     return (
       <div className="body " >
      {
@@ -89,6 +103,10 @@ const hanldeApproveOrderReturn = async(orderId,isApprove) => {
             <div className="col-12 tm-block-col">
               <div className=" ">
                 <h2 className="tm-block-title">Orders List</h2>
+                <div className='orderlist-find'>
+                  <input type='text' value={inputFind}onChange={handleinputFind}/>
+                  <button onClick={findDate}>find</button>
+                </div>
                 <table className="table">
                   <thead>
                     <tr>
@@ -110,7 +128,7 @@ const hanldeApproveOrderReturn = async(orderId,isApprove) => {
                   <tbody>
                   {order.map((item,index)=>(
                         <tr key={index}>
-                        <td>{index}</td>
+                        <td>{index +1}</td>
                         <th scope="row">#{item.orderId}</th>
                         <td>  {(() => {
                       const orderDate = new Date(item.orderDate);
