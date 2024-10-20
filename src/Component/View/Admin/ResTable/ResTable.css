@@ -1,0 +1,106 @@
+/* ResTable.css */
+
+/* Kiểu cho danh sách bàn */
+.restable-list-container {
+    margin: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .restable-list-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .restable-list-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .restable-list-table th, 
+  .restable-list-table td {
+    padding: 10px;
+    border: 1px solid black;
+    text-align: left;
+  }
+  
+  .restable-list-table th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    color: black;
+  }
+  
+  .restable-list-table tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .restable-list-button {
+    padding: 6px 12px;
+    margin: 5px;
+    background-color: 28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .restable-list-button:hover {
+    background-color: #218838;
+  }
+  
+  /* Kiểu cho form tạo và chỉnh sửa bàn */
+  .restable-form-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .restable-form-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #444;
+  }
+  
+  .restable-form-label {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  .restable-form-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .restable-form-button {
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .restable-form-button:hover {
+    background-color: #218838;
+  }
+  
+  .restable-form-error {
+    color: red;
+    font-size: 14px;
+  }
+  
