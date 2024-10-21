@@ -23,7 +23,7 @@ const ResTableList = () => {
       .catch((error) => console.error(error));
   };
 
-  const handleEdit = (tableId, tableCategoryName) => {
+  const handleEdit = (tableId) => {
     setSelectedTableId(tableId); // Lưu ID bàn đang chỉnh sửa
   };
 

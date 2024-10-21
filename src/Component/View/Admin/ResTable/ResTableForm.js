@@ -10,7 +10,8 @@ const ResTableForm = () => {
   const { tableId } = useParams(); // Lấy tableId từ URL
   const navigate = useNavigate(); // Điều hướng sau khi hoàn thành
   const [tableCategories, setTableCategories] = useState([]);
-
+  const [tableCategoryId,settableCategoryId] = useState();
+  
   const {
     register,
     handleSubmit,
@@ -33,7 +34,10 @@ const ResTableForm = () => {
     if (tableId) {
       // Lấy thông tin bàn từ API để chỉnh sửa
       axiosConfig.get(`/restables/get/${tableId}`).then((response) => {
+        settableCategoryId(response.data.tableCategory.tableCategoryId)
+        console.log(response.data);
         reset(response.data);
+
       });
     }
     axiosConfig.get("/tablecategories").then((response) => {
@@ -129,6 +133,7 @@ const ResTableForm = () => {
           <option value="">Select table category</option>
           {tableCategories.map((category) => (
             <option
+              selected={tableCategoryId === category.tableCategoryId}
               key={category.tableCategoryId}
               value={category.tableCategoryId}
             >
