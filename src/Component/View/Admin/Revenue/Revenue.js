@@ -8,12 +8,15 @@ const Revenue = () => {
     const [month, setMonth] = useState([]);
     const [year, setYear] = useState([]);
     const [activeTable, setActiveTable] = useState('daily'); // Biến trạng thái để theo dõi bảng nào đang hoạt động
-
+    const [date,setDate]= useState('');
+    const [page,setPage]= useState(0);
+    const [TotalPage,setTotalPage] = useState();
+    const [inputFind, setInputFind] = useState('');
     const fetchDaily = async () => {
         try {
-            const response = await axiosConfig.get(`/order/findTotalPriceAndQuantityByOrderDate`);
-            setDaily(response.data);
-            console.log(response.data);
+            const response = await axiosConfig.get(`/order/ReportOrderByToday?date=${date}&page=${page}`);
+            setDaily(response.data.content);
+           setTotalPage(response.data.totalPages);
         } catch (error) {
             console.error("Error fetching daily data: ", error);
         }
@@ -38,10 +41,21 @@ const Revenue = () => {
             console.error("Error fetching yearly data: ", error);
         }
     };
-
+    const handleinputFind=(e)=>{
+        setInputFind(e.target.value);
+       
+        }
+      const findDate =()=>{
+          const formattedDate = inputFind.replace(/\//g, '-');
+          setDate(formattedDate)
+          if(inputFind == null){
+            setDate('');
+          }
+          console.log(inputFind);
+        }
     useEffect(() => {
         fetchDaily(); // Tải dữ liệu ngày khi component mount
-    }, []);
+    }, [daily]);
 
     const handleShowDaily = () => {
         fetchDaily();
@@ -67,9 +81,15 @@ const Revenue = () => {
                 <button onClick={handleShowMonthly}>Monthly Revenue</button>
                 <button onClick={handleShowYearly}>Yearly Revenue</button>
             </div>
-
+           
             {activeTable === 'daily' && (
+                <div>
+                 <div className='orderlist-find'>
+                 <input type='text' value={inputFind}onChange={handleinputFind}/>
+                 <button onClick={findDate}>find</button>
+               </div>
                 <table className="revenue-table">
+                    
                     <thead>
                         <tr>
                             <th className="revenue-th">STT</th>
@@ -91,6 +111,7 @@ const Revenue = () => {
                         ))}
                     </tbody>
                 </table>
+                </div>
             )}
 
             {activeTable === 'month' && (

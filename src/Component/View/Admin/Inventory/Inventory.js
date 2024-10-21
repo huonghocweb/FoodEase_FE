@@ -35,7 +35,7 @@ const Iventory =()=>{
     return (
        
         <div className=''>
-             <table  className="revenue-table container1">
+             <table  className="revenue-table ">
                     <thead>
                         <tr>
                             <th className="revenue-th">STT</th>

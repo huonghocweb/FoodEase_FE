@@ -6,13 +6,16 @@ import './UserOrder.css';
 const UserOrder =()=>{
   
     const [userOrder, setUserOrder] = useState([]);
-    const [page,setPage] = useState(0);
-const [TotalPage,setTotalPage] = useState();
+    const [date,setDate] = useState('');
+    const [page,setPage] =useState(0);
+    const [inputFind, setInputFind] = useState('');
+    const [TotalPage,setTotalPage] = useState();
+
     const featchUserOrder = async ()=>{
-        await axiosConfig.get(`/order/ReportUserBuy?page=${page}`)
+        await axiosConfig.get(`/order/ReportUserBuy?date=${date}&page${page}`)
         .then(response =>{
             setUserOrder(response.data.content);
-            console.log(response.data.content);
+          
             setTotalPage(response.data.totalPages);
         })
     }
@@ -29,17 +32,33 @@ const [TotalPage,setTotalPage] = useState();
             setPage(prevPage => prevPage - 1);
           }
         }
+        const handleinputFind=(e)=>{
+            setInputFind(e.target.value);
+            console.log(e.target.value);
+            }
+            const findDate =()=>{
+              const formattedDate = inputFind.replace(/\//g, '-');
+              setDate(formattedDate)
+              if(inputFind == null){
+                setDate('');
+              }
+              console.log(inputFind);
+            }
     useEffect(()=>{
         featchUserOrder();
-    },[page])
+    },[page,userOrder])
     return (
         <div>
         <div className='revenue-container2'>
-            
+        <div className='orderlist-find'>
+                  <input type='text' value={inputFind}onChange={handleinputFind}/>
+                  <button onClick={findDate}>find</button>
+                </div>
             <table className="revenue-table2">
                     <thead>
                         <tr>
-                            <th className="revenue-th2">STT</th>
+                            <th className="revenue-th2">Order No.</th>
+                            <th className="revenue-th2">Order date</th>
                             <th className="revenue-th2">FullName</th>
                             <th className="revenue-th2">Gender</th>
                             <th className="revenue-th2">Phone number</th>
@@ -54,11 +73,18 @@ const [TotalPage,setTotalPage] = useState();
                         {userOrder.map((item, index) => (
                             <tr key={index}>
                                 <td className="revenue-td2">{index + 1}</td>
-                                <td className="revenue-td2">{item.fullName}</td>
+                                <td className="revenue-td2">  {(() => {
+                                    const orderDate = new Date(item.date);
+                                    return `${orderDate.getFullYear()}/${String(orderDate.getMonth() + 1).padStart(2, '0')}/${String(orderDate.getDate()).padStart(2, '0')}`;
+                                })()}</td>
+                                <td className="revenue-td2">{item.fullName}</td>                                
                                 <td className="revenue-td2">{item.gender ? 'Male': 'Female'}</td>
                                 <td className="revenue-td2">{item.phoneNumber}</td>
                                 <td className="revenue-td2">{item.email}</td>
-                                <td className="revenue-td2">{item.birthday}</td>
+                                <td className='revenue-td2'>  {(() => {
+                                    const orderDate = new Date(item.birthday);
+                                    return `${orderDate.getFullYear()}/${String(orderDate.getMonth() + 1).padStart(2, '0')}/${String(orderDate.getDate()).padStart(2, '0')}`;
+                                })()}</td>
                                 <td className="revenue-td2">{item.address}</td>
                                 <td className="revenue-td2">{item.totalQuantity}</td>
                                 <td className="revenue-td2">{item.totalPrice.toLocaleString('vi-vn')}đ</td>

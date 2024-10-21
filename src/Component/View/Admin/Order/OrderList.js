@@ -14,12 +14,14 @@ const OrderList = () => {
   const [date,setDate] = useState('');
   const [page,setPage] =useState(0);
   const [inputFind, setInputFind] = useState('');
+  const [TotalPage,setTotalPage] = useState();
+ 
 const featchOrderList = async ()=>{
   try {
     const responseOrder = await axiosConfig(`/order/findOrderByOrderDate?date=${date}&page=${page}`)
     .then(responseOrder =>{
       setOrder(responseOrder.data.content)
-      console.log(responseOrder.data)
+      setTotalPage(responseOrder.data.totalPages)
     })
   } catch (error) {
     console.log(error,'Lỗi nhận dử liệu order')
@@ -77,7 +79,19 @@ const hanldeApproveOrderReturn = async(orderId,isApprove) => {
       console.error('error in handle Approve OrderReturn',error);
     }
 }
-
+const Next = () => {
+  setPage(prevPage => {
+    if (prevPage >= TotalPage -1) {
+      return 0; // Đặt lại page về 0 nếu prevPage lớn hơn hoặc bằng totalPages
+    }
+    return prevPage + 1; // Tăng page lên 1 nếu chưa quá totalPages
+  });
+};
+  const Previous = () => {
+    if (page > 0) {
+      setPage(prevPage => prevPage - 1);
+    }
+  }
 
  useEffect (()=>{
   featchOrderList();
@@ -110,7 +124,7 @@ const hanldeApproveOrderReturn = async(orderId,isApprove) => {
                 <table className="table">
                   <thead>
                     <tr>
-                    <th>STT</th>
+                   
                       <th scope="col">ORDER NO.</th>
                       <th scope="col">Order Date</th>
                       <th scope="col">Order Time</th>
@@ -129,7 +143,7 @@ const hanldeApproveOrderReturn = async(orderId,isApprove) => {
                   {order.map((item,index)=>(
                         <tr key={index}>
                         <td>{index +1}</td>
-                        <th scope="row">#{item.orderId}</th>
+                        
                         <td>  {(() => {
                       const orderDate = new Date(item.orderDate);
                       return `${orderDate.getFullYear()}/${String(orderDate.getMonth() + 1).padStart(2, '0')}/${String(orderDate.getDate()).padStart(2, '0')}`;
@@ -156,6 +170,9 @@ const hanldeApproveOrderReturn = async(orderId,isApprove) => {
                    
                   </tbody>
                 </table>
+                <h6>{page + 1}/{TotalPage }</h6>
+                <button className="Button-Previous" onClick={Previous}>Previous</button>
+                <button className="Button-next" onClick={Next}>Next</button>
                 {isModalOpen && (
         <Modal
           item={selectedItem}
