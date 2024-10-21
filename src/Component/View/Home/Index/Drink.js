@@ -69,7 +69,6 @@ const FoodMenu = () => {
               Add to cart
               </button> */}
               </div>
-              
             </div>
           </div>
         ))}

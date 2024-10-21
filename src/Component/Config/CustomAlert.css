@@ -59,7 +59,7 @@
     height: 4px;
     width: 100%;
     background-color: #f1f1f1;
-    animation: progressBar 3s linear forwards; 
+    animation: progressBar 2.5s linear forwards; 
 }
 
 @keyframes progressBar {

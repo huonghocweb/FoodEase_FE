@@ -1,0 +1,156 @@
+.reservation-popup-overlay {
+    position: relative;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.reservation-popup-overlay.show {
+    pointer-events: all;
+    opacity: 1;
+}
+
+.reservation-popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 35%;
+    max-width: 600px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: popup-fadein 0.3s ease-in-out;
+}
+
+.reservation-popup-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.reservation-close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background-color: transparent;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #aaa;
+    transition: color 0.3s ease;
+}
+
+
+.reservation-table-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 400px; /* Giới hạn chiều cao của danh sách */
+    overflow-y: auto; /* Thêm cuộn nếu vượt quá chiều cao */
+}
+
+.reservation-table-item {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: left;
+    transition: transform 0.2s ease;
+    background-color: #fafafa;
+}
+
+.reservation-table-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.service-checkbox {
+    margin-right: 10px; /* Khoảng cách giữa checkbox và thông tin dịch vụ */
+}
+
+.reservation-table-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+    border: 1px solid #ddd;
+}
+
+.reservation-table-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.reservation-table-detail span{
+    color : rgb(210, 53, 9) ;
+    font-weight: bolder;
+}
+
+.reservation-table-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.reservation-table-detail {
+    margin: 5px 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.reservation-select-button {
+    padding: 10px 15px;
+    margin-top: 20px; /* Tăng khoảng cách cho nút */
+    font-size: 14px; /* Tăng kích thước chữ */
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    margin: 15px 0;
+}
+
+.pagination button {
+    font-size: 12px; /* Tăng kích thước chữ cho nút */
+    background-color: #007bff; 
+    color: white; /* Màu chữ */
+    border: none; /* Không có đường viền */
+    margin: 0 5px; /* Khoảng cách giữa các nút */
+    border-radius: 5px; /* Bo góc cho nút */
+    cursor: pointer; /* Con trỏ sẽ là tay khi di chuột qua */
+    padding: 6px 10px; /* Thêm padding cho nút */
+}
+
+.pagination button:disabled {
+    background-color: #cccccc; 
+    cursor: not-allowed; 
+}
+
+.pagination span {
+    margin: 0 6px; /* Khoảng cách giữa số trang và nút */
+    font-size: 12px; /* Kích thước chữ cho số trang */
+}

@@ -270,8 +270,6 @@ section.cook-delecious {
 }
 
 
-
-
 section.services {
 	padding-bottom: 100px;
 }
@@ -323,10 +321,11 @@ section#book-table {
 section#book-table .left-image img {
 	width: 100%;
 	overflow: hidden;
+	height: 320px;
 }
 
 .right-info {
-	height: 282px;
+	height: 320px;
 	background-color: #fff;
 	margin-left: -30px;
 	padding: 30px;
@@ -344,16 +343,14 @@ section#book-table .left-image img {
 	border-top: none;
 	width: 100%;
 	outline: none;
-	border-bottom: 1px solid #eee;	
+	border-bottom: 1px solid #984444;	
 	font-size: 14px;
-	color: #9a9a9a;
+	color: #252222;
 	padding-left: 10px;
-	height: 40px;
+	height: 60px;
 }
 
 .right-info input {
-	margin-top: 30px;
-	margin-bottom: 30px;
 	box-shadow: none;
 	outline: none;
 	border-right: none;
@@ -367,7 +364,7 @@ section#book-table .left-image img {
 .right-info button {
 	width: 100%;
 	display: inline-block;
-	background-color: #f2745f;
+	background-color: #141312;
 	color: #fff!important;
 	font-size: 13px;
 	text-transform: uppercase;

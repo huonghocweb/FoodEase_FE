@@ -20,10 +20,6 @@ import ClaimCoupon from './Component/View/Home/CouponStorage/ClaimCoupon';
 import ClaimCouponPage from './Component/View/Home/CouponStorage/ClaimCouponPage';
 import OrderHistoryPage from './Component/View/Home/OrderHistory/OrderHistoryPage';
 import Login from './Component/View/Home/Login/Login';
-import TableReservation from './Component/View/Home/TableReservation/TableReservation';
-import ReservationList from './Component/View/Admin/Reservation/ReservationList';
-import ReservationCancelledList from './Component/View/Admin/Reservation/ReservationCancelledList';
-import ReservationAcceptedList from './Component/View/Admin/Reservation/ReservationAcceptedList';
 import OrderStatus from './Component/View/Home/MyOrder/OrderStatus';
 import Notification from './Component/View/Admin/Notification/Notification';
 import Revenue from './Component/View/Admin/Revenue/Revenue';
@@ -31,6 +27,7 @@ import Inventory from './Component/View/Admin/Inventory/Inventory.js';
 import UserOrder from './Component/View/Admin/UserBuy/UserOrder.js'
 import UserFormPage from './Component/View/Admin/User/UserFormPage.js';
 import WishList from './Component/View/Home/WishList/WishList.js';
+import BookTablePage from './Component/View/Home/BookingTable/BookTablePage.js';
 
 function App() {
   return (
@@ -51,8 +48,8 @@ function App() {
             <Route path="WishList" element={<WishList />} />
             <Route path='claimCoupon' element={<ClaimCouponPage />} />
             <Route path='orderHistory/order/:userName' element={<OrderHistoryPage />} />
-            <Route path="table-reservation" element={<TableReservation />} />
             <Route path='/myOrder' element={<OrderStatus/>} />
+            <Route path='/bookTable' element={<BookTablePage />} />
           </Route>
 
           <Route path="/admin" element={<AdminLayOut />}>
@@ -64,15 +61,6 @@ function App() {
             <Route path="coupons" element={<CouponPage />} />
             <Route path="coupon/create" element={<CouponFormPage />} />
             <Route path="coupon/update/:couponId" element= {<CouponFormPage />} />
-            <Route path="reservation-list" element={<ReservationList />} />
-            <Route
-              path="reservation-cancelled-list"
-              element={<ReservationCancelledList />}
-            />
-            <Route
-              path="reservation-accepted-list"
-              element={<ReservationAcceptedList />}
-            />
             <Route path="revenue" element={<Revenue />} />
           <Route path="inventory" element={<Inventory />} />
           <Route path="UserOrder" element={<UserOrder />} />

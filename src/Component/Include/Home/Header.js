@@ -24,7 +24,6 @@ const Header = () => {
     try {
       const resUser= await axiosConfig.get(`/user/getByUserName/${userName}`);
     setUser(resUser.data.data);
-    console.log(resUser.data.data);
     } catch (error) {
       console.error('error in fetch Data',error);
     }
@@ -69,7 +68,7 @@ const Header = () => {
             </ul>
           </li>
           <li>
-            <Link to="/table-reservation">{customTranslate("Table Reservation")}</Link>
+            <Link to="/bookTable">{customTranslate("Table Reservation")}</Link>
           </li>
           <li><NavLink to={`/cart/${user.userId}`}><i className="fa-solid fa-cart-shopping fa-lg"></i></NavLink></li>
           <li><NavLink to={`/admin`}><i className="fa-solid fa-user-gear fa-xl"></i></NavLink></li>
