@@ -32,6 +32,7 @@ import UserOrder from './Component/View/Admin/UserBuy/UserOrder.js'
 import UserFormPage from './Component/View/Admin/User/UserFormPage.js';
 import WishList from './Component/View/Home/WishList/WishList.js';
 ////
+import AddFood from './Component/View/Admin/Product/AddFood.js';
 function App() {
   return (
     <div className="App"> 
@@ -76,6 +77,7 @@ function App() {
             <Route path="revenue" element={<Revenue />} />
           <Route path="inventory" element={<Inventory />} />
           <Route path="UserOrder" element={<UserOrder />} />
+          <Route path="addFood" element={<AddFood />} />
           </Route>
         </Routes>
         <Footer />
