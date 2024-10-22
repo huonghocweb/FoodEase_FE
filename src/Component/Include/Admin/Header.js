@@ -89,7 +89,6 @@ const Header = () => {
                   </li>
                 </ul>
               </li>
-<<<<<<< HEAD
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/admin/foods">
                             <i class="fa-solid fa-pizza-slice"></i>
@@ -102,14 +101,6 @@ const Header = () => {
                             ResTable
                         </NavLink>
                     </li>
-=======
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/admin/foods">
-                  <i class="fa-solid fa-shirt"></i>
-                  Products
-                </NavLink>
-              </li>
->>>>>>> origin/tinh-reportPayment-exportPDF
 
               <li className="nav-item">
                 <Link className="nav-link" to="/admin/users">

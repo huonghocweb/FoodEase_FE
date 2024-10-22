@@ -29,6 +29,7 @@ import OrderHistoryPage from "./Component/View/Home/OrderHistory/OrderHistoryPag
 import Thanks from "./Component/View/Home/Thank/Thanks";
 import WishList from "./Component/View/Home/WishList/WishList.js";
 import BookTablePage from "./Component/View/Home/BookingTable/BookTablePage.js";
+import PaymentReport from "./Component/View/Admin/PaymentReport/PaymentReport.js";
 
 function App() {
   return (
@@ -66,7 +67,7 @@ function App() {
               path="coupon/update/:couponId"
               element={<CouponFormPage />}
             />
-            <Route path="reservation-list" element={<ReservationList />} />
+            {/* <Route path="reservation-list" element={<ReservationList />} /> */}
             <Route
               path="coupon/update/:couponId"
               element={<CouponFormPage />}
