@@ -1,20 +1,22 @@
 import React,{useState,useEffect} from 'react';
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
 import axiosConfig from '../../../Config/AxiosConfig';
 import axios from 'axios';
+import './FoodList.css'
 const FoodList = () => {
 
 const [categories,setCategories]=useState([]);
 const [Food,setFood]=useState([]);
 const [page,setPage]= useState(1);
-    const [TotalPage,setTotalPage] = useState();
+const navigate = useNavigate();
+const [TotalPage,setTotalPage] = useState();
 
    
 const fetchCategories= async ()=>{
   await axiosConfig.get(`/categories/findAll`)
   .then(response =>{
       setCategories(response.data);
-      console.log(response.data);
+      
   })
 }
 const fetchFood= async ()=>{
@@ -22,7 +24,8 @@ const fetchFood= async ()=>{
   .then(response =>{
       setFood(response.data.content);
       setTotalPage(response.data.totalPages)
-      console.log(response.data.content);
+      console.log(response.data.content)
+    
   })
 }
 const Next = () => {
@@ -38,11 +41,24 @@ const Next = () => {
       setPage(prevPage => prevPage - 1);
     }
   }
-  console.log(page)
+  
 useEffect(()=>{
   fetchFood();
   fetchCategories();
-},[page])
+  
+},[page,Food])
+const deleteFood= async (foodId)=>{
+  try {
+    await axiosConfig.delete(`user/food/deleteFood/${foodId}`)
+  } catch (error) {
+    console.error("Error deleting food:", error);
+  }
+ 
+}
+const edit=async (item)=>{
+  
+navigate('/admin/addFood',{state:item})
+}
 if(categories == null)
 {
   return null;
@@ -83,14 +99,14 @@ if(categories == null)
                     
                     <td>{item.createdAt}</td>
                     <td>{item.updatedAt}</td>
-                    <td>{item.discount}</td>
+                    <td>{item.discount}%</td>
                     <td>{item.category.cartegoryName}</td>
-                    <td><i className="fa-solid fa-circle-info fa-lg"></i></td>
+                    <td><i onClick={()=> edit (item)} style={{ cursor: 'pointer' }} className="fa-solid fa-circle-info fa-lg"></i></td>
                     
                     
                     <td>
                       <a href="#" className="tm-product-delete-link">
-                        <i className="far fa-trash-alt tm-product-delete-icon"></i>
+                        <i onClick={()=>deleteFood(item.foodId)} className="far fa-trash-alt tm-product-delete-icon"></i>
                       </a>
                     </td>
                   </tr>
