@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import './Login.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import CustomAlert from '../../../Config/CustomAlert';
+import React, { useState } from 'react';
 import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router-dom';
 import { customTranslate } from "../../../../i18n";
+import CustomAlert from '../../../Config/CustomAlert';
+import './Login.css';
 
 const Login = () => {
     const { t } = useTranslation();

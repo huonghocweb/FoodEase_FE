@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import './Order.css';
+import React, { useEffect, useState } from 'react';
 import axiosConfig from '../../../Config/AxiosConfig';
+import './Order.css';
 
 const Order  = ({ product, onClose }) => {
+
 //  dử liệu size Name
   const [selectedSize, setSelectedSize] = useState(null);
   // dử liệu tổng tiền
@@ -112,7 +113,7 @@ const fetchToTal = async ()=>{
       console.log('dử liệu topping id',SelectedTopping)
   }, [foodVariation,SelectedTopping,totalToppingPrice,product]);
   
-  if (!product) return <div></div>;
+  if (!product ) return <div></div>;
 
   const handleSizeChange = (event) => {
     const newSize = event.target.value; // Lưu giá trị mới

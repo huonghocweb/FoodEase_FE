@@ -1,36 +1,133 @@
-.wishlist-container {
-    padding: 20px;
-  }
-  
-  .input {
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 200px;
-  }
-  
-  .select-foods {
-    margin-bottom: 10px;
-    width: 200px;
-    height: 100px;
-  }
-  
-  button {
-    padding: 10px;
-    background-color: #4CAF50; /* Màu xanh lá cây */
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049; /* Màu xanh lá cây đậm hơn */
-  }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  li {
-    margin: 5px 0;
-  }
+.wishList-container {
+  max-width: cover;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.wishList-bar {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+  background-color: #f4f4f4;
+  padding: 10px 0;
+  border-bottom:  2px solid #e0e0e0;
+}
+
+.wishList-bar li {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.wishList-bar li:hover {
+  background-color: #e0e0e0;
+}
+
+.wishList-bar li.active {
+  background-color: #089251;
+  color: white;
+  font-weight: bold;
+}
+
+.wishList {
+  background-color: #fff;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.wishList-shop-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.wishList-details {
+  display: flex;
+  padding: 15px 0;
+  border-bottom: 1px solid #ccc;
+  justify-content: space-between;
+}
+
+.wishList-product-img {
+  width: 180px; /* Increased from 100px to 180px */
+  height: 180px; /* Added a height for consistent aspect ratio */
+  margin-right: 15px;
+}
+
+
+.wishList-product-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 10px;
+}
+
+.wishList-food-name {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.wishList-category-name {
+  font-style: italic;
+  color: #777;
+  font-size: 1.1em;
+}
+
+.wishList-product-info p {
+  margin: 5px 0;
+}
+
+.wishList-actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: auto;
+}
+
+.wishList-return {
+  background-color: #34c759;
+  color: white;
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.wishList-review-btn,
+.wishList-request-return {
+  background-color: #e0484e;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.wishList-review-btn:hover,
+.wishList-request-return:hover {
+  background-color: #e0484e;
+}
+
+.price {
+  font-size:12px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.price span {
+  color: #34c759;
+}
+
+.price-display {
+  font-weight: bold;
+  color: #ff5733;    
+  font-size: 16px;  
+  margin: 10px 0;    
+}
+

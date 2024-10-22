@@ -53,6 +53,13 @@ function App() {
             <Route path='orderHistory/order/:userName' element={<OrderHistoryPage />} />
             <Route path='/myOrder' element={<OrderStatus/>} />
             <Route path='/bookTable' element={<BookTablePage />} />
+            <Route path="wishlist/:wishListId" element={<WishList />} />
+            <Route path="claimCoupon" element={<ClaimCouponPage />} />
+            <Route
+              path="orderHistory/order/:userName"
+              element={<OrderHistoryPage />}
+            />
+            <Route path="/myOrder" element={<OrderStatus />} />
           </Route>
 
           <Route path="/admin" element={<AdminLayOut />}>
