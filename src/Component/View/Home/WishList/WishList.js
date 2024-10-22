@@ -1,17 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form"; // Import react-hook-form
 import { Link } from "react-router-dom";
 import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
+import CustomAlert from "../../../Config/CustomAlert";
 import Order from "../Details/Order";
+import "./WishList.css";
+
 const WishList = () => {
   const [wishLists, setWishLists] = useState([]);
-  const [newWishListName, setNewWishListName] = useState("");
   const [renameWishListId, setRenameWishListId] = useState(null);
   const [renameWishListName, setRenameWishListName] = useState("");
   const [selectedWishListId, setSelectedWishListId] = useState(null);
-  const [foods, setFoods] = useState([]); // Khởi tạo là mảng
+  const [foods, setFoods] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const userId = localStorage.getItem("userIdLogin");
+  const [alert, setAlert] = useState(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm(); // Initialize useForm
 
   useEffect(() => {
     if (userId) {
@@ -21,10 +32,9 @@ const WishList = () => {
 
   const fetchWishLists = async () => {
     try {
-      const response = await axiosConfig.get(
-        `/wishlist/get-wishlist/user/${userId}`
-      );
+      const response = await axiosConfig.get(`/wishlist/user/${userId}`);
       setWishLists(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error("Error fetching wishlists", error);
     }
@@ -33,22 +43,22 @@ const WishList = () => {
   const fetchFoods = async (wishListId) => {
     try {
       const response = await axiosConfig.get(`/wishlist/${wishListId}/foods`);
-      console.log(response.data); // Kiểm tra xem response có chứa quantityStock không
-      setFoods(response.data || []);
+      console.log(response.data);
+      setFoods(response.data);
       setSelectedWishListId(wishListId);
     } catch (error) {
       console.error("Error fetching foods", error);
-      setFoods([]);
     }
   };
 
-  const addWishList = async () => {
+  const addWishList = async (data) => {
     try {
-      await axiosConfig.post(`/wishlist/user/${userId}`, {
-        wishListName: newWishListName,
+      await axiosConfig.post(`/wishlist/create`, {
+        wishListName: data.newWishListName,
+        userId: userId,
       });
       fetchWishLists();
-      setNewWishListName("");
+      reset();
     } catch (error) {
       console.error("Error adding wishlist", error);
     }
@@ -59,7 +69,7 @@ const WishList = () => {
       await axiosConfig.delete(`/wishlist/delete/${id}`);
       fetchWishLists();
       setSelectedWishListId(null);
-      setFoods([]); // Reset foods khi wishlist bị xóa
+      setFoods([]);
     } catch (error) {
       console.error("Error deleting wishlist", error);
     }
@@ -67,7 +77,7 @@ const WishList = () => {
 
   const renameWishList = async (id) => {
     try {
-      await axiosConfig.put(`/wishlist/rename/${id}`, {
+      await axiosConfig.put(`/wishlist/update/${id}`, {
         wishListName: renameWishListName,
       });
       fetchWishLists();
@@ -85,65 +95,80 @@ const WishList = () => {
 
   const removeFoodFromWishList = async (wishListId, foodId) => {
     try {
-      const response = await axiosConfig.delete(
-        `/wishlist/${wishListId}/remove-food/${foodId}`
-      );
+      await axiosConfig.delete(`/wishlist/${wishListId}/remove-food/${foodId}`);
       fetchFoods(wishListId);
     } catch (error) {
       console.error("Error removing food from wishlist", error);
     }
   };
+
   const openModal = (food) => {
     setSelectedProduct(food);
+    console.log(food, "Dữ liệu food");
   };
+
   const closeModal = () => {
     setSelectedProduct(null);
   };
+
   return (
-    <div>
+    <div className="wishList-container">
+      {alert && (
+        <CustomAlert
+          type={alert.type}
+          message={alert.message}
+          onClose={() => setAlert(null)}
+        />
+      )}
+      <form onSubmit={handleSubmit(addWishList)}>
+        <input
+          type="text"
+          {...register("newWishListName", { required: true })} // Register input with validation
+          placeholder="Enter your wish list name"
+        />
+        {errors.newWishListName && (
+          <span className="error">This field is required</span>
+        )}
+        <button type="submit">Add</button>
+      </form>
       <h1>Wish List</h1>
-      <input
-        type="text"
-        value={newWishListName}
-        onChange={(e) => setNewWishListName(e.target.value)}
-        placeholder="Enter your wish list name"
-      />
-      <button onClick={addWishList}>Add</button>
-      <ul>
-        {wishLists.map((wishList) => (
-          <li key={wishList.wishListId}>
-            <span
+      <ul className="wishList-bar">
+        {Array.isArray(wishLists) && wishLists.length > 0 ? (
+          wishLists.map((wishList) => (
+            <li
+              key={wishList.wishListId}
               onClick={() => fetchFoods(wishList.wishListId)}
-              style={{ cursor: "pointer", color: "blue" }}
             >
-              {wishList.wishListName}
-            </span>
-            <button onClick={() => deleteWishList(wishList.wishListId)}>
-              Delete
-            </button>
-            {renameWishListId === wishList.wishListId ? (
-              <>
-                <input
-                  type="text"
-                  value={renameWishListName}
-                  onChange={(e) => setRenameWishListName(e.target.value)}
-                  placeholder="Enter new name"
-                />
-                <button onClick={() => renameWishList(wishList.wishListId)}>
+              <span>{wishList.wishListName}</span>
+              <button onClick={() => deleteWishList(wishList.wishListId)}>
+                Delete
+              </button>
+              {renameWishListId === wishList.wishListId ? (
+                <>
+                  <input
+                    type="text"
+                    value={renameWishListName}
+                    onChange={(e) => setRenameWishListName(e.target.value)}
+                    placeholder="Enter new name"
+                  />
+                  <button onClick={() => renameWishList(wishList.wishListId)}>
+                    Rename
+                  </button>
+                  <button onClick={cancelRename}>Cancel</button>
+                </>
+              ) : (
+                <button
+                  onClick={() => setRenameWishListId(wishList.wishListId)}
+                >
                   Rename
                 </button>
-
-                <button onClick={cancelRename}>Cancel</button>
-              </>
-            ) : (
-              <button onClick={() => setRenameWishListId(wishList.wishListId)}>
-                Rename
-              </button>
-            )}
-          </li>
-        ))}
+              )}
+            </li>
+          ))
+        ) : (
+          <li>No wishlists available.</li> // Hiển thị khi không có wishlist nào
+        )}
       </ul>
-
       {selectedWishListId && (
         <div>
           <h2>
@@ -154,23 +179,35 @@ const WishList = () => {
             }
           </h2>
           <div className="menu-container">
-            {Array.isArray(foods) &&
-              foods.map(
-                (
-                  food // Kiểm tra xem foods có phải là mảng không
-                ) => (
-                  <div key={food.foodVariationId} className="menu-item">
+            {Array.isArray(foods) && foods.length > 0 ? (
+              foods.map((food) => {
+                // Lọc biến thể có quantityStock > 0
+                const availableVariation = food.foodVariations.find(
+                  (variation) => variation.quantityStock > 0
+                );
+
+                return (
+                  <div key={food.foodId} className="menu-item">
                     <div className="image-discount">
-                      <Link to={`FoodDetails/${food.foodVariationId}`}>
+                      {availableVariation ? (
+                        <Link
+                          to={`FoodDetails/${availableVariation.foodVariationId}`}
+                        >
+                          <img
+                            src={`/assets/images/${food.imageUrl}`}
+                            alt={food.foodName}
+                            className="menu-image"
+                          />
+                        </Link>
+                      ) : (
                         <img
                           src={`/assets/images/${food.imageUrl}`}
-                          alt={food.name}
+                          alt={food.foodName}
                           className="menu-image"
                         />
-                      </Link>
+                      )}
                       <div className="disscount1">
-                        {`Discount: ${food.discount}%`}{" "}
-                        {/* Hiển thị giảm giá */}
+                        {`Discount: ${food.discount}%`}
                       </div>
                     </div>
                     <div className="menu-details">
@@ -179,19 +216,22 @@ const WishList = () => {
                         <div>
                           <b className="price">
                             {(
-                              food.basePrice -
-                              (food.discount / 100) * food.basePrice
-                            ).toLocaleString("vi-VN")}{" "}
+                              food.basePrice?.toLocaleString("vi-VN") -
+                              (food.discount / 100) * food.basePrice?.toLocaleString("vi-VN")
+                            )}{" "}
                             đ
                           </b>
                           <del className="price">
-                            {food.basePrice.toLocaleString("vi-VN")}đ
+                            {food.basePrice?.toLocaleString("vi-VN")}đ
                           </del>
                         </div>
                         <h5 className="description">{food.description}</h5>
                         <div className="menu-footer">
                           <p>
-                            {customTranslate("sold")}: {food.foodVariations.quantityStock || "chưa có"} 
+                            {customTranslate("sold")}:{" "}
+                            {availableVariation
+                              ? availableVariation.quantityStock
+                              : "chưa có"}
                           </p>
                           <p>{customTranslate("Rating")}: 5⭐</p>
                         </div>
@@ -200,10 +240,10 @@ const WishList = () => {
                         <button
                           onClick={() => openModal(food)}
                           className="col-sm-4 me-3"
-                          disabled={!food.quantityStock}
+                          disabled={!availableVariation}
                         >
                           {customTranslate(
-                            food.quantityStock ? "Order" : "Out of stock"
+                            availableVariation ? "Order" : "Out of stock"
                           )}
                         </button>
 
@@ -218,15 +258,18 @@ const WishList = () => {
                         >
                           Remove
                         </button>
-                        <Order product={selectedProduct} onClose={closeModal} />
                       </div>
                     </div>
                   </div>
-                )
-              )}
+                );
+              })
+            ) : (
+              <p>No foods available in this wishlist.</p> // Hiển thị khi không có món ăn nào
+            )}
           </div>
         </div>
       )}
+      <Order product={selectedProduct} onClose={closeModal} />;
     </div>
   );
 };

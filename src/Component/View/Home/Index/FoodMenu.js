@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
+import CustomAlert from "../../../Config/CustomAlert";
 import Order from "../Details/Order";
 import "./FoodMenu.css";
 
@@ -13,6 +14,8 @@ const FoodMenu = () => {
   const [selectedFood, setSelectedFood] = useState(null); // State để lưu món ăn đã chọn
   const [showWishlistModal, setShowWishlistModal] = useState(false); // State để hiển thị modal danh sách wishlist
   const [selectedWishListId, setSelectedWishListId] = useState(null); // ID của wishlist đã chọn
+  const [alert, setAlert] = useState(null);
+  const navigate = useNavigate();
   const fetchMaindDishes = async () => {
     try {
       await axiosConfig
@@ -29,9 +32,7 @@ const FoodMenu = () => {
   const fetchWishLists = async () => {
     const userId = localStorage.getItem("userIdLogin");
     try {
-      const response = await axiosConfig.get(
-        `/wishlist/get-wishlist/user/${userId}`
-      );
+      const response = await axiosConfig.get(`/wishlist/user/${userId}`);
       setWishLists(response.data);
     } catch (error) {
       console.error("Error fetching wishlists", error);
@@ -76,21 +77,10 @@ const FoodMenu = () => {
     setSelectedFood(null);
   };
 
-  const addFoodToWishList = async (
-    wishListId,
-    foodId,
-    foodVariationId,
-    quantityStock
-  ) => {
+  const addFoodToWishList = async (wishListId, foodId) => {
     try {
-      const requestBody = {
-        foodVariationId: foodVariationId,
-        quantityStock: quantityStock,
-      };
-
       const response = await axiosConfig.post(
-        `/wishlist/${wishListId}/add-food/${foodId}`,
-        requestBody
+        `/wishlist/${wishListId}/add-food/${foodId}`
       );
 
       return response.data;
@@ -112,19 +102,30 @@ const FoodMenu = () => {
         );
 
         if (checkResponse.data) {
-          alert("This food is already in the selected wishlist!");
+          setAlert({
+            type: "error",
+            message: "This food is already in the selected wishlist!",
+          });
+          setTimeout(() => {
+            setAlert(null);
+          }, 2000);
+
           return; // Nếu có rồi, không làm gì thêm
         }
 
         const result = await addFoodToWishList(
           selectedWishListId,
-          selectedFood.foodId,
-          selectedFood.foodVariationId,
-          selectedFood.quantityStock
+          selectedFood.foodId
         );
 
         console.log("Added to wishlist:", result);
-        alert("Added to wishlist successfully!");
+        setAlert({
+          type: "success",
+          message: "Added to wishlist successfully!",
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
         await fetchWishLists(); // Cập nhật lại danh sách wishlist
         closeWishlistModal(); // Đóng modal sau khi thêm thành công
       } catch (error) {
@@ -139,6 +140,13 @@ const FoodMenu = () => {
 
   return (
     <div>
+      {alert && (
+        <CustomAlert
+          type={alert.type}
+          message={alert.message}
+          onClose={() => setAlert(null)}
+        />
+      )}
       <div className="menu-container ">
         {mainDishes.map((item) => (
           <div key={item.foodVariationId} className="menu-item">

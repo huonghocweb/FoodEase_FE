@@ -48,6 +48,7 @@ function App() {
             <Route path="chat" element={<BoxChatPage />} />
             <Route path="couponStorage" element={<CouponStoragePage />} />
             <Route path="WishList" element={<WishList />} />
+            <Route path="wishlist/:wishListId" element={<WishList />} />
             <Route path="claimCoupon" element={<ClaimCouponPage />} />
             <Route
               path="orderHistory/order/:userName"

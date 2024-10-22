@@ -44,7 +44,7 @@ const ResTableList = () => {
 
   return (
     <div className="restable-list-container">
-      <h1 className="restable-list-title">Danh sách bàn</h1>
+      <h1 className="restable-list-title">ResTable List</h1>
       <Link to="/admin/tables/new">
         <button>Thêm bàn mới</button>
       </Link>
@@ -73,12 +73,12 @@ const ResTableList = () => {
               <td>{table.price}</td>
               <td>{table.deposit}</td>
               <td>{table.isAvailable ? "Có" : "Không"}</td>
-              <td>{table.imageUrl}</td>
+              <td>
+                <img src={table.imageUrl}></img>
+              </td>
               <td>{table.tableCategory.tableCategoryName}</td>
               <td>
-                <Link
-                  to={`/admin/tables/edit/${table.tableId}`}
-                >
+                <Link to={`/admin/tables/edit/${table.tableId}`}>
                   <button
                     className="restable-list-button"
                     onClick={() => handleEdit(table.tableId)}
