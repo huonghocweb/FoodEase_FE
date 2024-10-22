@@ -1,0 +1,56 @@
+/* styles.css */
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+   
+  }
+  
+  .input-field,
+  .textarea-field {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  .submit-button {
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: #4d94e1;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 0 auto;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
+  .lable {
+    text-align: left;
+  }
+  label{
+    text-align: left;
+    
+  }
+  .food-Reset{
+    width: 100px;
+   margin-left: 350px;
+   
+  }
+  
+ 

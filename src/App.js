@@ -30,7 +30,7 @@ import Thanks from "./Component/View/Home/Thank/Thanks";
 import WishList from "./Component/View/Home/WishList/WishList.js";
 import BookTablePage from "./Component/View/Home/BookingTable/BookTablePage.js";
 import PaymentReport from "./Component/View/Admin/PaymentReport/PaymentReport.js";
-
+import AddFood from './Component/View/Admin/Product/AddFood.js';
 function App() {
   return (
     <div className="App">
@@ -82,6 +82,9 @@ function App() {
             <Route path="reportpayment" element={<PaymentReport />} />
             <Route path="inventory" element={<Inventory />} />
             <Route path="UserOrder" element={<UserOrder />} />
+          <Route path="inventory" element={<Inventory />} />
+          <Route path="UserOrder" element={<UserOrder />} />
+          <Route path="addFood" element={<AddFood />} />
           </Route>
         </Routes>
         <Footer />
