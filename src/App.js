@@ -66,6 +66,11 @@ function App() {
               path="coupon/update/:couponId"
               element={<CouponFormPage />}
             />
+            <Route path="reservation-list" element={<ReservationList />} />
+            <Route
+              path="coupon/update/:couponId"
+              element={<CouponFormPage />}
+            />
             {/* Chanh */}
             <Route path="resTableList" element={<ResTableList />} />
             <Route path="tables/new" element={<ResTableForm />} />
@@ -73,6 +78,7 @@ function App() {
             {/* Chanh */}
 
             <Route path="revenue" element={<Revenue />} />
+            <Route path="reportpayment" element={<PaymentReport />} />
             <Route path="inventory" element={<Inventory />} />
             <Route path="UserOrder" element={<UserOrder />} />
           </Route>
