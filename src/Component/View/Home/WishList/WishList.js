@@ -33,11 +33,12 @@ const WishList = () => {
   const fetchFoods = async (wishListId) => {
     try {
       const response = await axiosConfig.get(`/wishlist/${wishListId}/foods`);
-      setFoods(response.data || []); // Đảm bảo rằng foods là mảng
+      console.log(response.data); // Kiểm tra xem response có chứa quantityStock không
+      setFoods(response.data || []);
       setSelectedWishListId(wishListId);
     } catch (error) {
       console.error("Error fetching foods", error);
-      setFoods([]); // Đặt lại foods thành mảng rỗng khi có lỗi
+      setFoods([]);
     }
   };
 
@@ -158,7 +159,7 @@ const WishList = () => {
                 (
                   food // Kiểm tra xem foods có phải là mảng không
                 ) => (
-                  <div key={food.foodId} className="menu-item">
+                  <div key={food.foodVariationId} className="menu-item">
                     <div className="image-discount">
                       <Link to={`FoodDetails/${food.foodVariationId}`}>
                         <img
@@ -190,7 +191,7 @@ const WishList = () => {
                         <h5 className="description">{food.description}</h5>
                         <div className="menu-footer">
                           <p>
-                            {customTranslate("sold")}: {food.quantityStock}
+                            {customTranslate("sold")}: {food.foodVariations.quantityStock || "chưa có"} 
                           </p>
                           <p>{customTranslate("Rating")}: 5⭐</p>
                         </div>

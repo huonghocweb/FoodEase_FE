@@ -5,10 +5,63 @@ import TableAvailablePopup from './TableAvailablePopup';
 import { useSSR } from 'react-i18next';
 import ServicesPopup from './ServicesPopup';
 import axiosConfig from '../../../Config/AxiosConfig';
+import CheckTimePopup from './CheckTimePopup';
 
 const BookTablePage = () => {
 
-    const [isOpenTableAvailable,setIsOpentTableAvailable] = useState(false);
+    const [tableCategories,setTableCategories] = useState([]);
+    const [selectCapacity,setSelectCapacity] = useState(null);
+    const [selectTableCategory,setSelectTableCategory] = useState(null);
+
+    const [tabPageCurrent,setTabPageCurrent] = useState(0);
+    const [tabPageSize,setTabPageSize] = useState(4);
+    const [tabSortOrder,setTabSortOrder] = useState("asc");
+    const [tabSortBy,setTabSortBy] = useState("tableId");
+    const [tabToTalPage,setTabToTalPage] = useState(0);
+    const [tabResTables,setTabResTables] = useState([]);
+    const [totalTab,setToTalTab] = useState(0);
+
+    const handleTabPageCurrent = async (value) => {
+        setTabPageCurrent(value);
+    }
+    const handleTabPageSize = async (value) => {
+        setTabPageSize(value);
+    }
+    const handleTabSortOrder = async (value) => {
+        setTabSortOrder(value);
+    }
+    const handleTabSortBy = async (value) => {
+        setTabSortBy(value);
+    }
+
+    const [isCheckTimePopup,setIsCheckTimePopup] = useState(false);
+    const [reservated,setReservted] = useState([]);
+    const [tableIdSelected,setTableIdSelected] = useState();
+    const [dateCheckTime,setDateCheckTime] = useState();
+    const openCheckTimePopup = async (tableId)=> {
+        setIsCheckTimePopup(!isCheckTimePopup);
+        console.log(tableId);
+        setTableIdSelected(tableId);
+    }
+    const handleCheckTimePopup = async (dateCheckTime) => {
+        console.log(dateCheckTime);
+        setDateCheckTime(dateCheckTime);
+        try {
+            const resTableReserved = await axiosConfig.get(`/reservation/getByTableIdAndDate/${tableIdSelected}`,
+                {
+                    params : {
+                        dateCheckTime : dateCheckTime
+                    }
+                }
+            );
+            console.log(resTableReserved.data.data);
+            setReservted(resTableReserved.data.data)
+        } catch (error) {
+            console.error('error in CheckTimePopup',error);
+        }
+    }
+
+
 
     const [isOpenServicesPopup,setIsOpenServicesPopup] = useState(false);
     const [serPageCurrent,setSerPageCurrent] = useState(0);
@@ -31,7 +84,6 @@ const BookTablePage = () => {
         setSerSortBy(value);
     }
     const handleServicesPopup = async () => {
-        setIsOpentTableAvailable(false);
         setIsOpenServicesPopup(!isOpenServicesPopup);
     }
   
@@ -47,7 +99,9 @@ const BookTablePage = () => {
 
     useEffect(() => {
         fecthServices();
-    },[serPageCurrent,serPageSize]);
+        fetchTableCategories();
+        handleTableAvailablePopup();
+    },[serPageCurrent,serPageSize,tabPageCurrent,tabPageSize]);
 
     const fecthServices = async () => {
         try {
@@ -59,27 +113,70 @@ const BookTablePage = () => {
                     sortBy : serSortBy 
                 }
             })
-            console.log(resAllServices.data.data.content);
             setTableServices(resAllServices.data.data.content);
             setSerToTalPages(resAllServices.data.data.totalPages);
         } catch (error) {
             console.error('error in fetchServices',error);
         }
     }
+    const fetchTableCategories = async () => {
+        try {
+            const resTableCategories = await axiosConfig.get(`/tablecategories`);
+            setTableCategories(resTableCategories.data);
+        } catch (error) {
+            console.error('error in fetchCategories ' ,error);
+        }
+    }
 
     const handleTableAvailablePopup = async () => {
-        setIsOpentTableAvailable(!isOpenTableAvailable);
+        console.log(selectTableCategory);
+        try {
+            const resTableByCapaAndCate = await axiosConfig.get(`/restables/getResTableAvailable`,{
+                params : {
+                    tableCategoryId : selectTableCategory || null,
+                    capacity : selectCapacity || null,
+                    checkinDate : null,
+                    checkinTime : null, 
+                    pageCurrent: tabPageCurrent ,
+                    pageSize : tabPageSize , 
+                    sortOrder : tabSortOrder, 
+                    sortBy : tabSortBy 
+                }
+            })
+            console.log(resTableByCapaAndCate.data.data);
+            setTabResTables(resTableByCapaAndCate.data.data.content);
+            setTabToTalPage(resTableByCapaAndCate.data.data.totalPages);
+            setToTalTab(resTableByCapaAndCate.data.data.totalElements);
+        } catch (error) {
+            console.error('error in hanldeGetTableByCapacityAndCategory',error);
+        }
     }
     
     return (
         <>
         <BookTableList
+        tableCategories = {tableCategories}
         handleTableAvailablePopup = {handleTableAvailablePopup}
+        setSelectCapacity={setSelectCapacity}
+        setSelectTableCategory={setSelectTableCategory}
+        
          />
         <TableAvailablePopup
-        isOpenTableAvailable = {isOpenTableAvailable}
-        handleTableAvailablePopup={handleTableAvailablePopup}
         handleServicesPopup = {handleServicesPopup}
+        tabToTalPage = {tabToTalPage}
+        tabResTables= {tabResTables}
+        tabPageCurrent = {tabPageCurrent}
+        handleTabPageCurrent ={handleTabPageCurrent}
+        totalTab = {totalTab}
+        openCheckTimePopup  = {openCheckTimePopup}
+         />
+         <CheckTimePopup 
+            isCheckTimePopup = {isCheckTimePopup}
+            handleCheckTimePopup = {handleCheckTimePopup}
+            reservated = {reservated}
+            openCheckTimePopup = {openCheckTimePopup}
+            tableIdSelected = {tableIdSelected}
+            dateCheckTime = {dateCheckTime}
          />
          <ServicesPopup 
             isOpenServicesPopup = {isOpenServicesPopup}

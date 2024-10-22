@@ -337,7 +337,7 @@ section#book-table .left-image img {
 	font-size: 28px;
 }
 
-.right-info select {
+.right-info select  {
 	border-right: none;
 	border-left: none;
 	border-top: none;
@@ -350,7 +350,20 @@ section#book-table .left-image img {
 	height: 60px;
 }
 
-.right-info input {
+.right-info input  {
+	border-right: none;
+	border-left: none;
+	border-top: none;
+	width: 100%;
+	outline: none;
+	border-bottom: 1px solid #984444;	
+	font-size: 14px;
+	color: #252222;
+	padding-left: 10px;
+	height: 60px;
+}
+
+/* .right-info input {
 	box-shadow: none;
 	outline: none;
 	border-right: none;
@@ -359,7 +372,7 @@ section#book-table .left-image img {
 	border-bottom: 1px solid #eee;
 	font-size: 14px;
 	color: #9a9a9a;
-}
+} */
 
 .right-info button {
 	width: 100%;

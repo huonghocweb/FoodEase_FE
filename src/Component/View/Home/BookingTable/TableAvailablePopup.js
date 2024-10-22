@@ -1,81 +1,52 @@
 import React, { useState } from 'react';
 import './TableAvailable.css';
 
-const TableAvailablePopup = ({isOpenTableAvailable,handleTableAvailablePopup , handleServicesPopup}) => {
-  const [selectedTable, setSelectedTable] = useState(null);
-
-  const tables = [
-    {
-      id: 1,
-      image: 'table1.jpg',
-      title: 'Table 1',
-      seats: 4,
-      location: 'Near window',
-    },
-    {
-      id: 2,
-      image: 'table2.jpg',
-      title: 'Table 2',
-      seats: 2,
-      location: 'Near entrance',
-    },
-    {
-      id: 2,
-      image: 'table2.jpg',
-      title: 'Table 2',
-      seats: 2,
-      location: 'Near entrance',
-    },
-  ];
-
-
-  const selectTable = (table) => {
-    setSelectedTable(table);
-    alert(`You have selected ${table.title}`);
-  };
+const TableAvailable = ({ handleServicesPopup , tabToTalPage,tabResTables,tabPageCurrent,handleTabPageCurrent ,totalTab, openCheckTimePopup}) => {
 
   return (
-    <div>
-      {isOpenTableAvailable && (
-        <div className="reservation-popup-overlay show">
-          <div className="reservation-popup-content">
-            <button className="reservation-close-button" onClick={handleTableAvailablePopup}>
-              &times;
-            </button>
-            <h2 className="reservation-popup-title">Available Tables</h2>
-            <div className="reservation-table-list">
-              {tables.map((table) => (
-                <div key={table.id} className="reservation-table-item">
-                  <img
-                    src={table.image}
-                    alt={table.title}
-                    className="reservation-table-image"
-                  />
-                  <div className="reservation-table-info">
-                    <h3 className="reservation-table-title">{table.title}</h3>
-                    <p className="reservation-table-detail">Seats: {table.seats}</p>
-                    <p className="reservation-table-detail">Location: {table.location}</p>
-                    <button
-                      className="reservation-select-button"
-                      onClick={() => selectTable(table)}
-                    >
-                      Select Table
-                    </button>
-                  </div>
-                </div>
-              ))}
+    <div className="reservation-content">
+      <h2 className="reservation-title">Available Tables</h2>
+      <div className="pagination">
+              <button 
+                onClick={() => handleTabPageCurrent(tabPageCurrent - 1)} 
+                disabled={tabPageCurrent === 0}
+              >
+                Prev
+              </button>
+              <span>Page {tabPageCurrent + 1} / {tabToTalPage}</span>
+              <button 
+                onClick={() => handleTabPageCurrent(tabPageCurrent + 1)} 
+                 disabled={tabPageCurrent === tabToTalPage -1 }
+              >
+                Next
+              </button><span style={ {fontWeight : "bolder"}}>Available : {totalTab}</span>
             </div>
-            {selectedTable && (
-              <div className="reservation-selected-info">
-                <p>You have selected: <strong>{selectedTable.title}</strong></p>
-              </div>
-            )}
-            <button onClick={handleServicesPopup} >Choose Service</button>
+      <div className="reservation-table-list">
+        {tabResTables.map((table) => (
+          <div key={table.id} className="reservation-table-item">
+            <img
+              src={table.imageUrl}
+              alt={table.tableName}
+              className="reservation-table-image"
+            />
+            <div className="reservation-table-info">
+              <h3 className="reservation-table-title">{table.tableName}</h3>
+              <p className="reservation-table-detail">Seats: {table.capacity}</p>
+              <p className="reservation-table-detail">Price: {table.price}</p>
+              <p className="reservation-table-detail">Type: {table.tableCategory.tableCategoryName}(+{table.tableCategory.price.toLocaleString('vi-Vn')}đ)</p>
+              <button
+                className="reservation-select-button"
+                onClick={() => openCheckTimePopup(table.tableId)}
+              >
+                Check Time 
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        ))}
+      </div>
+      <button onClick={handleServicesPopup}>Choose Service</button>
     </div>
   );
 };
 
-export default TableAvailablePopup;
+export default TableAvailable;

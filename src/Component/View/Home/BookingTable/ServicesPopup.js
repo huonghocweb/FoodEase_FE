@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
+import './Services.css';
 
 const ServicesPopup = ({ isOpenServicesPopup, handleServicesPopup, tableServices, serPageCurrent ,serTotalPages , handleSerPageCurrent , 
   selectedServiceIds,handleSelectServices }) => {
-    console.log(selectedServiceIds);
   return (
     <>
       {isOpenServicesPopup && (
-        <div className="reservation-popup-overlay show">
-          <div className="reservation-popup-content">
-            <button className="reservation-close-button" onClick={handleServicesPopup}>
+        <div className="service-popup-overlay show">
+          <div className="service-popup-content">
+            <button className="service-close-button" onClick={handleServicesPopup}>
               &times;
             </button>
-            <h2 className="reservation-popup-title">Table Services</h2>
+            <h2 className="service-popup-title">Table Services</h2>
             <div className="pagination">
               <button 
                 onClick={() => handleSerPageCurrent(serPageCurrent - 1)} 
@@ -27,9 +27,9 @@ const ServicesPopup = ({ isOpenServicesPopup, handleServicesPopup, tableServices
                 Next
               </button>
             </div>
-            <div className="reservation-table-list">
+            <div className="service-table-list">
               {tableServices.map((item,index) => (
-                <div key={index} className="reservation-table-item">
+                <div key={index} className="service-table-item">
                 <input
                     type="checkbox"
                     id={`service-${item.serviceId}`}
@@ -40,17 +40,17 @@ const ServicesPopup = ({ isOpenServicesPopup, handleServicesPopup, tableServices
                   <img
                     src={item.imageUrl}
                     alt={item.title}
-                    className="reservation-table-image"
+                    className="service-table-image"
                   />
-                  <div className="reservation-table-info">
-                    <h3 className="reservation-table-title">{item.serviceName}</h3>
-                    <p className="reservation-table-detail"> {item.description}</p>
-                    <p className="reservation-table-detail">Fee : <span>{item.servicePrice?.toLocaleString('vi-VN')}đ</span></p>
+                  <div className="service-table-info">
+                    <h3 className="service-table-title">{item.serviceName}</h3>
+                    <p className="service-table-detail"> {item.description}</p>
+                    <p className="service-table-detail">Fee : <span>{item.servicePrice?.toLocaleString('vi-VN')}đ</span></p>
                   </div>
                 </div>
               ))}
             </div>
-            <button onClick={handleServicesPopup} >Choose Service</button>
+            <button onClick={handleServicesPopup}>Choose Service</button>
           </div>
         </div>
       )}
