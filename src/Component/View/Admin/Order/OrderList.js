@@ -3,6 +3,7 @@ import Modal from './Modal';
 import axiosConfig from '../../../Config/AxiosConfig';
 import ReturnRequestPopup from '../OrderReturn/ReturnRequestPopup';
 import CustomAlert from '../../../Config/CustomAlert';
+import InvoiceDownloadComponent from "./InvoiceDownloadComponent";
 const OrderList = () => {
   const [order,setOrder]=useState([]);
   const [orderDetails, setOrderDetails] = useState([]); 
@@ -163,6 +164,9 @@ const Next = () => {
                         <td> {item.orderStatus.orderStatusName === 'Return Requested' && (
                                 <button style={{fontSize : '10px'}}  onClick={() => checkOrderReturnRequest(item.orderId)}>Check</button>
                         )}</td>
+                        <td>
+                            <InvoiceDownloadComponent orderId={item.orderId} />
+                          </td>
                       </tr>
                   ))
                     }

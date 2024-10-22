@@ -13,7 +13,7 @@ const AddFood =()=>{
     const [categoriesId,setcategoriesId]=useState(1);
     const { register, handleSubmit, errors } = useForm();
     const location = useLocation();
-    const item = location.state || {};
+    const item = location.state || (null);
     const fetchCategories= async ()=>{
         await axiosConfig.get(`/categories/findAll`)
         .then(response =>{
@@ -136,10 +136,8 @@ const AddFood =()=>{
                        >{item.foodCategoriesName}</option>
                     ))
                 }
-                
-               
             </select>
-            {/* {item ? (
+            {item ? (
                 <button onClick={handleUpdate} className="submit-button" type="button">
                     Update
                 </button>
@@ -147,10 +145,8 @@ const AddFood =()=>{
                 <button onClick={handleAdd} className="submit-button" type="button">
                     Submit
                 </button>
-            )}  */}
-            <button onClick={handleAdd} className="submit-button" type="button">
-                    Submit
-                </button>
+            )} 
+    
         </form>
       </div>
     );
