@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import axiosConfig from "../../../Config/AxiosConfig";
 import {
-  BarChart,
   Bar,
-  XAxis,
-  YAxis,
+  BarChart,
   CartesianGrid,
-  Tooltip,
   Legend,
   ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from "recharts";
+import axiosConfig from "../../../Config/AxiosConfig";
 
 const PaymentReport = () => {
   const [revenueData, setRevenueData] = useState([]);

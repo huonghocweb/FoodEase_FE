@@ -124,7 +124,7 @@ const FoodMenu = () => {
           message: "Added to wishlist successfully!",
         });
         setTimeout(() => {
-          window.location.reload();
+          setAlert(null);
         }, 2000);
         await fetchWishLists(); // Cập nhật lại danh sách wishlist
         closeWishlistModal(); // Đóng modal sau khi thêm thành công

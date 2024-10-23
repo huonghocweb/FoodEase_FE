@@ -8,13 +8,18 @@ import CouponPage from "./Component/View/Admin/Coupon/CouponPage";
 import Inventory from "./Component/View/Admin/Inventory/Inventory.js";
 import Notification from "./Component/View/Admin/Notification/Notification";
 import OrderPage from "./Component/View/Admin/Order/OrderPage";
+import PaymentReport from "./Component/View/Admin/PaymentReport/PaymentReport.js";
+import AddFood from './Component/View/Admin/Product/AddFood.js';
 import FoodPage from "./Component/View/Admin/Product/FoodPage";
 import ResTableForm from "./Component/View/Admin/ResTable/ResTableForm.js";
 import ResTableList from "./Component/View/Admin/ResTable/ResTableList.js";
 import Revenue from "./Component/View/Admin/Revenue/Revenue";
+import ServiceForm from "./Component/View/Admin/Service/ServiceForm.js";
+import ServiceList from "./Component/View/Admin/Service/ServiceList.js";
 import UserFormPage from "./Component/View/Admin/User/UserFormPage.js";
 import UserPage from "./Component/View/Admin/User/UserPage";
 import UserOrder from "./Component/View/Admin/UserBuy/UserOrder.js";
+import BookTablePage from "./Component/View/Home/BookingTable/BookTablePage.js";
 import CartPage from "./Component/View/Home/Cart/CartPage";
 import BoxChatPage from "./Component/View/Home/Chat/BoxChatPage";
 import ClaimCouponPage from "./Component/View/Home/CouponStorage/ClaimCouponPage";
@@ -28,9 +33,6 @@ import OrderStatus from "./Component/View/Home/MyOrder/OrderStatus";
 import OrderHistoryPage from "./Component/View/Home/OrderHistory/OrderHistoryPage";
 import Thanks from "./Component/View/Home/Thank/Thanks";
 import WishList from "./Component/View/Home/WishList/WishList.js";
-import BookTablePage from "./Component/View/Home/BookingTable/BookTablePage.js";
-import PaymentReport from "./Component/View/Admin/PaymentReport/PaymentReport.js";
-import AddFood from './Component/View/Admin/Product/AddFood.js';
 function App() {
   return (
     <div className="App">
@@ -83,6 +85,9 @@ function App() {
             <Route path="resTableList" element={<ResTableList />} />
             <Route path="tables/new" element={<ResTableForm />} />
             <Route path="tables/edit/:tableId" element={<ResTableForm />} />
+            <Route path="services" element={<ServiceList />} />
+            <Route path="tableService/new" element={<ServiceForm />} />
+            <Route path="tableService/edit/:serviceId" element={<ServiceForm />} />
             {/* Chanh */}
 
             <Route path="revenue" element={<Revenue />} />

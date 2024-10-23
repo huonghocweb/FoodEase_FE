@@ -97,8 +97,14 @@ const Header = () => {
                     </li>
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/admin/resTableList">
-                            <i class="fa-solid fa-table"></i>
+                            <i class="fa-solid fa-chair "></i>
                             ResTable
+                        </NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink className="nav-link" to="/admin/services">
+                            <i class="fa-solid fa-concierge-bell"></i>
+                            Services
                         </NavLink>
                     </li>
 
