@@ -1,19 +1,41 @@
 import React from 'react';
 
-const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , openCheckTimePopup  , tableIdSelected, dateCheckTime}) => {
+const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , openCheckTimePopup  , tableIdSelected , formStateCheckTime, handleInputChange,resetFormStateCheckTime, handleCheckResTableAvailable}) => {
+    console.log(formStateCheckTime);
     return (
         <> 
         {isCheckTimePopup && (
             <div className="service-popup-overlay show">
           <div className="service-popup-content">
-            <button className="service-close-button" onClick={handleCheckTimePopup}>  &times;   </button>
+            <button className="service-close-button" onClick={openCheckTimePopup}>  &times;   </button>
             <h2 className="service-popup-title">Check Time Table Reservation </h2>
             <div>
+            <div className="checktime-form-group-row">
+            <div className="checktime-form-group">
+                                <label htmlFor="tableIdDisplay">UserName :</label>
+                                <input
+                                    type="text"
+                                    className="checktime-input-table-id"
+                                    value={formStateCheckTime.user.userName}
+                                    readOnly
+                                />
+                            </div>
+                            <div className="checktime-form-group">
+                                <label htmlFor="tableIdDisplay">Email:</label>
+                                <input
+                                    type="text"
+                                    className="checktime-input-table-id"
+                                    value={formStateCheckTime.email}
+                                    onChange={e => handleInputChange(e.target.value)}
+                                />
+                            </div>
+                        </div>
                         <div className="checktime-form-group-row">
                             <div className="checktime-form-group">
                                 <label htmlFor="datePicker">Select Date:</label>
                                 <input
                                     type="date"
+                                    value={formStateCheckTime.date}
                                     onChange={e =>handleCheckTimePopup(e.target.value)}
                                     className="checktime-input-date"
                                     required
@@ -23,7 +45,7 @@ const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , 
                                 <label htmlFor="tableIdDisplay">Table ID:</label>
                                 <input
                                     type="text"
-                                    id="tableIdDisplay"
+                                    onChange={e => handleInputChange('tableId',e.target.value)}
                                     className="checktime-input-table-id"
                                     value={tableIdSelected}
                                     readOnly
@@ -35,7 +57,8 @@ const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , 
                                 <label htmlFor="checkInTime">Check-in Time:</label>
                                 <input
                                     type="time"
-                                    id="checkInTime"
+                                    value={formStateCheckTime.checkinTime}
+                                    onChange={e => handleInputChange('checkinTime', e.target.value)}
                                     className="checktime-input-time"
                                     required
                                 />
@@ -44,14 +67,15 @@ const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , 
                                 <label htmlFor="checkOutTime">Check-out Time:</label>
                                 <input
                                     type="time"
-                                    id="checkOutTime"
+                                    value={formStateCheckTime.checkoutTime}
+                                    onChange={e => handleInputChange('checkoutTime',e.target.value)}
                                     className="checktime-input-time"
                                     required
                                 />
                             </div>
                         </div>
                         <div className="reserved-times-container">
-                            <h3>Reserved Times Date: {dateCheckTime}</h3>
+                            <h3>Reserved Times Date: {formStateCheckTime.date}</h3>
                             <div className="reserved-times-row">
                                 {reservated.length > 0 ? (
                                     reservated.map((item, index) => (
@@ -70,8 +94,8 @@ const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , 
                             </div>
                         </div>
                         <div className="checktime-form-group">
-                            <button type="submit" className="checktime-btn checktime-btn-primary" onClick={handleCheckTimePopup}>Check Availability</button>
-                            <button type="button" className="checktime-btn checktime-btn-secondary" onClick={openCheckTimePopup}>Cancel</button>
+                            <button type="submit" className="checktime-btn checktime-btn-primary" onClick={handleCheckResTableAvailable}>Check Availability</button>
+                            <button type="button" className="checktime-btn checktime-btn-secondary" onClick={resetFormStateCheckTime}>Reset</button>
                         </div>
                     </div>
             </div>

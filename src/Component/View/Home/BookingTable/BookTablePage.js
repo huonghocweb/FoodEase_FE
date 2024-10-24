@@ -9,6 +9,50 @@ import CheckTimePopup from './CheckTimePopup';
 
 const BookTablePage = () => {
 
+    const [yourReservation,setYourReservation] = useState([]);
+    const fetchtUserByUserName = async () => {
+        const userName = localStorage.getItem('userNameLogin');
+        console.log(userName)
+        try {
+            const resUserByUserName = await axiosConfig.get(`/user/getByUserName/${userName}`);
+            console.log(resUserByUserName.data.data);
+            const user = resUserByUserName.data.data
+            if (user) {
+                setFormStateCheckTime(prevState => ({
+                    ...prevState,
+                    user: user,
+                    email: user.email
+                }));
+            }
+        } catch (error) {
+            console.error('error in fetchUserBy UserName',error);
+        }
+    }
+    const [formStateCheckTime,setFormStateCheckTime] = useState({
+        user : '',
+        email : '',
+        date : '',
+        checkinTime : '',
+        checkoutTime :''
+    });
+    const handleInputChange= (name,value) => {
+        setFormStateCheckTime({
+            ...formStateCheckTime,
+            [name] : value
+        });
+    }
+    const resetFormStateCheckTime =  () => {
+        console.log('13')
+        console.log(formStateCheckTime);
+        setFormStateCheckTime({
+            date : '',
+            checkinTime : '',
+            checkoutTime : ''
+        })
+        fetchtUserByUserName();
+    }
+
+
     const [tableCategories,setTableCategories] = useState([]);
     const [selectCapacity,setSelectCapacity] = useState(null);
     const [selectTableCategory,setSelectTableCategory] = useState(null);
@@ -37,7 +81,6 @@ const BookTablePage = () => {
     const [isCheckTimePopup,setIsCheckTimePopup] = useState(false);
     const [reservated,setReservted] = useState([]);
     const [tableIdSelected,setTableIdSelected] = useState();
-    const [dateCheckTime,setDateCheckTime] = useState();
     const openCheckTimePopup = async (tableId)=> {
         setIsCheckTimePopup(!isCheckTimePopup);
         console.log(tableId);
@@ -45,7 +88,7 @@ const BookTablePage = () => {
     }
     const handleCheckTimePopup = async (dateCheckTime) => {
         console.log(dateCheckTime);
-        setDateCheckTime(dateCheckTime);
+        handleInputChange('date',dateCheckTime);
         try {
             const resTableReserved = await axiosConfig.get(`/reservation/getByTableIdAndDate/${tableIdSelected}`,
                 {
@@ -61,6 +104,23 @@ const BookTablePage = () => {
         }
     }
 
+    const handleCheckResTableAvailable = async() => {
+        console.log(formStateCheckTime);
+        try {
+            const resCheckResTableVai = await axiosConfig.get(`/restables/checkResTableAvailable`,{
+                params : {
+                    tableId : tableIdSelected,
+                    date : formStateCheckTime.date,
+                    checkinTime : formStateCheckTime.checkinTime,
+                    checkoutTime : formStateCheckTime.checkoutTime,
+                    userId : formStateCheckTime.user.userId
+                }
+            })
+            console.log(resCheckResTableVai.data.data);
+        } catch (error) {
+            console.error('error in handleCheckResTableAvailable',error);
+        }
+    }
 
 
     const [isOpenServicesPopup,setIsOpenServicesPopup] = useState(false);
@@ -97,11 +157,7 @@ const BookTablePage = () => {
       }
     }
 
-    useEffect(() => {
-        fecthServices();
-        fetchTableCategories();
-        handleTableAvailablePopup();
-    },[serPageCurrent,serPageSize,tabPageCurrent,tabPageSize]);
+
 
     const fecthServices = async () => {
         try {
@@ -152,6 +208,14 @@ const BookTablePage = () => {
         }
     }
     
+    
+    useEffect(() => {
+        fecthServices();
+        fetchTableCategories();
+        handleTableAvailablePopup();
+        fetchtUserByUserName();
+    },[serPageCurrent,serPageSize,tabPageCurrent,tabPageSize]);
+
     return (
         <>
         <BookTableList
@@ -176,7 +240,10 @@ const BookTablePage = () => {
             reservated = {reservated}
             openCheckTimePopup = {openCheckTimePopup}
             tableIdSelected = {tableIdSelected}
-            dateCheckTime = {dateCheckTime}
+            formStateCheckTime = {formStateCheckTime}
+            handleInputChange = {handleInputChange}
+            resetFormStateCheckTime = {resetFormStateCheckTime}
+            handleCheckResTableAvailable = {handleCheckResTableAvailable}
          />
          <ServicesPopup 
             isOpenServicesPopup = {isOpenServicesPopup}
