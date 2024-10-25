@@ -4,6 +4,7 @@ import axiosConfig from '../../../Config/AxiosConfig';
 import ReturnRequestPopup from '../OrderReturn/ReturnRequestPopup';
 import CustomAlert from '../../../Config/CustomAlert';
 import InvoiceDownloadComponent from "./InvoiceDownloadComponent";
+import './Modal.css'
 const OrderList = () => {
   const [order,setOrder]=useState([]);
   const [orderDetails, setOrderDetails] = useState([]); 
@@ -119,7 +120,7 @@ const Next = () => {
               <div className=" ">
                 <h2 className="tm-block-title">Orders List</h2>
                 <div className='orderlist-find'>
-                  <input type='text' value={inputFind}onChange={handleinputFind}/>
+                  <input type='date' value={inputFind}onChange={handleinputFind}/>
                   <button onClick={findDate}>find</button>
                 </div>
                 <table className="table">

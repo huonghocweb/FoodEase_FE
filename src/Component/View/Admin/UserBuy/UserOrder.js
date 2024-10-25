@@ -51,7 +51,7 @@ const UserOrder =()=>{
         <div>
         <div className='revenue-container2'>
         <div className='orderlist-find'>
-                  <input type='text' value={inputFind}onChange={handleinputFind}/>
+                  <input type='date' value={inputFind}onChange={handleinputFind}/>
                   <button onClick={findDate}>find</button>
                 </div>
             <table className="revenue-table2">

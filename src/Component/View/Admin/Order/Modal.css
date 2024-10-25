@@ -216,25 +216,22 @@ font-size: large;
   background-color: #f0f0f0;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 300px;
+  width: 220px;
   height: 60px;
   margin-bottom: 10px;
 }
 
-.orderlist-find input[type='text'] {
-  width: 70%;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  background-image: linear-gradient(to right, #fff, #f0f0f0);
-}
+
 
 .orderlist-find button {
   background-image: linear-gradient(to right, #4CAF50, #3e8e41);
   color: #fff;
-  padding: 10px 20px;
+  
+  padding-bottom: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 16px;
+  margin-right: 10px;
+
 }
