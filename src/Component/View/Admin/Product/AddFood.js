@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import './AddFood.css';
 import axiosConfig from "../../../Config/AxiosConfig";
 import { useForm } from 'react-hook-form';
-import { useLocation } from 'react-router-dom';
+import { useLocation,useNavigate } from 'react-router-dom';
 import CustomAlert from "../../../Config/CustomAlert";
 
 const AddFood = () => {
@@ -17,7 +17,8 @@ const AddFood = () => {
     const location = useLocation();
     const item = location.state || null;
     const [alert, setAlert] = useState(null); 
-
+    const navigate = useNavigate(); // Điều hướng sau khi hoàn thành
+   
     const fetchCategories = async () => {
         await axiosConfig.get(`/categories/findAll`)
             .then(response => {
@@ -30,8 +31,13 @@ const AddFood = () => {
 
     const handleAdd = async (data) => {
         const formData = new FormData();
-        
+   
+      
+       
+
+
         if (file) {
+          
             formData.append('file', file);
         }
         formData.append('foodName', data.foodName);
@@ -46,6 +52,9 @@ const AddFood = () => {
             });
             console.log('Added successfully', response);
             setAlert({ type: 'success', message: 'Added Success!' });
+            setTimeout(() => {
+                navigate("/admin/foods");
+            }, 3000);
         } catch (error) {
             console.log('Error in adding product:', error);
             setAlert({ type: 'error', message: 'Added Failed!' });
@@ -70,9 +79,13 @@ const AddFood = () => {
             });
             console.log('Updated successfully', response);
             setAlert({ type: 'success', message: 'Update Success!' });
+            setTimeout(() => {
+                navigate("/admin/foods");
+            }, 3000);
         } catch (error) {
             console.log('Error in updating product:', error);
             setAlert({ type: 'error', message: 'update Failed!' });
+            
         }
     };
 
@@ -154,18 +167,19 @@ const fetchItem= async ()=>{
                         </div>
 
                         <div className="form-group col-lg-6">
-                            <label>Image:</label>
-                            <input
-                                className="input-field"
-                                type="file"
-                                {...register("file", { required: "Image is required" })} // Thêm xác thực để yêu cầu nhập file
-                                onChange={(e) => {
-                                    const selectedFile = e.target.files[0];
-                                    setFile(selectedFile);
-                                }}
-                            />
-                            {errors.file && <p className="error">{errors.file.message}</p>} {/* Hiển thị thông báo lỗi nếu không có file */}
-                        </div>
+                        <label>Image:</label>
+                        <input
+                            className="input-field"
+                          
+                            type="file"
+                            {...register("file", { required: "Image is required" })} // Thêm xác thực để yêu cầu nhập file
+                            onChange={(e) => {
+                                const selectedFiles = e.target.files[0];
+                                setFile(selectedFiles); // Lưu trữ danh sách file được chọn vào state
+                            }}
+                        />
+                        {errors.file && <p className="error">{errors.file.message}</p>} {/* Hiển thị thông báo lỗi nếu không có file */}
+                    </div>
 
                         <div className="form-group col-lg-6">
                             <label>Discount:</label>

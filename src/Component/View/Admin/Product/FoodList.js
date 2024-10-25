@@ -7,16 +7,15 @@ const FoodList = () => {
 
 const [categories,setCategories]=useState([]);
 const [Food,setFood]=useState([]);
-const [page,setPage]= useState(1);
+const [page,setPage]= useState(0);
 const navigate = useNavigate();
 const [TotalPage,setTotalPage] = useState();
-
+const [inputCategory,setInputCategory]=useState();
    
 const fetchCategories= async ()=>{
   await axiosConfig.get(`/categories/findAll`)
   .then(response =>{
       setCategories(response.data);
-      
   })
 }
 const fetchFood= async ()=>{
@@ -39,7 +38,16 @@ const Next = () => {
       setPage(prevPage => prevPage - 1);
     }
   }
-  
+  const handleAddCategory= async ()=>{
+   
+    try {
+      await axiosConfig.post(`/categories/addFoodCategory?categoryName=${inputCategory}`)
+      setInputCategory('')
+    } catch (error) {
+      console.log('thất bại',error)
+    }
+    
+  }
 useEffect(()=>{
   fetchFood();
   fetchCategories();
@@ -53,10 +61,20 @@ const deleteFood= async (foodId)=>{
   }
  
 }
-const edit=async (item)=>{
-  
-navigate('/admin/addFood',{state:item})
-}
+  const edit=async (item)=>{
+    
+  navigate('/admin/addFood',{state:item})
+  }
+  const deleteCategory = async(index)=>{
+    try {
+      await axiosConfig.delete(`categories/${index}`)
+      console.log("delete category")
+      console.log(index)
+    } catch (error) {
+      console.log(error)
+      console.log(index)
+    }
+  }
 if(categories == null)
 {
   return null;
@@ -93,7 +111,7 @@ if(categories == null)
                     <td>{index +1}</td>
                     <td className="tm-product-name">{item.foodName}</td>
                     <td>{item.basePrice}</td>
-                    <td><img src={`/assets/images/${item.imageUrl}`}/></td>
+                    <td><img src={`${item.imageUrl}`}/></td>
                     
                     <td>{item.createdAt}</td>
                     <td>{item.updatedAt}</td>
@@ -141,18 +159,20 @@ if(categories == null)
                     <td className="tm-product-name">{item.foodCategoriesName} </td>
                     <td className="text-center">
                       <a href="#" className="tm-product-delete-link">
-                        <i className="far fa-trash-alt tm-product-delete-icon"></i>
+                        <i onClick={()=> deleteCategory(item.foodCategoriesID)} className="far fa-trash-alt tm-product-delete-icon"></i>
                       </a>
                     </td>
                   </tr>
                     ))
                   }
-                  
+              
                   
                 </tbody>
+                
               </table>
+              <input value={inputCategory} onChange={(e)=>  setInputCategory(e.target.value)} placeholder='Category name' type='text' className='category-text'/>
             </div>
-            <button className="btn btn-primary btn-block text-uppercase mb-3">
+            <button onClick={handleAddCategory} className="btn btn-primary btn-block text-uppercase mb-3">
               Add new category
             </button>
           </div>
