@@ -29,7 +29,7 @@ const Propose =()=>{
           <div key={item.foodVariationId} className="menu-item">
             <div className="image-discount">
               <Link to={`FoodDetails/${item.foodVariationId}`} >
-              <img  src={`/assets/images/${item.food.imageUrl}`} alt={item.name} className="menu-image" />
+              <img  src={`${item.food.imageUrl}`} alt={item.name} className="menu-image" />
               </Link>
               <div className="disscount1">Discount:{item.food.discount}%</div>
             </div>

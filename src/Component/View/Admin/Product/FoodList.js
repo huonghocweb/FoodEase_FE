@@ -3,6 +3,7 @@ import {Link,useNavigate} from 'react-router-dom'
 import axiosConfig from '../../../Config/AxiosConfig';
 import axios from 'axios';
 import './FoodList.css'
+import Modal from './AddFoodVariation';
 const FoodList = () => {
 
 const [categories,setCategories]=useState([]);
@@ -12,6 +13,25 @@ const navigate = useNavigate();
 const [TotalPage,setTotalPage] = useState();
 const [inputCategory,setInputCategory]=useState();
    
+const [isModalOpen, setIsModalOpen] = useState(false);
+const [selectedItem, setSelectedItem] = useState(null);
+const handleRowClick = (item) => {
+  setSelectedItem(item);
+  setIsModalOpen(true);
+  console.log("mở ")
+};
+
+const handleFormSubmit = (event) => {
+  event.preventDefault();
+  console.log("Form submitted", selectedItem);
+  setIsModalOpen(false);
+};
+
+const handleCloseModal = () => {
+  setIsModalOpen(false); // Đóng modal
+};
+
+
 const fetchCategories= async ()=>{
   await axiosConfig.get(`/categories/findAll`)
   .then(response =>{
@@ -107,11 +127,11 @@ if(categories == null)
                 <tbody>
                  {
                     Food.map((item,index)=>(
-                      <tr>
+                      <tr  key={item.foodId}>
                     <td>{index +1}</td>
                     <td className="tm-product-name">{item.foodName}</td>
                     <td>{item.basePrice}</td>
-                    <td><img src={`${item.imageUrl}`}/></td>
+                    <td  onClick={() => handleRowClick(item)}><img src={`${item.imageUrl}`}/></td>
                     
                     <td>{item.createdAt}</td>
                     <td>{item.updatedAt}</td>
@@ -133,6 +153,9 @@ if(categories == null)
                 </tbody>
                 
               </table>
+              {isModalOpen && (
+        <Modal onClose={handleCloseModal} item={selectedItem} />
+      )}
               <h6>{page + 1}/{TotalPage }</h6>
                 <button className="Button-Previous" onClick={Previous}>Previous</button>
                 <button className="Button-next" onClick={Next}>Next</button>
@@ -176,6 +199,7 @@ if(categories == null)
               Add new category
             </button>
           </div>
+          
         </div>
       </div>
     </div>
