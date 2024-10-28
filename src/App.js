@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./Component/Include/Home/Footer";
@@ -32,6 +33,15 @@ import BookTablePage from "./Component/View/Home/BookingTable/BookTablePage.js";
 import PaymentReport from "./Component/View/Admin/PaymentReport/PaymentReport.js";
 import AddFood from './Component/View/Admin/Product/AddFood.js';
 function App() {
+
+  useEffect(() => {
+    // Load Dialogflow Messenger script
+    const script = document.createElement('script');
+    script.src = 'https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1';
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -96,6 +106,17 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
+
+      {/* Dialogflow Messenger Chatbot */}
+      <h1>FoodEase - Chatbot</h1>
+      <df-messenger
+	        intent="WELCOME"
+	        chat-title="Hỗ_trợ_khách_hàng"	
+	        agent-id="43d594b7-0744-4670-b827-407b2255c6f3"
+	        language-code="vi"
+	      >
+        </df-messenger>
+  
     </div>
   );
 }
