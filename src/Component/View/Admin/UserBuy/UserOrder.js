@@ -44,6 +44,27 @@ const UserOrder =()=>{
               }
               console.log(inputFind);
             }
+            const exportExcel = async () => {
+              try {
+                  const response = await axiosConfig.get('/order/exportUserBuy', {
+                      responseType: 'blob' // Để nhận phản hồi dưới dạng blob
+                  });
+          
+                  // Tạo một URL cho blob
+                  const url = window.URL.createObjectURL(new Blob([response.data]));
+                  
+                  // Tạo một liên kết ảo để tải xuống tệp
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.setAttribute('download', `users_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.xlsx`); // Thiết lập tên tệp
+                  document.body.appendChild(link);
+                  link.click(); // Nhấp vào liên kết ảo để tải tệp
+                  document.body.removeChild(link); // Xóa liên kết
+                  console.log("Tải tệp thành công");
+              } catch (error) {
+                  console.error('Tải tệp thất bại', error);
+              }
+          }
     useEffect(()=>{
         featchUserOrder();
     },[page,userOrder])
@@ -53,9 +74,11 @@ const UserOrder =()=>{
         <div className='orderlist-find'>
                   <input type='date' value={inputFind}onChange={handleinputFind}/>
                   <button onClick={findDate}>find</button>
-                </div>
+                  <button onClick={exportExcel}>Export</button>
+                 
+                </div>  
             <table className="revenue-table2">
-                    <thead>
+                    <thead className='user-order'>
                         <tr>
                             <th className="revenue-th2">Order No.</th>
                             <th className="revenue-th2">Order date</th>

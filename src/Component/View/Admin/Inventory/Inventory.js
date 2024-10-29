@@ -54,7 +54,7 @@ const Iventory =()=>{
                                 <td className="revenue-td">{index + 1}</td>
                                 <td className="revenue-td">{item.food.createdAt}</td>
                                 <td className="revenue-td">{item.food.foodName}</td>
-                                <td><img className='inventory-img' src={`/assets/images/${item.food.imageUrl}`} /></td>
+                                <td><img className='inventory-img' src={`${item.food.imageUrl}`} /></td>
                                 <td className="revenue-td">{item.foodSize.foodSizeName}</td>
                                 <td className="revenue-td">{item.food.description}</td>
                                 <td className="revenue-td">{item.food.basePrice.toLocaleString('vi-vn')}đ</td>

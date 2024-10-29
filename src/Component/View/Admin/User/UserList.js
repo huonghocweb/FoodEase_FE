@@ -17,22 +17,26 @@ const UserList = () => {
   };
 
   const handleImport = async () => {
+    if (!file) {
+        alert("Vui lòng chọn một tệp để tải lên.");
+        return;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      const response = await axiosConfig.post("/users/import", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      alert(response.data);
+        const response = await axiosConfig.post("/user/importUser", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        alert(response.data); // Hiển thị thông báo thành công
     } catch (error) {
-      console.error("Error importing file", error);
-      alert("Error importing file");
+        console.error("Có lỗi xảy ra khi nhập dữ liệu: ", error);
+        alert("Có lỗi xảy ra khi nhập dữ liệu.");
     }
-  };
-
+};
   const handleExport = async () => {
     try {
       const response = await axiosConfig.get("/user/export", {
@@ -139,7 +143,7 @@ const UserList = () => {
                     <div>
                       <input
                         type="file"
-                        accept=".xlsx"
+                       accept=".xlsx, .xls"
                         onChange={handleFileChange}
                       />
                       <div className="import-export-buttons">
