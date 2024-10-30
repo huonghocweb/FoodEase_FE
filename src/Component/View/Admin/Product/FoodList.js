@@ -18,7 +18,7 @@ const [selectedItem, setSelectedItem] = useState(null);
 const handleRowClick = (item) => {
   setSelectedItem(item);
   setIsModalOpen(true);
-  console.log("mở ")
+
 };
 
 const handleFormSubmit = (event) => {

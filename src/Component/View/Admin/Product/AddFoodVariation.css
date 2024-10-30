@@ -27,9 +27,9 @@
   }
   
   .closet {
-    position: absolute;
+    position: relative;
     top: 20px;
-    right: 630px;
+    left: 290px;
     font-size: 24px;
     cursor: pointer;
   }
@@ -122,4 +122,25 @@ td {
   max-width: 300px; /* chiều rộng tối đa để ngăn nó trở nên quá rộng */
   padding: 10px; /* padding để tạo khoảng cách bên trong */
   box-sizing: border-box; /* đảm bảo padding không làm tăng chiều rộng */
+}
+.form-Topping{
+  width: 300px;
+  height: 300px;
+  background-color: #f7f7f7;
+  margin-left: 10px;
+}
+.toppings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.toppings div {
+  display: flex;
+  align-items: center;
+}
+
+.toppings input[type="checkbox"] {
+  margin-right: 10px;
 }

@@ -10,12 +10,35 @@ const AddFoodVariation = ({ onClose, item }) => {
     const [edit1,setEdit] =useState();
     const [foodVariationId,setfoodVariationId]= useState(null); 
     const [alert, setAlert] = useState(null); 
+    const [isFormOpen, setIsFormOpen] = useState(false);
+    const [currentItem, setCurrentItem] = useState(null);
     const sizes = [
         { id: 1, name: 'Size S' },
         { id: 2, name: 'Size M' },
         { id: 3, name: 'Size L' }
     ];
-
+    const toppings = [
+        { id: 1, name: 'Extra rice' },
+        { id: 2, name: 'Spaghetti' },
+        { id: 3, name: 'Egg' },
+        { id: 4, name: 'Sausage' },
+        { id: 5, name: 'Coconut jelly' },
+        { id: 6, name: 'Taro jelly' },
+        { id: 7, name: 'Matcha jelly' },
+        { id: 8, name: 'Strawberry jelly' },
+    ];
+    
+    const [selectedToppings, setSelectedToppings] = useState([]);
+    const handleCheckboxChange = (id) => {
+        const newToppings = [...selectedToppings];
+        const index = newToppings.indexOf(id);
+        if (index === -1) {
+            newToppings.push(id);
+        } else {
+            newToppings.splice(index, 1);
+        }
+        setSelectedToppings(newToppings);
+    };
     const fetchFoodVariation = async () => {
         try {
             const response = await axiosConfig.get(`/user/foodvariation/findFoodVariationByFoodId/${item.foodId}`);
@@ -105,10 +128,31 @@ const AddFoodVariation = ({ onClose, item }) => {
         }
         
     }
-
+    const handleImgClick = (item) => {
+        setCurrentItem(item);
+        setIsFormOpen(true);
+    };
+    
+      const handleCreateFoodVariationToppings = async () => {
+        try {
+            const toppings = selectedToppings.map((toppingId) => ({
+                foodVariationId: currentItem,
+                toppingId: toppingId,
+                
+            }));
+            
+            const response = await axiosConfig.post('/user/topping/create', toppings);
+            setIsFormOpen(false);
+            setAlert({ type: 'success', message: 'Add topping Success!' });
+        } catch (error) {
+            console.error(error);
+            setAlert({ type: 'error', message: 'Add topping error!' });
+        }
+        
+    }; 
     useEffect(() => {
         fetchFoodVariation();
- 
+      
     }, [item.foodId,foodVariation]);
 
     return (
@@ -160,7 +204,7 @@ const AddFoodVariation = ({ onClose, item }) => {
                 
                 {foodVariation.map((varItem, index) => (
                     <div key={index} className="custom-modal-bodyt">
-                        <img 
+                        <img  onClick={() => handleImgClick(varItem.foodVariationId)}
                             className='order-imaget' 
                             src={varItem.imageUrl ? varItem.imageUrl : varItem.food.imageUrl} 
                             alt="food" 
@@ -172,6 +216,7 @@ const AddFoodVariation = ({ onClose, item }) => {
                             <h4>Quantity: {varItem.quantityStock}</h4>
                             <h4>Discount: {varItem.food.discount}%</h4>
                         </div>
+                        
                         <button onClick={()=> edit(varItem)} className='button-edit'>Edit</button>
                         <button onClick={()=> deleteFoodVariation(varItem.foodVariationId)} className='button-delete'>Delete</button>
                     </div>
@@ -184,6 +229,30 @@ const AddFoodVariation = ({ onClose, item }) => {
                     onClose={() => setAlert(null)} 
                 />
             )}
+               {isFormOpen && (
+    <div className="form-Topping">
+        <h2>Tongping</h2>
+                    <form onSubmit={(e) => {
+                e.preventDefault(); // Ngăn chặn reload trang
+                handleCreateFoodVariationToppings(); // Gọi hàm xử lý
+            }}>
+                <div className="toppings">
+                    {toppings.map((topping) => (
+                        <div key={topping.id}>
+                            <input
+                                type="checkbox"
+                                checked={selectedToppings.includes(topping.id)}
+                                onChange={() => handleCheckboxChange(topping.id)}
+                            />
+                            <span> {topping.name}</span>
+                        </div>
+                    ))}
+                </div>
+
+                <button type="submit">Add foodVariation</button>
+</form>
+    </div>
+)}
         </div>
     );
 };
