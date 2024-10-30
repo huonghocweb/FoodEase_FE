@@ -1,0 +1,40 @@
+.pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.pagination-navigation {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagination-navigation button {
+    font-size:  12px;
+}
+
+.pagination-options {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.option-group {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.option-group label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.option-group select {
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}

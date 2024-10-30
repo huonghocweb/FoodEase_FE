@@ -1,7 +1,7 @@
 import React from 'react';
 
-const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , openCheckTimePopup  , tableIdSelected , formStateCheckTime, handleInputChange,resetFormStateCheckTime, handleCheckResTableAvailable}) => {
-    console.log(formStateCheckTime);
+const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , openCheckTimePopup  , tableIdSelected , formStateCheckTime, handleInputChange,resetFormStateCheckTime, 
+    handleCheckResTableAvailable , selectedServiceIds , isOpenServicesPopup , handleServicesPopup}) => {
     return (
         <> 
         {isCheckTimePopup && (
@@ -16,7 +16,7 @@ const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , 
                                 <input
                                     type="text"
                                     className="checktime-input-table-id"
-                                    value={formStateCheckTime.user.userName}
+                                    value={formStateCheckTime.user?.userName}
                                     readOnly
                                 />
                             </div>
@@ -74,6 +74,29 @@ const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , 
                                 />
                             </div>
                         </div>
+
+                        <div className="services-container">
+                                <h3>Selected Services:</h3>
+                                <div className="services-list">
+                                    {selectedServiceIds && selectedServiceIds.length > 0 ? (
+                                        selectedServiceIds.map((service, index) => (
+                                            <div key={index} className="service-item">
+                                                <div className="service-icon">&#10003;</div>
+                                                <div className="service-name">Service {service?.serviceName} + {service.servicePrice?.toLocaleString('vi-Vn')}đ</div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className="no-services">No services selected.
+                                        <button type="submit"
+                                         className="checktime-btn checktime-btn-primary"
+                                          onClick={handleServicesPopup}
+                                          >Choose Services 
+                                          </button>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
                         <div className="reserved-times-container">
                             <h3>Reserved Times Date: {formStateCheckTime.date}</h3>
                             <div className="reserved-times-row">
@@ -89,12 +112,16 @@ const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , 
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="no-reservation">Not Find Reserved</div> 
+                                    <div 
+                                    className="no-reservation"
+                                    >Not Find Reserved
+                                    </div> 
                                 )}
                             </div>
                         </div>
                         <div className="checktime-form-group">
-                            <button type="submit" className="checktime-btn checktime-btn-primary" onClick={handleCheckResTableAvailable}>Check Availability</button>
+                        <button type="submit" className="checktime-btn checktime-btn-primary" onClick={handleServicesPopup}>Change Services </button>
+                            <button type="submit" className="checktime-btn checktime-btn-primary" onClick={handleCheckResTableAvailable}>Book Now</button>
                             <button type="button" className="checktime-btn checktime-btn-secondary" onClick={resetFormStateCheckTime}>Reset</button>
                         </div>
                     </div>

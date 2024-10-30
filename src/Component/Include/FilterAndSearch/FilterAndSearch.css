@@ -1,0 +1,26 @@
+.filter-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 20px;
+}
+
+.search-box, .date-filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-box label, .date-filter label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.search-box input, .date-filter input {
+    padding: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+

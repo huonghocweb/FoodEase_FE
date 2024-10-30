@@ -33,6 +33,15 @@ const ResTableForm = () => {
     return Array.from(files);
   };
 
+  // Hàm xử lý khi người dùng chọn một ảnh mới
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImage(imageUrl);
+    }
+  };
+
   useEffect(() => {
     if (tableId) {
       // Lấy thông tin bàn từ API để chỉnh sửa
@@ -85,125 +94,172 @@ const ResTableForm = () => {
   };
 
   return (
-    <form className="restable-form-container" onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="restable-form-title">
-        {tableId ? "Cập nhật bàn" : "Tạo bàn mới"}
-      </h2>
-      <div>
-        <label className="restable-form-label">Table name</label>
-        <input
-          className="restable-form-input"
-          {...register("tableName", {
-            required: "Table name cannnot be blank !",
-          })}
-        />
-        {errors.tableName && (
-          <p className="restable-form-error">{errors.tableName.message}</p>
-        )}
-      </div>
+    <div className="body">
+      <div className="container mt-5">
+        <div className="row tm-content-row">
+          <div className="tm-block-col tm-col-account-settings">
+            <div className="tm-bg-primary-dark tm-block tm-block-settings">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="tm-signup-form row"
+              >
+                <h2 className="tm-block-title">
+                  {tableId ? "Edit ResTable" : "Create Table"}
+                </h2>
+                <div className="form-group col-lg-6">
+                  <label>Table Name</label>
+                  <input
+                    type="text"
+                    className="form-control validate"
+                    {...register("tableName", {
+                      required: "Table Name cannot be blank !",
+                    })}
+                  />
+                  {errors?.tableName && (
+                    <p style={{ color: "red", fontSize: "16px" }}>
+                      {errors?.tableName.message}
+                    </p>
+                  )}
+                </div>
+                <div className="form-group col-lg-6">
+                  <label>Capacity </label>
+                  <input
+                    className="form-control validate"
+                    type="number"
+                    {...register("capacity", {
+                      required: "Capacity cannot be blank !",
+                      min: {
+                        min: 1,
+                        message: "Capacity must be at least 1 !",
+                      },
+                      max: {
+                        min: 14,
+                        message: "Capacity must be less than or equal to 14 !",
+                      },
+                    })}
+                  />
+                  {errors?.capacity && (
+                    <p style={{ color: "red", fontSize: "16px" }}>
+                      {errors?.capacity.message}
+                    </p>
+                  )}
+                </div>
+                <div className="form-group col-lg-6">
+                  <label>Price</label>
+                  <input
+                    type="number"
+                    className="form-control validate"
+                    {...register("price", {
+                      required: "Price cannot be blank !",
+                      min: {
+                        value: 0,
+                        message: "Price must be at least 0",
+                      },
+                    })}
+                  />
+                  {errors?.price && (
+                    <p style={{ color: "red", fontSize: "16px" }}>
+                      {errors?.price.message}
+                    </p>
+                  )}
+                </div>
 
-      <div>
-        <label className="restable-form-label">Capacity</label>
-        <input
-          className="restable-form-input"
-          type="number"
-          {...register("capacity", {
-            required: "Capacity cannnot be blank !",
-            min: { value: 1, message: "Capacity must be at least 1" },
-            max: {
-              value: 14,
-              message: "Capacity must be less than or equal to 14",
-            },
-          })}
-        />
-        {errors.capacity && (
-          <p className="restable-form-error">{errors.capacity.message}</p>
-        )}
+                <div className="form-group col-lg-6">
+                  <label>Deposit</label>
+                  <input
+                    type="number"
+                    className="form-control validate"
+                    {...register("deposit", {
+                      required: "Deposit cannot be blank !",
+                      min: {
+                        value: 0,
+                        message: "Deposit must be at least 0",
+                      },
+                    })}
+                  />
+                  {errors?.deposit && (
+                    <p style={{ color: "red", fontSize: "16px" }}>
+                      {errors?.deposit.message}
+                    </p>
+                  )}
+                </div>
+                <div className="form-group col-lg-12">
+                  <label className="text-white">Available</label>
+                  <input
+                    className="form-control validate"
+                    type="checkbox"
+                    {...register("isAvailable")}
+                    defaultChecked={true}
+                  />
+                </div>
+                <div className="form-group col-lg-12">
+                  <div>
+                    <label className="text-white">Table Category</label>
+                    <select
+                      className="restable-form-input"
+                      {...register("tableCategoryId", {
+                        required: "Please select Table Category",
+                      })}
+                    >
+                      <option value="">Select table category</option>
+                      {tableCategories.map((category) => (
+                        <option
+                          selected={
+                            tableCategoryId === category.tableCategoryId
+                          }
+                          key={category.tableCategoryId}
+                          value={category.tableCategoryId}
+                        >
+                          {category.tableCategoryName}
+                        </option>
+                      ))}
+                    </select>
+                    {errors?.tableCategoryId && (
+                      <p style={{ color: "red", fontSize: "16px" }}>
+                        {errors?.tableCategoryId.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <div className="form-group col-lg-12">
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-block text-uppercase"
+                  >
+                    {tableId ? "Update" : "Create"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div className="tm-block-col tm-col-avatar">
+            <div className="tm-bg-primary-dark tm-block tm-block-avatar">
+              <h2 className="tm-block-title">URL Image</h2>
+              <div className="tm-avatar-container">
+                <img
+                  src={selectedImage ? selectedImage : imageResTable}
+                  alt="Avatar"
+                  className="tm-avatar img-fluid mb-4"
+                />
+              </div>
+              <input
+                id="fileImgRestable"
+                type="file"
+                ref={fileImgRestable}
+                onChange={handleImageChange}
+                style={{ display: "none" }}
+              />
+              <label
+                for="fileImgRestable"
+                class="btn btn-primary btn-block text-uppercase "
+              >
+                {tableId ? "Edit Image" : "Add Image"}
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div>
-        <label className="restable-form-label">Price</label>
-        <input
-          className="restable-form-input"
-          type="number"
-          {...register("price", {
-            required: "Price cannnot be blank !",
-            min: { value: 1, message: "Price must be at least 1" },
-          })}
-        />
-        {errors.price && (
-          <p className="restable-form-error">{errors.price.message}</p>
-        )}
-      </div>
-
-      <div>
-        <label className="restable-form-label">Deposit</label>
-        <input
-          className="restable-form-input"
-          type="number"
-          {...register("deposit", {
-            required: "Deposit cannnot be blank !",
-            min: { value: 1, message: "Deposit must be at least 1" },
-          })}
-        />
-        {errors.deposit && (
-          <p className="restable-form-error">{errors.deposit.message}</p>
-        )}
-      </div>
-
-      <div>
-        <label className="restable-form-label">Available</label>
-        <input
-          className="restable-form-input"
-          type="checkbox"
-          {...register("isAvailable")}
-        />
-      </div>
-
-      <div>
-        <label className="restable-form-label">URL image</label>
-        <img
-          src={selectedImage ? selectedImage : imageResTable}
-          className="tm-avatar img-fluid mb-4"
-        />
-        <input
-          className="restable-form-input"
-          type="file"
-          ref={fileImgRestable}
-          onChange={handleImage}
-        />
-      </div>
-
-      <div>
-        <label className="restable-form-label">Table Category</label>
-        <select
-          className="restable-form-input"
-          {...register("tableCategoryId", {
-            required: "Please select Table Category",
-          })}
-        >
-          <option value="">Select table category</option>
-          {tableCategories.map((category) => (
-            <option
-              selected={tableCategoryId === category.tableCategoryId}
-              key={category.tableCategoryId}
-              value={category.tableCategoryId}
-            >
-              {category.tableCategoryName}
-            </option>
-          ))}
-        </select>
-        {errors.tableCategoryId && (
-          <p className="restable-form-error">
-            {errors.tableCategoryId.message}
-          </p>
-        )}
-      </div>
-
-      <button className="restable-form-button" type="submit">
-        {tableId ? "Cập nhật bàn" : "Tạo bàn mới"}
-      </button>
-    </form>
+    </div>
   );
 };
 

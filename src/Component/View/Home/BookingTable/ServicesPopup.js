@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Services.css';
 
 const ServicesPopup = ({ isOpenServicesPopup, handleServicesPopup, tableServices, serPageCurrent ,serTotalPages , handleSerPageCurrent , 
@@ -33,8 +33,8 @@ const ServicesPopup = ({ isOpenServicesPopup, handleServicesPopup, tableServices
                 <input
                     type="checkbox"
                     id={`service-${item.serviceId}`}
-                    checked={selectedServiceIds.includes(item.serviceId)}
-                    onChange={() => handleSelectServices(item.serviceId)}
+                    checked={selectedServiceIds.includes(item)}
+                    onChange={() => handleSelectServices(item)}
                     className="service-checkbox"
                   />
                   <img

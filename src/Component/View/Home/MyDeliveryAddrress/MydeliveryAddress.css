@@ -1,0 +1,128 @@
+/* Container chính */
+.address-container {
+    width: 70%;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  .address-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .address-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+  }
+  
+  .add-new-address-btn {
+    padding: 8px 16px;
+    background-color: #ff5e57;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-new-address-btn:hover {
+    background-color: #ff7f70;
+  }
+  
+  /* Danh sách địa chỉ */
+  .address-list {
+    margin-top: 20px;
+  }
+  
+  .address-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+    height: 150px; 
+    box-sizing: border-box;
+  }
+  
+  .address-info {
+    flex-grow: 1; 
+    padding-right: 20px; 
+  }
+  
+  .address-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+  }
+  
+  .address-phone {
+    font-size: 16px;
+    margin: 0 0 5px 0;
+    color: #555;
+  }
+  
+  .address-details {
+    font-size: 16px;
+    color: #060606;
+    line-height: 1.4;
+  }
+  
+  .default-badge {
+    display: inline-block;
+    font-size: 12px;
+    color: #ff5e57;
+    font-weight: 600;
+    margin-top: 5px;
+  }
+  
+  /* Các nút hành động */
+  .address-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+    white-space: nowrap; /* Đảm bảo các nút không bị xuống dòng */
+  }
+  
+  .action-btn {
+    background-color: transparent;
+    border: none;
+    color: #007bff;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: right;
+    padding: 0;
+    transition: color 0.3s ease;
+  }
+  
+  .action-btn:hover {
+    color: #0056b3;
+  }
+  
+  .set-default {
+    color: #28a745;
+  }
+  
+  .set-default:hover {
+    color: #218838;
+  }
+  
+  .delete-btn {
+    color: #dc3545;
+  }
+  
+  .delete-btn:hover {
+    color: #c82333;
+  }
+  

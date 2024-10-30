@@ -5,17 +5,17 @@ import TableAvailablePopup from './TableAvailablePopup';
 import { useSSR } from 'react-i18next';
 import ServicesPopup from './ServicesPopup';
 import axiosConfig from '../../../Config/AxiosConfig';
+import CustomAlert from '../../../Config/CustomAlert';
 import CheckTimePopup from './CheckTimePopup';
 
 const BookTablePage = () => {
 
     const [yourReservation,setYourReservation] = useState([]);
+    const [alert,setAlert] = useState(null);
     const fetchtUserByUserName = async () => {
         const userName = localStorage.getItem('userNameLogin');
-        console.log(userName)
         try {
             const resUserByUserName = await axiosConfig.get(`/user/getByUserName/${userName}`);
-            console.log(resUserByUserName.data.data);
             const user = resUserByUserName.data.data
             if (user) {
                 setFormStateCheckTime(prevState => ({
@@ -42,8 +42,6 @@ const BookTablePage = () => {
         });
     }
     const resetFormStateCheckTime =  () => {
-        console.log('13')
-        console.log(formStateCheckTime);
         setFormStateCheckTime({
             date : '',
             checkinTime : '',
@@ -56,7 +54,6 @@ const BookTablePage = () => {
     const [tableCategories,setTableCategories] = useState([]);
     const [selectCapacity,setSelectCapacity] = useState(null);
     const [selectTableCategory,setSelectTableCategory] = useState(null);
-
     const [tabPageCurrent,setTabPageCurrent] = useState(0);
     const [tabPageSize,setTabPageSize] = useState(4);
     const [tabSortOrder,setTabSortOrder] = useState("asc");
@@ -104,24 +101,41 @@ const BookTablePage = () => {
         }
     }
 
-    const handleCheckResTableAvailable = async() => {
-        console.log(formStateCheckTime);
+    const handleCheckResTableAvailable = async () => {
+        const formData = new FormData();
+        
+        // Thêm các giá trị vào FormData
+        formData.append("tableId", tableIdSelected);
+        formData.append("date", formStateCheckTime.date);
+        formData.append("checkinTime", formStateCheckTime.checkinTime);
+        formData.append("checkoutTime", formStateCheckTime.checkoutTime);
+        formData.append("userId", formStateCheckTime.user?.userId);
+        
+        // Thêm từng serviceId vào FormData
+        selectedServiceIds.forEach(item => {
+            formData.append("serviceIds", item.serviceId);
+        });
+    
         try {
-            const resCheckResTableVai = await axiosConfig.get(`/restables/checkResTableAvailable`,{
-                params : {
-                    tableId : tableIdSelected,
-                    date : formStateCheckTime.date,
-                    checkinTime : formStateCheckTime.checkinTime,
-                    checkoutTime : formStateCheckTime.checkoutTime,
-                    userId : formStateCheckTime.user.userId
+            const resCheckResTableVai = await axiosConfig.post(`/restables/checkResTableAvailable`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data' // Đặt kiểu dữ liệu cho FormData
                 }
-            })
+            });
+            
             console.log(resCheckResTableVai.data.data);
+            if (resCheckResTableVai.data.data !== null) {
+                openCheckTimePopup();
+                resetFormStateCheckTime();
+                setAlert({ type: 'success', message: 'Book Table successfully, check email' });
+            } else {
+                setAlert({ type: 'error', message: 'Book Table failed!' });
+            }
         } catch (error) {
-            console.error('error in handleCheckResTableAvailable',error);
+            console.error('error in handleCheckResTableAvailable', error);
         }
     }
-
+    
 
     const [isOpenServicesPopup,setIsOpenServicesPopup] = useState(false);
     const [serPageCurrent,setSerPageCurrent] = useState(0);
@@ -148,12 +162,11 @@ const BookTablePage = () => {
     }
   
 
-    const handleSelectServices = async (servicesId) => {
-        console.log(selectedServiceIds);
-      if(selectedServiceIds.includes(servicesId)){
-          setSelectdServicesIds(selectedServiceIds.filter(id => id !== servicesId));
+    const handleSelectServices = async (services) => {
+      if(selectedServiceIds.includes(services)){
+          setSelectdServicesIds(selectedServiceIds.filter(id => id !== services));
       }else {
-          setSelectdServicesIds([...selectedServiceIds, servicesId]);
+          setSelectdServicesIds([...selectedServiceIds, services]);
       }
     }
 
@@ -218,6 +231,16 @@ const BookTablePage = () => {
 
     return (
         <>
+        {
+            alert && (
+                <CustomAlert
+                message={alert.message}
+                type={alert.type}
+                onClose={() => setAlert(null)}
+         />
+            )
+        }
+
         <BookTableList
         tableCategories = {tableCategories}
         handleTableAvailablePopup = {handleTableAvailablePopup}
@@ -244,6 +267,9 @@ const BookTablePage = () => {
             handleInputChange = {handleInputChange}
             resetFormStateCheckTime = {resetFormStateCheckTime}
             handleCheckResTableAvailable = {handleCheckResTableAvailable}
+            selectedServiceIds = {selectedServiceIds}
+            isOpenServicesPopup = {isOpenServicesPopup}
+            handleServicesPopup = {handleServicesPopup}
          />
          <ServicesPopup 
             isOpenServicesPopup = {isOpenServicesPopup}

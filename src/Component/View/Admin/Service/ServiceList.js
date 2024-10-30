@@ -1,41 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom"; // Để điều hướng sang trang mới
 import axiosConfig from "../../../Config/AxiosConfig";
-import "./ResTable.css";
+import "./Service.css";
 
-const ResTableList = () => {
-  const [resTables, setResTables] = useState([]);
-  const [selectedTableId, setSelectedTableId] = useState(null);
+const ServiceList = () => {
+  const [tableServices, setTableServices] = useState([]);
+  const [selectedTableServicesId, setSelectedTableServicesId] = useState(null);
   useEffect(() => {
-    fetchTables();
+    fetchServices();
   }, []);
 
-  const fetchTables = () => {
+  const fetchServices = () => {
     axiosConfig
-      .get("/restables")
+      .get("/tableService/fill")
       .then((response) => {
         // Sắp xếp bàn mới nhất lên đầu, sắp xếp theo ID giảm dần
-        const sortedTables = response.data.sort(
-          (a, b) => b.tableId - a.tableId
+        const sortedServices = response.data.sort(
+          (a, b) => b.serviceId - a.serviceId
         );
-        setResTables(sortedTables);
+        setTableServices(sortedServices);
+        console.log(response.data)
       })
       .catch((error) => console.error(error));
   };
 
-  const handleEdit = (tableId) => {
-    setSelectedTableId(tableId); // Lưu ID bàn đang chỉnh sửa
+  const handleEdit = (serviceId) => {
+    setSelectedTableServicesId(serviceId); // Lưu ID bàn đang chỉnh sửa
   };
 
   const handleSuccess = () => {
-    fetchTables();
-    setSelectedTableId(null); // Reset ID sau khi chỉnh sửa thành công
+    fetchServices();
+    setSelectedTableServicesId(null); // Reset ID sau khi chỉnh sửa thành công
   };
 
-  const handleDelete = (tableId) => {
+  const handleDelete = (serviceId) => {
     axiosConfig
-      .delete(`/restables/delete/${tableId}`)
-      .then(() => fetchTables())
+      .delete(`/tableService/delete/${serviceId}`)
+      .then(() => fetchServices())
       .catch((error) => {
         console.error("Lỗi xóa bàn: ", error);
         alert("Xóa không thành công. Vui lòng thử lại.");
@@ -50,50 +51,46 @@ const ResTableList = () => {
             <div className="row tm-content-row">
               <div className="col-12 tm-block-col">
                 <div className="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-                  <h1 className="restable-list-title">ResTable List</h1>
+                  <h1 className="restable-list-title">Service List</h1>
                   <NavLink
                     className="btn btn-primary"
-                    to="/admin/tables/new"
+                    to="/admin/tableService/new"
                     style={{
                       display: "flex",
                       width: "150px",
                       float: "right",
                     }}
                   >
-                    Create ResTable
+                    Create Service
                   </NavLink>
                   <table className="table">
                     <thead>
                       <tr>
                         <th scope="col">No.</th>
-                        <th scope="col">Table name</th>
-                        <th scope="col">Capacity</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Deposit</th>
-                        <th scope="col">Available</th>
                         <th>URL Image</th>
-                        <th scope="col">Table category</th>
+                        <th scope="col">Service Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Description</th>
                         <th colSpan={2}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {resTables.map((table, index) => (
-                        <tr key={table.tableId}>
-                          <td>{resTables.length - index}</td>{" "}
+                      {tableServices.map((tableService, index) => (
+                        <tr key={tableService.serviceId}>
+                          <td>{tableServices.length - index}</td>{" "}
                           {/* Số thứ tự ngược từ lớn đến nhỏ */}
-                          <td>{table.tableName}</td>
-                          <td>{table.capacity}</td>
-                          <td>{table.price}</td>
-                          <td>{table.deposit}</td>
-                          <td>{table.isAvailable ? "Có" : "Không"}</td>
                           <td>
-                            <img style={{width : '80px'}} src={table.imageUrl}></img>
+                            <img style={{width : '80px'}} src={tableService.imageUrl}></img>
                           </td>
-                          <td>{table.tableCategory.tableCategoryName}</td>
+                          <td>{tableService.serviceName}</td>
+                          <td>{tableService.servicePrice}</td>
+                          <td>{tableService.description}</td>
                           <td>
                             <NavLink
-                              to={`/admin/tables/edit/${table.tableId}`}
-                              onClick={() => handleEdit(table.tableId)}
+                              to={`/admin/tableService/edit/${tableService.serviceId}`}
+                              onClick={() =>
+                                handleEdit(tableService.serviceId)
+                              }
                             >
                               <i class="fa-solid fa-gear fa-lg"></i>
                             </NavLink>
@@ -102,7 +99,9 @@ const ResTableList = () => {
                             <NavLink>
                               <i
                                 class="fa-solid fa-trash fa-lg"
-                                onClick={() => handleDelete(table.tableId)}
+                                onClick={() =>
+                                  handleDelete(tableService.serviceId)
+                                }
                               ></i>
                             </NavLink>
                           </td>
@@ -120,4 +119,4 @@ const ResTableList = () => {
   );
 };
 
-export default ResTableList;
+export default ServiceList;

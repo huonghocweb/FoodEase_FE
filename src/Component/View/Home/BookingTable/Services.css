@@ -23,8 +23,9 @@
     background-color: white;
     padding: 20px;
     border-radius: 15px;
-    width: 35%;
-    max-width: 700px;
+    width: 45%; /* Tăng kích thước chiều rộng */
+    max-width: 900px; /* Tăng chiều rộng tối đa */
+    min-height: 600px; /* Tăng chiều cao tối thiểu */
     position: fixed;
     top: 50%;
     left: 50%;
@@ -33,6 +34,7 @@
     text-align: center;
     animation: popup-fadein 0.3s ease-in-out;
 }
+
 
 .service-popup-title {
     margin-bottom: 20px;
@@ -270,6 +272,54 @@
     font-size: 14px;
     width: 48%; 
 }
+.services-container {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.services-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.service-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ffffff;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.service-item:hover {
+    background-color: #f1f1f1;
+    transform: translateY(-3px);
+}
+
+.service-icon {
+    font-size: 20px;
+    color: #28a745;
+    margin-right: 10px;
+}
+
+.service-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+}
+
+.no-services {
+    color: #999;
+    font-style: italic;
+}
+
+
 
 
 

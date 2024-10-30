@@ -38,11 +38,13 @@ const CartPage = () => {
     const [provinceChoose,setProvinceChoose] = useState([]);
     const [points,setPoints] = useState([]);
     const [isUsePoint,setIsUsePoint] = useState(false);
+    const [deliveryAddressByUserName,setDeliveryAdressByUserName] = useState();
 
     const baseReturnUrl = window.location.origin;
 
     useEffect (() => {
         fecthGetCartByCartId();
+        fetchDeliveryAddressByUserName();
         console.log(deliveryAddress);
     },[cartId,cart,deliveryAddress]);
 
@@ -64,6 +66,31 @@ const CartPage = () => {
       } catch (error) {
         console.log('error in fectGetCartByCartId',error);
       }
+    }
+
+    const [paginationState, setPaginationState] = useState({
+        pageCurrent :0,
+        pageSize : 3,
+        sortOrder :'asc',
+        sortBy : 'deliveryAddressId'
+    })
+    const fetchDeliveryAddressByUserName = async () => {
+        try {
+            const resDeliveryAddressByUserName = await axiosConfig.get(`/deliveryAddress`,
+                {
+                    params : {
+                        pageCurrent : paginationState.pageCurrent,
+                        pageSize : paginationState.pageSize,
+                        sortOrder : paginationState.sortOrder,
+                        sortBy : paginationState.sortBy
+                    }
+                }
+            )
+            console.log(resDeliveryAddressByUserName.data.data);
+            setDeliveryAdressByUserName(resDeliveryAddressByUserName.data.data.content);
+        } catch (error) {
+            console.error('error in fetchDeliveryAddressByUserName',error);
+        }
     }
 
     const handleAddCartItem = async (delta, foodVaId) => {
@@ -375,6 +402,7 @@ const CartPage = () => {
               fee = {shipFee}
               handleChooseWardId = {handleChooseWardId}
               setDeliveryAdress = {setDeliveryAdress}
+              deliveryAddressByUserName = {deliveryAddressByUserName}
               />
         </div>
     );
