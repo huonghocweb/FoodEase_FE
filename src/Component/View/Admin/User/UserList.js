@@ -37,25 +37,28 @@ const UserList = () => {
         alert("Có lỗi xảy ra khi nhập dữ liệu.");
     }
 };
-  const handleExport = async () => {
+
+  const exportExcel = async () => {
     try {
-      const response = await axiosConfig.get("/user/export", {
-        responseType: "blob",
-      });
+        const response = await axiosConfig.get('/user/exportUser', {
+            responseType: 'blob' // Để nhận phản hồi dưới dạng blob
+        });
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "users.xlsx");
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
+        // Tạo một URL cho blob
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        
+        // Tạo một liên kết ảo để tải xuống tệp
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `users_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.xlsx`); // Thiết lập tên tệp
+        document.body.appendChild(link);
+        link.click(); // Nhấp vào liên kết ảo để tải tệp
+        document.body.removeChild(link); // Xóa liên kết
+        console.log("Tải tệp thành công");
     } catch (error) {
-      console.error("Error exporting file", error);
-      alert("Error exporting file");
+        console.error('Tải tệp thất bại', error);
     }
-  };
-
+}
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -155,7 +158,7 @@ const UserList = () => {
                         </button>
                         <button
                           className="btn-import-export"
-                          onClick={handleExport}
+                          onClick={exportExcel}
                         >
                           Export Users
                         </button>
