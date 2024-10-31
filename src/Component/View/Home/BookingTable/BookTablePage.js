@@ -198,7 +198,7 @@ const BookTablePage = () => {
     }
 
     const handleTableAvailablePopup = async () => {
-        console.log(selectTableCategory);
+     //   console.log(selectTableCategory);
         try {
             const resTableByCapaAndCate = await axiosConfig.get(`/restables/getResTableAvailable`,{
                 params : {
@@ -213,9 +213,9 @@ const BookTablePage = () => {
                 }
             })
             console.log(resTableByCapaAndCate.data.data);
-            setTabResTables(resTableByCapaAndCate.data.data.content);
-            setTabToTalPage(resTableByCapaAndCate.data.data.totalPages);
-            setToTalTab(resTableByCapaAndCate.data.data.totalElements);
+            setTabResTables(resTableByCapaAndCate.data.data?.content);
+            setTabToTalPage(resTableByCapaAndCate.data.data?.totalPages);
+            setToTalTab(resTableByCapaAndCate.data.data?.totalElements);
         } catch (error) {
             console.error('error in hanldeGetTableByCapacityAndCategory',error);
         }

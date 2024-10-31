@@ -2,13 +2,14 @@ import React from 'react';
 import './MyReservation.css';
 import PaginationControls from '../../../Include/Pagination/PaginationControls';
 
-const MyReservationList = ({ bookingInfo , paginationState , handlePaginationChange , handleCancelRequestReservation}) => {
+const MyReservationList = ({ bookingInfo , paginationState , handlePaginationChange , handleCancelRequestReservation,sortOptions}) => {
     return (
         <div className="booking-info-form-container">
             <h1 className="booking-info-form-title">My Booking Information</h1>
             <PaginationControls
             paginationState = {paginationState}
-            handlePaginationChange = {handlePaginationChange}
+            handlePaginationChange = {handlePaginationChange} 
+            sortOptions = {sortOptions}
              />
             <div className="booking-info-form-content">
                 {bookingInfo && bookingInfo.length > 0 ? (

@@ -45,7 +45,7 @@ const PaginationControls = ({
                 <div className="option-group">
                     <label>Sort By:</label>
                     <select value={paginationState.sortBy} onChange={(e) => handlePaginationChange('sortBy',e.target.value)}>
-                   { sortOptions.map((item ,index) => (
+                   { sortOptions?.map((item ,index) => (
                         <option key={index} value={item.value}>{item.label}</option>
                     ))}
                     </select>

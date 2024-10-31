@@ -53,6 +53,14 @@ const MyReservationPage = () => {
             console.error('error in fetch Reservation',error);
         }
     }
+
+    const sortOptions = [
+        {value : 'reservationId', label : 'Reservation Id'},
+        {value : 'totalDeposit', label : 'Total Deposit'},
+        {value : 'bookTime', label : 'Book Time '},
+        {value : 'checkinTime', label : 'Checkin Time'},
+        {value : 'checkoutTime', label : 'Checkout Time'}
+    ]
     useEffect(() => {
         fetchReservation();
     },[userName,paginationState])
@@ -71,6 +79,7 @@ const MyReservationPage = () => {
                 paginationState = {paginationState}
                 handlePaginationChange = {handlePaginationChange}
                 handleCancelRequestReservation = {handleCancelRequestReservation}
+                sortOptions = {sortOptions}
             />
         </>
     );
