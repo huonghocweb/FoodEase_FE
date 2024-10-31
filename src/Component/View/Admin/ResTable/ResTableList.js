@@ -87,7 +87,7 @@ const ResTableList = () => {
                           <td>{table.deposit}</td>
                           <td>{table.isAvailable ? "Có" : "Không"}</td>
                           <td>
-                            <img src={table.imageUrl}></img>
+                            <img style={{width:"80px"}} src={table.imageUrl}></img>
                           </td>
                           <td>{table.tableCategory.tableCategoryName}</td>
                           <td>

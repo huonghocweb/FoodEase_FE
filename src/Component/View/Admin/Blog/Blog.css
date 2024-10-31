@@ -1,0 +1,61 @@
+.blog-form-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.blog-form-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Tùy chỉnh cho ReactQuill */
+.ql-container {
+  background-color: white; /* Màu nền trắng cho vùng soạn thảo */
+  border: 1px solid #ccc; /* Đường viền nhẹ xung quanh vùng soạn thảo */
+  border-radius: 4px; /* Đường viền góc bo tròn */
+}
+
+.ql-editor {
+  min-height: 200px; /* Chiều cao tối thiểu cho vùng soạn thảo */
+  color: #333; /* Màu chữ bên trong vùng soạn thảo */
+}
+
+/* Tùy chỉnh cho thanh công cụ */
+.ql-toolbar {
+  background-color: #f1f1f1; /* Màu nền cho thanh công cụ */
+  border-bottom: 1px solid #ccc; /* Đường viền dưới thanh công cụ */
+}
+
+.hashtag-list {
+  display: flex;
+  flex-wrap: wrap; /* Cho phép các hashtag xuống dòng khi không còn chỗ */
+  margin-top: 35px; /* Khoảng cách giữa input và danh sách hashtag */
+}
+
+.hashtag {
+  background-color: #e0e0e0; /* Màu nền cho hashtag */
+  color: #333; /* Màu chữ */
+  border-radius: 5px; /* Bo góc */
+  padding: 5px 10px; /* Khoảng cách bên trong */
+  margin-right: 10px; /* Khoảng cách giữa các hashtag */
+  margin-bottom: 5px; /* Khoảng cách giữa các dòng */
+  display: flex; /* Để có thể sử dụng flex cho nút xóa */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+.hashtag-remove {
+  margin-left: 5px; /* Khoảng cách giữa hashtag và nút xóa */
+  cursor: pointer; /* Thay đổi con trỏ khi di chuột qua */
+  color: #ff4d4d; /* Màu chữ cho nút xóa */
+  font-weight: bold; /* Đậm chữ cho nút xóa */
+  transition: color 0.2s; /* Hiệu ứng chuyển màu khi hover */
+}
+
+.hashtag-remove:hover {
+  color: #c70000; /* Đổi màu khi hover qua nút xóa */
+}

@@ -107,6 +107,12 @@ const Header = () => {
                             Services
                         </NavLink>
                     </li>
+                    <li className="nav-item">
+                        <NavLink className="nav-link" to="/admin/BlogList">
+                            <i class="fa-solid fa-pencil"></i>
+                            Blog
+                        </NavLink>
+                    </li>
 
               <li className="nav-item">
                 <Link className="nav-link" to="/admin/users">

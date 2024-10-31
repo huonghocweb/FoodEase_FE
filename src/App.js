@@ -3,6 +3,8 @@ import "./App.css";
 import Footer from "./Component/Include/Home/Footer";
 import Header from "./Component/Include/Home/Header";
 import AdminLayOut from "./Component/View/Admin/AdminLayOut";
+import BlogForm from "./Component/View/Admin/Blog/BlogForm.js";
+import BlogList from "./Component/View/Admin/Blog/BlogList.js";
 import CouponFormPage from "./Component/View/Admin/Coupon/CouponFormPage";
 import CouponPage from "./Component/View/Admin/Coupon/CouponPage";
 import Inventory from "./Component/View/Admin/Inventory/Inventory.js";
@@ -19,6 +21,8 @@ import ServiceList from "./Component/View/Admin/Service/ServiceList.js";
 import UserFormPage from "./Component/View/Admin/User/UserFormPage.js";
 import UserPage from "./Component/View/Admin/User/UserPage";
 import UserOrder from "./Component/View/Admin/UserBuy/UserOrder.js";
+import BlogDetail from "./Component/View/Home/BlogEntries/BlogDetail.js";
+import BlogEntries from "./Component/View/Home/BlogEntries/BlogEntries.js";
 import BookTablePage from "./Component/View/Home/BookingTable/BookTablePage.js";
 import CartPage from "./Component/View/Home/Cart/CartPage";
 import BoxChatPage from "./Component/View/Home/Chat/BoxChatPage";
@@ -57,6 +61,10 @@ function App() {
             <Route path='/bookTable' element={<BookTablePage />} />
             <Route path="wishlist/:wishListId" element={<WishList />} />
             <Route path="claimCoupon" element={<ClaimCouponPage />} />
+            {/* chánh */}
+            <Route path="blog" element={<BlogEntries />} />
+            <Route path="blog/:blogId" element={<BlogDetail />} />
+            {/* chánh */}
             <Route
               path="orderHistory/order/:userName"
               element={<OrderHistoryPage />}
@@ -88,6 +96,9 @@ function App() {
             <Route path="services" element={<ServiceList />} />
             <Route path="tableService/new" element={<ServiceForm />} />
             <Route path="tableService/edit/:serviceId" element={<ServiceForm />} />
+            <Route path="BlogList" element={<BlogList />} />
+            <Route path="blog/new" element={<BlogForm />} />
+            <Route path="blog/edit/:blogId" element={<BlogForm />} />
             {/* Chanh */}
 
             <Route path="revenue" element={<Revenue />} />

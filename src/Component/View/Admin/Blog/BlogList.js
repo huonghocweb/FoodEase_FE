@@ -1,44 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom"; // Để điều hướng sang trang mới
 import axiosConfig from "../../../Config/AxiosConfig";
-import "./Service.css";
+import "./Blog.css";
 
-const ServiceList = () => {
-  const [tableServices, setTableServices] = useState([]);
-  const [selectedTableServicesId, setSelectedTableServicesId] = useState(null);
+const BlogList = () => {
+  const [Blogs, setBlogs] = useState([]);
+  const [selectedBlogId, setSelectedBlogId] = useState(null);
   useEffect(() => {
-    fetchServices();
+    fetchTables();
   }, []);
 
-  const fetchServices = () => {
+  const fetchTables = () => {
     axiosConfig
-      .get("/tableService/fill")
+      .get("/blog")
       .then((response) => {
         // Sắp xếp bàn mới nhất lên đầu, sắp xếp theo ID giảm dần
-        const sortedServices = response.data.sort(
-          (a, b) => b.serviceId - a.serviceId
-        );
-        setTableServices(sortedServices);
-        console.log(response.data)
+        const sortedBlogs = response.data.sort((a, b) => b.blogId - a.blogId);
+        setBlogs(sortedBlogs);
       })
       .catch((error) => console.error(error));
   };
 
-  const handleEdit = (serviceId) => {
-    setSelectedTableServicesId(serviceId); // Lưu ID bàn đang chỉnh sửa
+  const handleEdit = (blogId) => {
+    setSelectedBlogId(blogId); // Lưu ID bàn đang chỉnh sửa
   };
 
   const handleSuccess = () => {
-    fetchServices();
-    setSelectedTableServicesId(null); // Reset ID sau khi chỉnh sửa thành công
+    fetchTables();
+    setSelectedBlogId(null); // Reset ID sau khi chỉnh sửa thành công
   };
 
-  const handleDelete = (serviceId) => {
+  const handleDelete = (blogId) => {
     axiosConfig
-      .delete(`/tableService/delete/${serviceId}`)
-      .then(() => fetchServices())
+      .delete(`/blog/delete/${blogId}`)
+      .then(() => fetchTables())
       .catch((error) => {
-        console.error("Lỗi xóa bàn: ", error);
+        console.error("Lỗi xóa blog: ", error);
         alert("Xóa không thành công. Vui lòng thử lại.");
       });
   };
@@ -51,46 +48,51 @@ const ServiceList = () => {
             <div className="row tm-content-row">
               <div className="col-12 tm-block-col">
                 <div className="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-                  <h1 className="restable-list-title">Service List</h1>
+                  <h1 className="restable-list-title">Blog List</h1>
                   <NavLink
                     className="btn btn-primary"
-                    to="/admin/tableService/new"
+                    to="/admin/blog/new"
                     style={{
                       display: "flex",
                       width: "150px",
                       float: "right",
                     }}
                   >
-                    Create Service
+                    Create Blog
                   </NavLink>
                   <table className="table">
                     <thead>
                       <tr>
                         <th scope="col">No.</th>
-                        <th>URL Image</th>
-                        <th scope="col">Service Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Description</th>
+                        <th colSpan={2}>Title</th>
+                        <th scope="col">Blog category</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Date</th>
                         <th colSpan={2}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {tableServices.map((tableService, index) => (
-                        <tr key={tableService.serviceId}>
-                          <td>{tableServices.length - index}</td>{" "}
+                      {Blogs.map((blog, index) => (
+                        <tr key={blog.blogId}>
+                          <td>{Blogs.length - index}</td>{" "}
                           {/* Số thứ tự ngược từ lớn đến nhỏ */}
                           <td>
-                            <img style={{width:"80px"}} src={tableService.imageUrl}></img>
+                            <img
+                              style={{ width: "80px" }}
+                              src={blog.imageURL}
+                            ></img>
                           </td>
-                          <td>{tableService.serviceName}</td>
-                          <td>{tableService.servicePrice}</td>
-                          <td>{tableService.description}</td>
+                          <td>{blog.title}</td>
+                          <td>{blog.blogCategory.blogCategoryName}</td>
+                          <td>{blog.blogAuthor.blogAuthorName}</td>
+                          <td>
+                            {new Date(blog.createAt).toLocaleDateString('vi-VN')}{" "}
+                            {new Date(blog.createAt).toLocaleTimeString('vi-VN')}
+                          </td>
                           <td>
                             <NavLink
-                              to={`/admin/tableService/edit/${tableService.serviceId}`}
-                              onClick={() =>
-                                handleEdit(tableService.serviceId)
-                              }
+                              to={`/admin/blog/edit/${blog.blogId}`}
+                              onClick={() => handleEdit(blog.blogId)}
                             >
                               <i class="fa-solid fa-gear fa-lg"></i>
                             </NavLink>
@@ -99,9 +101,7 @@ const ServiceList = () => {
                             <NavLink>
                               <i
                                 class="fa-solid fa-trash fa-lg"
-                                onClick={() =>
-                                  handleDelete(tableService.serviceId)
-                                }
+                                onClick={() => handleDelete(blog.blogId)}
                               ></i>
                             </NavLink>
                           </td>
@@ -119,4 +119,4 @@ const ServiceList = () => {
   );
 };
 
-export default ServiceList;
+export default BlogList;
