@@ -153,7 +153,7 @@ const FoodMenu = () => {
             <div className="image-discount">
               <Link to={`FoodDetails/${item.foodVariationId}`}>
                 <img
-                  src={`/assets/images/${item.food.imageUrl}`}
+                  src={`${item.food.imageUrl}`}
                   alt={item.name}
                   className="menu-image"
                 />

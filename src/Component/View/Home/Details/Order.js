@@ -166,7 +166,7 @@ const fetchToTal = async ()=>{
               <h2>Order</h2>        
             <div className="image-container">
             <img
-              src={`/assets/images/${product.food.imageUrl}`}
+              src={`${product.food.imageUrl}`}
               alt=""
               className="product-image"
             />
@@ -194,7 +194,7 @@ const fetchToTal = async ()=>{
                         name="size"
                         value={foodSize.foodSizeName}  // sử dụng giá trị từ sizeName
                         onClick={handleSizeChange}
-                       defaultChecked={foodSize.foodSizeName === product.foodSize.foodSizeName}                   
+                                         
                     />
                     {foodSize.foodSizeName} <span>+ {foodSize.price.toLocaleString('vi-VN')}</span>
                    

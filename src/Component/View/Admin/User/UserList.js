@@ -17,71 +17,78 @@ const UserList = () => {
   };
 
   const handleImport = async () => {
+    if (!file) {
+        alert("Vui lòng chọn một tệp để tải lên.");
+        return;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-      const response = await axiosConfig.post("/users/import", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      alert(response.data);
+        const response = await axiosConfig.post("/user/importUser", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        alert(response.data); // Hiển thị thông báo thành công
+        fetchUsers();
     } catch (error) {
-      console.error("Error importing file", error);
-      alert("Error importing file");
+        console.error("Có lỗi xảy ra khi nhập dữ liệu: ", error);
+        alert("Có lỗi xảy ra khi nhập dữ liệu.");
     }
-  };
+};
 
-  const handleExport = async () => {
+  const exportExcel = async () => {
     try {
-      const response = await axiosConfig.get("/user/export", {
-        responseType: "blob",
-      });
+        const response = await axiosConfig.get('/user/exportUser', {
+            responseType: 'blob' // Để nhận phản hồi dưới dạng blob
+        });
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "users.xlsx");
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
+        // Tạo một URL cho blob
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        
+        // Tạo một liên kết ảo để tải xuống tệp
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `users_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.xlsx`); // Thiết lập tên tệp
+        document.body.appendChild(link);
+        link.click(); // Nhấp vào liên kết ảo để tải tệp
+        document.body.removeChild(link); // Xóa liên kết
+        console.log("Tải tệp thành công");
     } catch (error) {
-      console.error("Error exporting file", error);
-      alert("Error exporting file");
+        console.error('Tải tệp thất bại', error);
     }
-  };
-
+}
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axiosConfig.get(
-          "http://localhost:8080/api/user",
-          {
-            params: {
-              pageNumber: 0,
-              pageSize: 10,
-              sortOrder: "asc",
-              sortBy: "userName",
-            },
-          }
-        );
-
-        if (response.data.content) {
-          setUsers(response.data.content);
-        } else {
-          setUsers([]);
-        }
-      } catch (error) {
-        setError("Failed to load users");
-        console.error("Error fetching users:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchUsers();
   }, []);
+  const fetchUsers = async () => {
+    try {
+      const response = await axiosConfig.get(
+        "http://localhost:8080/api/user",
+        {
+          params: {
+            pageNumber: 0,
+            pageSize: 10,
+            sortOrder: "asc",
+            sortBy: "userName",
+          },
+        }
+      );
+
+      if (response.data.content) {
+        setUsers(response.data.content);
+      } else {
+        setUsers([]);
+      }
+    } catch (error) {
+      setError("Failed to load users");
+      console.error("Error fetching users:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDelete = async (userId) => {
     try {
@@ -139,7 +146,7 @@ const UserList = () => {
                     <div>
                       <input
                         type="file"
-                        accept=".xlsx"
+                       accept=".xlsx, .xls"
                         onChange={handleFileChange}
                       />
                       <div className="import-export-buttons">
@@ -151,7 +158,7 @@ const UserList = () => {
                         </button>
                         <button
                           className="btn-import-export"
-                          onClick={handleExport}
+                          onClick={exportExcel}
                         >
                           Export Users
                         </button>

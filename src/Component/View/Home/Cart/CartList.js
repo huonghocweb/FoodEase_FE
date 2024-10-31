@@ -25,7 +25,8 @@ const CartList = ({handlePaymentPopup,handleCouponPopup, cartItem, totalQuantity
                                             <div className="row mb-4 d-flex justify-content-between align-items-center">
                                             <div className="col-md-2 col-lg-2 col-xl-2">
                                                 <img
-                                                   src={`/assets/images/${item.foodVariation.food.imageUrl}`}
+                                                src={item.foodVariation.food.imageUrl}
+                                                //    src={`/assets/images/${item.foodVariation.food.imageUrl}`}
                                                     className="img-fluid rounded-3" alt="Cotton T-shirt" />
                                             </div>
                                             <div className="col-md-3 col-lg-3 col-xl-3">

@@ -33,7 +33,7 @@ console.log(item);
         <div>
         {orderDetails.map((item) => (
     <div className="custom-modal-body">
-        <img className='order-image' src={`/assets/images/${item.foodVariations.food.imageUrl}`} alt={item.foodVariations.food.foodName} />
+        <img className='order-image' src={`${item.foodVariations.food.imageUrl}`} alt={item.foodVariations.food.foodName} />
         <div className="order-details">
             <h4>{item.foodVariations.food.foodName}</h4>
             <h4>Size: {item.foodVariations.foodSize.foodSizeName}</h4>
