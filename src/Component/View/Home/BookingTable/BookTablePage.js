@@ -171,7 +171,6 @@ const BookTablePage = () => {
     }
 
 
-
     const fecthServices = async () => {
         try {
             const resAllServices = await axiosConfig.get(`/tableService`,{

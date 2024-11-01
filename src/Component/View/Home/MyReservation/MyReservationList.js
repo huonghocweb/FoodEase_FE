@@ -29,15 +29,19 @@ const MyReservationList = ({ bookingInfo , paginationState , handlePaginationCha
                             </div>
                             <div className="booking-info-form-item">
                                 <span className="booking-info-form-label">Booking Date:</span>
-                                <span className="booking-info-form-value">{item.date}</span>
+                                <span className="booking-info-form-value">{new Date(item.bookTime).toLocaleDateString('vi-Vn')} - {new Date(item.bookTime).toLocaleTimeString('vi-Vn')} </span>
+                            </div>
+                            <div className="booking-info-form-item">
+                                <span className="booking-info-form-label">Check-in Date:</span>
+                                <span className="booking-info-form-value">{new Date(item.checkinTime).toLocaleDateString('vi-Vn')}</span>
                             </div>
                             <div className="booking-info-form-item">
                                 <span className="booking-info-form-label">Check-in Time:</span>
-                                <span className="booking-info-form-value">{item.checkinTime}</span>
+                                <span className="booking-info-form-value">{new Date(item.checkinTime).toLocaleTimeString('vi-Vn')}</span>
                             </div>
                             <div className="booking-info-form-item">
                                 <span className="booking-info-form-label">Check-out Time:</span>
-                                <span className="booking-info-form-value">{item.checkoutTime}</span>
+                                <span className="booking-info-form-value">{new Date(item.checkoutTime).toLocaleTimeString('vi-Vn')}</span>
                             </div>
                             <div className="booking-info-form-item">
                                 <span className="booking-info-form-label">Services:</span>

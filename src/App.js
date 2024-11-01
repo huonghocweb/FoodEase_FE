@@ -36,6 +36,7 @@ import WishList from "./Component/View/Home/WishList/WishList.js";
 import MyReservationPage from "./Component/View/Home/MyReservation/MyReservationPage.js";
 import ReservationPage from "./Component/View/Admin/Reservation/ReservationPage.js";
 import MyDeliveryAddressPage from "./Component/View/Home/MyDeliveryAddrress/MyDeliveryAddressPage.js";
+import ReservationOccupiedPage from "./Component/View/Admin/Reservation/ReservationChecked/ReservationOccupiedPage.js";
 function App() {
   return (
     <div className="App">
@@ -78,6 +79,7 @@ function App() {
             <Route path="coupons" element={<CouponPage />} />
             <Route path="coupon/create" element={<CouponFormPage />} />
             <Route path='reservation' element ={<ReservationPage/>} />
+            <Route path='reservationOccupied/:reservationId' element={<ReservationOccupiedPage/>} />
             <Route
               path="coupon/update/:couponId"
               element={<CouponFormPage />}

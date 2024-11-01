@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import ReservationList from './ReservationList';
 import axiosConfig from './../../../Config/AxiosConfig';
+import CheckinForm from './CheckinForm';
+import CustomAlert from '../../../Config/CustomAlert';
 
 const ReservationPage = () => {
+    const [isOpenCheckinForm ,setIsOpenCheckinForm] =  useState(null);
+    const [alert,setAlert] = useState(null);
+    const [reservationById,setReservationById] = useState();
     const [reservations,setReservations] = useState([]);
     const [paginationState,setPaginationState] = useState({
         pageCurrent : 0,
@@ -19,6 +24,37 @@ const ReservationPage = () => {
             ...prevState ,
             [name] : value
         }))
+    }
+    const handleReservationById = async (reservationId) => {
+        setIsOpenCheckinForm(true);
+        try {
+            const resReservationById = await axiosConfig.get(`/reservation/${reservationId}`);
+            console.log(resReservationById.data.data);
+            setReservationById(resReservationById.data.data);
+        } catch (error) {
+            console.error('error in fetchReservationById',error);
+        }
+    }
+    const handleCloseCheckinForm =  async ()  => {
+            setIsOpenCheckinForm(null);
+    }
+
+    const handleCheckinReservation = async (reservationId,checkinCode) => {
+        console.log(reservationId);
+        console.log(checkinCode);
+        try {
+            const resCheckInReservation = await axiosConfig.get(`/reservation/checkinReservation/${reservationId}/${checkinCode}`);
+            console.log(resCheckInReservation.data.data);
+            if(resCheckInReservation.data.data !== null){
+                setAlert({type : 'success' , message : 'CheckIn Success!'});
+                fetchReservations();
+                handleCloseCheckinForm();
+            }else{
+                setAlert({type : 'error', message : 'CheckIn Fail , please Check Checkin Code!'});
+            }
+        } catch (error) {
+            console.error('error in handleCheckinReservation')
+        }
     }
     const fetchReservations = async  () => {
         try {
@@ -53,12 +89,28 @@ const ReservationPage = () => {
     }, [...Object.values(paginationState)]);
     return (
         <>
+        {
+            alert && (
+                <CustomAlert 
+                type={alert.type}
+                message={alert.message}
+                onClose={() => setAlert(null)}
+                />
+            )
+        }
           <ReservationList 
             paginationState = {paginationState}
             handlePaginationChange = {handlePaginationChange}
             reservations={reservations}
             sortOptions = {sortOptions}
+            handleReservationById  = {handleReservationById}
           />  
+          <CheckinForm 
+            isOpenCheckinForm={isOpenCheckinForm}
+            handleCloseCheckinForm={handleCloseCheckinForm}
+            reservationById={reservationById}
+            handleCheckinReservation = {handleCheckinReservation}
+          />
         </>
     );
 };

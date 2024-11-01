@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import PaginationControls from '../../../Include/Pagination/PaginationControls';
 import FilterAndSearchControls from '../../../Include/FilterAndSearch/FilterAndSearch';
 
-const ReservationList = ({reservations,paginationState,handlePaginationChange, sortOptions}) => {
+const ReservationList = ({reservations,paginationState,handlePaginationChange, sortOptions , handleReservationById}) => {
     return (
         <>
            <div className="body" style={{padding : '20px'}}>
@@ -56,7 +56,7 @@ const ReservationList = ({reservations,paginationState,handlePaginationChange, s
                                 <img
                                   src={item.resTable.imageUrl}
                                   alt="coupon_image"
-                                  style={{ width: "70px", height: "70px" }}
+                                  style={{ width: "180px", height: "120px" }}
                                 />
                               </td>
                               <td>{new Date(item.checkinTime).toLocaleDateString('vi-VN')}</td>
@@ -72,9 +72,9 @@ const ReservationList = ({reservations,paginationState,handlePaginationChange, s
                               </td>
                               <td>{item.reservationStatus.reservationStatusName}</td>
                               <td>
-                                {item.reservationStatus.reservationStatusId === 1 ? 
-                                  <button >Checkin</button> 
-                                  : <button> <i class="fa-solid fa-gear fa-lg"></i></button>
+                                {item.reservationStatus.reservationStatusId === 2 ? 
+                                  <button onClick={() => handleReservationById(item.reservationId)} >Checkin</button> 
+                                  : item.reservationStatus.reservationStatusId === 3 ? <NavLink className='btn btn-primary' to={`/admin/reservationOccupied/${item.reservationId}`}>Order Food</NavLink> :" "
                                 }
                                  
                               </td>

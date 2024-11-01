@@ -214,7 +214,8 @@ const OrderStatus = () => {
                 {order.orderDetails.map((item) => (
                   <div key={item.orderDetailsId} className="order-status-details">
                     <img
-                      src={`/assets/images/${item.foodVariations.food.imageUrl}`}
+                      // src={`/assets/images/${item.foodVariations.food.imageUrl}`}
+                      src = {item.foodVariations.food.imageUrl}
                       alt="Product"
                       className="order-status-product-img"
                     />

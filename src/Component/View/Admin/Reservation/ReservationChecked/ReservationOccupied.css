@@ -1,0 +1,232 @@
+.reservation-info-box {
+    width: 500px;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-info-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.reservation-table-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.reservation-info-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ordered-foods {
+    margin-top: 20px;
+}
+
+.ordered-foods-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.ordered-food-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.food-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.food-details {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.food-name {
+    font-weight: bold;
+}
+
+.food-price {
+    color: #ff7f50;
+}
+
+
+/* CSS cho hình ảnh của bàn trong ô thông tin đặt bàn */
+.reservation-info-box .reservation-table-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    object-fit: cover;
+}
+
+/* CSS cho phần còn lại */
+.reservation-info-content {
+    display: flex;
+    gap: 30px;
+    justify-content: space-around;
+    width: 100%;
+}
+
+
+.reservation-info-content {
+    display: flex;
+    gap: 30px;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.reservation-info-content p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.table-management-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.table-management-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.table-management-filters button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.table-management-filters .all-table {
+    background-color: #ff7f50;
+    color: white;
+}
+
+.table-management-filters .reservation,
+.table-management-filters .running-order {
+    background-color: #d3d3d3;
+}
+
+.table-management-container .table-container {
+    display: flex;
+    gap: 20px;
+}
+
+.table-management-table {
+    width: 100px;
+    height: 100px;
+    background-color: #d3d3d3;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.table-management-table .status {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.table-management-table.available .status {
+    background-color: purple;
+}
+
+.table-management-table.reserved .status {
+    background-color: orange;
+}
+
+.table-management-table.billed .status {
+    background-color: green;
+}
+
+.table-management-table.available-soon .status {
+    background-color: yellow;
+}
+
+.table-management-sidebar {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.table-management-sidebar .place-order {
+    display: block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #ff7f50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.table-management-sidebar .table-status {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.table-management-sidebar .table-status .status-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.table-management-sidebar .table-status .status-item .status-color {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.table-management-sidebar .table-status .status-item.available .status-color {
+    background-color: purple;
+}
+
+.table-management-sidebar .table-status .status-item.reserved .status-color {
+    background-color: orange;
+}
+
+.table-management-sidebar .table-status .status-item.billed .status-color {
+    background-color: green;
+}
+
+.table-management-sidebar .table-status .status-item.available-soon .status-color {
+    background-color: yellow;
+}
