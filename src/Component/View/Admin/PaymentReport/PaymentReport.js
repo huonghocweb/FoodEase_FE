@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
+  LineChart,
+  Line,
+  YAxis,
   CartesianGrid,
   Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis,
 } from "recharts";
 import axiosConfig from "../../../Config/AxiosConfig";
 
@@ -15,8 +17,8 @@ const PaymentReport = () => {
   const [revenueData, setRevenueData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [startDate, setStartDate] = useState("2024-10-19"); // Default start date
-  const [endDate, setEndDate] = useState("2024-11-02"); // Default end date
+  const [startDate, setStartDate] = useState("2024-10-19");
+  const [endDate, setEndDate] = useState("2024-11-02");
 
   const fetchRevenue = async () => {
     const requestData = {
@@ -25,36 +27,28 @@ const PaymentReport = () => {
     };
 
     try {
-      const response = await axiosConfig.post(
-        "/report/revenue-by-payment-method",
-        requestData
-      );
-      setRevenueData(response.data); // Save data to state
+      const response = await axiosConfig.post("/report/revenue-by-payment-method", requestData);
+      setRevenueData(response.data);
     } catch (error) {
-      setError(error.response ? error.response.data : error.message); // Save error to state
-      console.error(
-        "Error fetching data:",
-        error.response ? error.response.data : error.message
-      );
+      setError(error.response ? error.response.data : error.message);
+      console.error("Error fetching data:", error.response ? error.response.data : error.message);
     } finally {
-      setLoading(false); // Set loading to false after the fetch is complete
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchRevenue();
-  }, [startDate, endDate]); // Call when start or end date changes
+  }, [startDate, endDate]);
 
-  // Handle display of loading state, error, or data
   if (loading) {
-    return <p>Loading...</p>; // Display loading text while fetching
+    return <p>Loading...</p>;
   }
 
   if (error) {
-    return <div>Error: {JSON.stringify(error)}</div>; // Display error if any
+    return <div>Error: {JSON.stringify(error)}</div>;
   }
 
-  // Currency formatting function
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -85,8 +79,11 @@ const PaymentReport = () => {
           />
         </div>
       </div>
-      <div className="row justify-content-center">
-        <div className="col-md-8">
+
+      {/* Biểu đồ doanh thu */}
+      <div className="row justify-content-center mb-5">
+        <div className="col-md-10">
+          <h3 className="text-center">Total Revenue by Payment Method</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -94,22 +91,41 @@ const PaymentReport = () => {
               <YAxis />
               <Tooltip formatter={(value) => formatCurrency(value)} />
               <Legend />
-              <Bar dataKey="totalRevenue" fill="#8884d8" />
+              <Bar dataKey="totalRevenue" fill="#8884d8" name="Total Revenue" />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
+
+      {/* Biểu đồ số lượng người dùng */}
+      <div className="row justify-content-center">
+        <div className="col-md-10">
+          <h3 className="text-center">User Count by Payment Method</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={revenueData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="paymentMethodName" />
+              <YAxis domain={[0, 10]} />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="userCount" stroke="#82ca9d" name="User Count" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
       <div className="mt-4">
         {revenueData.length > 0 ? (
           <ul className="list-group">
             {revenueData.map((item, index) => (
               <li key={index} className="list-group-item">
-                {item.paymentMethodName}: {formatCurrency(item.totalRevenue)}
+                {item.paymentMethodName}: {formatCurrency(item.totalRevenue)} -{" "}
+                <strong>Users:</strong> {item.userCount}
               </li>
             ))}
           </ul>
         ) : (
-          <p>No revenue data available.</p> // Display a message if there's no data
+          <p>No revenue data available.</p>
         )}
       </div>
     </div>
