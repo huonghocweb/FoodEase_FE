@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./Component/Include/Home/Footer";
@@ -41,7 +42,21 @@ import MyReservationPage from "./Component/View/Home/MyReservation/MyReservation
 import ReservationPage from "./Component/View/Admin/Reservation/ReservationPage.js";
 import MyDeliveryAddressPage from "./Component/View/Home/MyDeliveryAddrress/MyDeliveryAddressPage.js";
 import ReservationOccupiedPage from "./Component/View/Admin/Reservation/ReservationChecked/ReservationOccupiedPage.js";
+import ReservationList from './Component/View/Admin/Reservation/ReservationList';
+import ReservationCancelledList from './Component/View/Admin/Reservation/ReservationCancelledList';
+import ReservationAcceptedList from './Component/View/Admin/Reservation/ReservationAcceptedList';
+import FoodReviewTable from './Component/View/Admin/Review/FoodReviewTable';
+import DeliveryTimeEstimator from './Component/View/Admin/Delivery/DeliveryTimeEstimator';
 function App() {
+
+  useEffect(() => {
+    // Load Dialogflow Messenger script
+    const script = document.createElement('script');
+    script.src = 'https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1';
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -80,6 +95,8 @@ function App() {
 
           <Route path="/admin" element={<AdminLayOut />}>
             <Route index element={<OrderPage />} />
+            <Route path="review" element ={<FoodReviewTable />} />
+            <Route path="delivery" element ={<DeliveryTimeEstimator />} />
             <Route path="users" element={<UserPage />} />
             <Route path="user/create" element={<UserFormPage />} />
             <Route path="user/edit/:userId" element={<UserFormPage />} />
@@ -116,10 +133,30 @@ function App() {
           <Route path="inventory" element={<Inventory />} />
           <Route path="UserOrder" element={<UserOrder />} />
           <Route path="addFood" element={<AddFood />} />
+          <Route path="reservation-list" element={<ReservationList />} />
+          <Route
+              path="reservation-cancelled-list"
+              element={<ReservationCancelledList />}
+            />
+            <Route
+              path="reservation-accepted-list"
+              element={<ReservationAcceptedList />}
+            />
           </Route>
         </Routes>
         <Footer />
       </BrowserRouter>
+
+      {/* Dialogflow Messenger Chatbot */}
+      <h1>FoodEase - Chatbot</h1>
+      <df-messenger
+	        intent="WELCOME"
+	        chat-title="Hỗ_trợ_khách_hàng"	
+	        agent-id="43d594b7-0744-4670-b827-407b2255c6f3"
+	        language-code="vi"
+	      >
+        </df-messenger>
+  
     </div>
   );
 }
