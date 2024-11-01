@@ -1,0 +1,71 @@
+.blog-detail-container {
+  max-width: 800px; /* Giới hạn chiều rộng tối đa cho bài viết chi tiết */
+  margin: 0 auto; /* Giữa màn hình */
+  margin-top: 40px;
+  padding: 20px; /* Padding cho container */
+  background-color: #f9f9f9; /* Màu nền nhẹ cho container */
+  border-radius: 8px; /* Bo góc cho container */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho container */
+}
+
+.blog-detail-title {
+  font-size: 2em; /* Kích thước chữ cho tiêu đề */
+  margin-bottom: 10px; /* Khoảng cách dưới tiêu đề */
+}
+
+.blog-detail-publish {
+  display: flex; /* Sử dụng flexbox để sắp xếp thông tin tác giả và ngày */
+  justify-content: space-between; /* Giữa khoảng cách giữa tác giả và ngày */
+  align-items: center; /* Căn giữa chiều dọc */
+  margin-bottom: 20px; /* Khoảng cách dưới khối publish */
+}
+
+.author-info {
+  display: flex;
+  align-items: center; /* Căn giữa chiều dọc */
+}
+
+.author-info span {
+  margin-right: 8px; /* Khoảng cách giữa biểu tượng và tên tác giả */
+}
+
+.blog-detail-date h5 {
+  font-size: 0.9em; /* Kích thước chữ nhỏ hơn cho ngày */
+  color: #777; /* Màu xám cho ngày */
+}
+
+.blog-detail-content {
+  line-height: 1.6 !important; /* Tăng chiều cao dòng cho dễ đọc */
+  margin-bottom: 70px !important; /* Khoảng cách dưới nội dung bài viết */
+}
+
+.related-blogs {
+  display: flex;
+  margin-top: 5px; /* Khoảng cách trên cho phần bài viết liên quan */
+}
+
+.related-blog-item {
+  display: flex; /* Sử dụng flexbox để sắp xếp hình ảnh và tiêu đề */
+  flex-direction: column;
+  margin: 10px;
+  margin-bottom: 20px; /* Khoảng cách dưới từng bài viết liên quan */
+  padding: 10px; /* Padding cho từng item */
+  background-color: #fff; /* Màu nền trắng cho từng item */
+  border-radius: 5px; /* Bo góc cho từng item */
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho từng item */
+  transition: transform 0.3s; /* Hiệu ứng chuyển động khi hover */
+}
+
+.related-blog-item:hover {
+  transform: scale(1.02); /* Phóng to nhẹ khi hover */
+}
+
+.related-blog-title {
+  margin-left: 15px; /* Khoảng cách bên trái giữa hình ảnh và tiêu đề */
+}
+
+.related-blog-title h4 {
+  font-size: 1.3em; /* Kích thước chữ cho tiêu đề bài viết liên quan */
+  margin: 10px; /* Bỏ margin mặc định */
+  color: black;
+}

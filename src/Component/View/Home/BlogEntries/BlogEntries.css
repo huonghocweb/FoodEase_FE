@@ -1,0 +1,155 @@
+/* Tổng thể */
+.blog-section {
+  width: 100%;
+  background-color: #f9f9f9;
+  padding: 50px 0;
+}
+
+.blog-container {
+  width: 100%; /* Giới hạn chiều rộng tối đa của container */
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.blog-banner {
+  width: 100%;
+  position: relative; /* Để chứa các phần tử con */
+  background-size: cover; /* Đảm bảo hình ảnh nền bao phủ toàn bộ phần tử */
+  background-position: center; /* Đặt vị trí hình ảnh nền ở giữa */
+  height: 300px; /* Chiều cao của banner, bạn có thể điều chỉnh */
+  display: flex; /* Sử dụng flexbox để dễ dàng căn chỉnh */
+  align-items: flex-start; /* Căn chỉnh các phần tử con lên đầu */
+  height: auto; /* Để chiều cao tự động theo nội dung */
+  padding: 50px 0;
+  border-radius: 8px;
+}
+
+.blog-banner::before {
+  content: ""; /* Tạo một phần tử giả */
+  position: absolute; /* Đặt nó lên trên hình nền */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Màu đen mờ, có thể điều chỉnh độ mờ */
+  z-index: 1; /* Đặt z-index để đảm bảo nó nằm trên hình nền */
+}
+
+.blog-content {
+  position: relative; /* Để nội dung nằm trên lớp mờ */
+  z-index: 2; /* Đảm bảo nội dung hiển thị trên lớp mờ */
+  padding: 20px; /* Khoảng cách cho nội dung */
+  color: white; /* Màu chữ, điều chỉnh theo nhu cầu */
+}
+
+/* Tiêu đề */
+.section-title {
+  text-align: center;
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 50px;
+}
+
+/* Blog Items */
+.blog-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Căn chỉnh đầu phần tử để khớp với hình ảnh */
+  margin-bottom: 30px;
+  padding: 0;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.blog-banner-content {
+  position: relative; /* Để nội dung nằm trên lớp mờ */
+  z-index: 2; /* Đảm bảo nội dung hiển thị trên lớp mờ */
+  padding: 150px; /* Khoảng cách cho nội dung */
+  text-align: left;
+}
+
+.blog-banner-content h1 {
+  margin: 0; /* Xóa khoảng cách mặc định */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* Đổ bóng cho chữ để dễ đọc hơn */
+  color: white;
+  margin-left: 200px;
+}
+
+.blog-banner-content p {
+  font-size: 1rem; /* Kích thước chữ cho tóm tắt */
+  margin-top: 10px; /* Khoảng cách phía trên tóm tắt */
+  color: rgba(245, 245, 245, 0.596);
+  margin-left: 200px;
+}
+/* Đặt vị trí xen kẽ trái - phải */
+.blog-item.left {
+    width: 60%; /* Chiều rộng thu hẹp cho hình bên trái */
+    margin-right: auto; /* Tự động điều chỉnh bên phải */
+    flex-direction: row; /* Hình bên trái */
+    text-align: left;
+    display: flex; /* Đảm bảo sử dụng flexbox */
+    align-items: center; /* Căn giữa theo chiều dọc */
+  }
+  
+  .blog-item.right {
+    width: 60%; /* Chiều rộng thu hẹp cho hình bên phải */
+    margin-left: auto; /* Tự động điều chỉnh bên trái */
+    flex-direction: row-reverse; /* Hình bên phải */
+    text-align: left;
+    display: flex; /* Đảm bảo sử dụng flexbox */
+    align-items: center; /* Căn giữa theo chiều dọc */
+  }
+
+/* Hình ảnh */
+.blog-image {
+  flex: 0 0 400px; /* Đặt chiều rộng hình ảnh cố định */
+}
+
+.blog-image img {
+  width: 100%;
+  height: 250px; /* Chiều cao cố định để hình ảnh đồng nhất */
+  object-fit: cover; /* Cắt hình cho phù hợp khung */
+  border-radius: 8px;
+}
+
+/* Nội dung */
+.blog-content {
+  max-width: 600px; /* Giới hạn chiều rộng nội dung */
+  margin: 0 20px; /* Giảm bớt margin để sát hơn với hình ảnh */
+}
+
+.blog-content h3 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 30px; /* Khoảng cách dưới tiêu đề */
+}
+
+.blog-content p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.blog-link {
+  display: block; /* Để làm cho toàn bộ khu vực có thể nhấp chuột */
+  text-decoration: none; /* Bỏ gạch chân */
+  color: inherit; /* Kế thừa màu sắc từ phần tử cha */
+}
+/* Điều chỉnh trên màn hình nhỏ */
+@media (max-width: 768px) {
+  .blog-item {
+    flex-direction: column; /* Căn chỉnh thành cột trên màn hình nhỏ */
+    align-items: center; /* Căn giữa các phần tử */
+  }
+  .blog-image img {
+    max-width: 100%; /* Đảm bảo hình ảnh vừa với màn hình nhỏ */
+    height: auto; /* Giữ tỷ lệ hình ảnh */
+  }
+  .blog-content {
+    text-align: center; /* Căn giữa nội dung */
+    margin: 10px 0; /* Thêm margin trên và dưới cho khoảng cách */
+  }
+}
