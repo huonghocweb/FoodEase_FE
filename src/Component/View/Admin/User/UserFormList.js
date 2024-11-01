@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './UserFormList.css';
+import './UserFormList.css'; // Đảm bảo rằng bạn đã import CSS mới
 import axiosConfig from '../../../Config/AxiosConfig';
 
 const UserFormList = () => {
@@ -11,7 +10,7 @@ const UserFormList = () => {
         fullName: '',
         phoneNumber: '',
         email: '',
-        password: '',
+        password: '', 
         password2: '',
         address: '',
         birthday: '',
@@ -21,14 +20,38 @@ const UserFormList = () => {
     });
     const navigate = useNavigate();
 
-    const handleImageUpload = (event) => {
+    // Xử lý upload avatar
+    const handleImageUpload = async (event) => {
         const file = event.target.files[0];
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            setAvatar(imageUrl);
+        if (!file) return;
+    
+        const formData = new FormData();
+        formData.append('file', file);
+    
+        try {
+            // Gọi API để upload ảnh lên server
+            const response = await axiosConfig.post('/user/upload-avatar', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+    
+            if (response.data.success) {
+                const imageUrl = response.data.imageUrl;
+                setAvatar(imageUrl); // Cập nhật avatar để hiển thị hình ảnh mới
+                setFormData(prevData => ({
+                    ...prevData,
+                    imageUrl: imageUrl // Cập nhật URL của hình ảnh vào formData
+                }));
+            } else {
+                alert("Failed to upload avatar");
+            }
+        } catch (error) {
+            console.error("Error uploading avatar:", error);
+            alert("Error uploading avatar");
         }
     };
+    
 
+    // Xử lý thay đổi form input
     const handleChange = (event) => {
         const { name, value, type } = event.target;
 
@@ -48,7 +71,7 @@ const UserFormList = () => {
         }
     };
 
-    // Xử lý thay đổi giới tính (gender)
+    // Xử lý thay đổi giới tính
     const handleGenderChange = (event) => {
         const value = event.target.value === 'true';
         setFormData((prevData) => ({
@@ -57,7 +80,7 @@ const UserFormList = () => {
         }));
     };
 
-
+    // Xử lý submit form
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -74,9 +97,9 @@ const UserFormList = () => {
             password: formData.password,
             address: formData.address,
             birthday: formData.birthday,
-            gender: formData.gender,  // Giá trị gender
+            gender: formData.gender,
             imageUrl: formData.imageUrl,
-            roleIds: formData.roleIds  // Gửi roleIds từ form
+            roleIds: formData.roleIds
         };
 
         try {
@@ -89,200 +112,198 @@ const UserFormList = () => {
         }
     };
 
+    const roles = [
+        { id: '1', label: 'STAFF' },
+        { id: '2', label: 'USER' },
+        { id: '3', label: 'ADMIN' }
+    ];
+    const handleRoleChange = (event) => {
+        const { value, checked } = event.target;
+        setFormData(prevData => {
+            const updatedRoles = checked
+                ? [...prevData.roleIds, value]
+                : prevData.roleIds.filter(roleId => roleId !== value);
+            return { ...prevData, roleIds: updatedRoles };
+        });
+    };
     return (
-        <div className="body">
-            <div className="container mt-5">
-                <div className="row tm-content-row">
-                    <div className="col-10 tm-block-col">
-                        <div className="tm-bg-primary-dark tm-block tm-block-h-auto">
-                            <h2 className="tm-block-title">List of Accounts</h2>
-                            <p className="text-white">Accounts</p>
-                            <select
-                                className="custom-select"
-                                multiple
-                                name="roleIds"
-                                value={formData.roleIds}
-                                onChange={handleChange}
-                            >
-                                <option value="1">STAFF</option>
-                                <option value="2">USER</option>
-                                <option value="3">ADMIN</option>
-                            </select>
+        <div className="user-form-container">
+            <h2 className="user-form-title">Create User</h2>
 
-                        </div>
-                    </div>
-                </div>
-                <div className="row tm-content-row">
-                    <div className="tm-block-col tm-col-avatar">
-                        <div className="tm-bg-primary-dark tm-block tm-block-avatar">
-                            <h2 className="tm-block-title">Change Avatar</h2>
-                            <div className="tm-avatar-container">
-                                <img
-                                    src={avatar}
-                                    alt="Avatar"
-                                    className="tm-avatar img-fluid mb-4"
-                                />
-                            </div>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                id="avatarUpload"
-                                onChange={handleImageUpload}
-                                style={{ display: 'none' }}
-                            />
-                            <label
-                                htmlFor="avatarUpload"
-                                className="btn btn-primary btn-block text-uppercase"
-                            >
-                                Upload New Photo
-                            </label>
-
-                        </div>
-                    </div>
-                    <div className="tm-block-col tm-col-account-settings">
-                        <div className="tm-bg-primary-dark tm-block tm-block-settings">
-                            <h2 className="tm-block-title">Account Settings</h2>
-                            <form action="" className="tm-signup-form row" onSubmit={handleSubmit}>
-                                <div className="form-group col-lg-6">
-                                    <label htmlFor="userName">Account Name</label>
-                                    <input
-                                        id="userName"
-                                        name="userName"
-                                        type="text"
-                                        className="form-control validate"
-                                        value={formData.userName}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group col-lg-6">
-                                    <label htmlFor="fullName">Full Name</label>
-                                    <input
-                                        id="fullName"
-                                        name="fullName"
-                                        type="text"
-                                        className="form-control validate"
-                                        value={formData.fullName}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group col-lg-6">
-                                    <label htmlFor="phoneNumber">Phone</label>
-                                    <input
-                                        id="phoneNumber"
-                                        name="phoneNumber"
-                                        type="tel"
-                                        className="form-control validate"
-                                        value={formData.phoneNumber}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group col-lg-6">
-                                    <label htmlFor="email">Account Email</label>
-                                    <input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        className="form-control validate"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group col-lg-6">
-                                    <label htmlFor="password">Password</label>
-                                    <input
-                                        id="password"
-                                        name="password"
-                                        type="password"
-                                        className="form-control validate"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group col-lg-6">
-                                    <label htmlFor="password2">Re-enter Password</label>
-                                    <input
-                                        id="password2"
-                                        name="password2"
-                                        type="password"
-                                        className="form-control validate"
-                                        value={formData.password2}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group col-lg-6">
-                                    <label htmlFor="address">Address</label>
-                                    <input
-                                        id="address"
-                                        name="address"
-                                        type="text"
-                                        className="form-control validate"
-                                        value={formData.address}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="form-group col-lg-6">
-                                    <label htmlFor="birthday">Birthday</label>
-                                    <input
-                                        id="birthday"
-                                        name="birthday"
-                                        type="date"
-                                        className="form-control validate"
-                                        value={formData.birthday}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-
-                                {/* Thêm trường Gender dưới dạng Select */}
-                                <div className="form-group col-lg-6">
-                                    <label htmlFor="genderSelect">Gender</label>
-                                    <select
-                                        id="genderSelect"
-                                        name="gender"
-                                        className="form-control"
-                                        value={formData.gender ? "true" : "false"}  // Chuyển đổi boolean thành string
-                                        onChange={(e) =>
-                                            setFormData(prevData => ({
-                                                ...prevData,
-                                                gender: e.target.value === "true"  // Chuyển đổi giá trị string thành boolean
-                                            }))
-                                        }
-                                    >
-                                        <option value="true">Male</option>
-                                        <option value="false">Female</option>
-                                    </select>
-                                </div>
-
-
-                                <div className="col-12">
-                                    <button
-                                        type="submit"
-                                        className="btn btn-success btn-block text-uppercase"
-                                    >
-                                         Thêm
-                                    </button>
-                                </div>
-                                <div className="col-12">
-                                    <button
-                                        type="button"
-                                        className="btn btn-secondary btn-block text-uppercase"
-                                        onClick={() => navigate('/admin/users')}
-                                    >
-                                         Trở lại
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+            {/* Avatar Upload Section */}
+            <div className="user-form-avatar-container" onClick={() => document.getElementById('avatarUpload').click()}>
+                <img src={avatar} alt="" className="user-form-avatar" style={{ cursor: 'pointer' }} />
+                <input
+                    type="file"
+                    accept="image/*"
+                    id="avatarUpload"
+                    onChange={handleImageUpload}
+                    style={{ display: 'none' }}
+                />
             </div>
+
+            {/* Account Settings Form */}
+            <form className="user-form-signup-form row" onSubmit={handleSubmit}>
+                {/* Các trường nhập liệu */}
+                <div className="form-group col-lg-6">
+                    <label htmlFor="userName">Account Name</label>
+                    <input
+                        id="userName"
+                        name="userName"
+                        type="text"
+                        className="form-control"
+                        value={formData.userName}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div className="form-group col-lg-6">
+                    <label htmlFor="fullName">Full Name</label>
+                    <input
+                        id="fullName"
+                        name="fullName"
+                        type="text"
+                        className="form-control"
+                        value={formData.fullName}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div className="form-group col-lg-6">
+                    <label htmlFor="phoneNumber">Phone</label>
+                    <input
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        type="tel"
+                        className="form-control"
+                        value={formData.phoneNumber}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div className="form-group col-lg-6">
+                    <label htmlFor="email">Account Email</label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        className="form-control"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div className="form-group col-lg-6">
+                    <label htmlFor="password">Password</label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        className="form-control"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div className="form-group col-lg-6">
+                    <label htmlFor="password2">Re-enter Password</label>
+                    <input
+                        id="password2"
+                        name="password2"
+                        type="password"
+                        className="form-control"
+                        value={formData.password2}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div className="form-group col-lg-6">
+                    <label htmlFor="address">Address</label>
+                    <input
+                        id="address"
+                        name="address"
+                        type="text"
+                        className="form-control"
+                        value={formData.address}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div className="form-group col-lg-6">
+                    <label htmlFor="birthday">Birthday</label>
+                    <input
+                        id="birthday"
+                        name="birthday"
+                        type="date"
+                        className="form-control"
+                        value={formData.birthday}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                {/* Gender Select */}
+                <div className="form-group col-lg-6">
+                    <label htmlFor="genderSelect">Gender</label>
+                    <select
+                        id="genderSelect"
+                        name="gender"
+                        className="form-control"
+                        value={formData.gender ? "true" : "false"}
+                        onChange={handleGenderChange}
+                    >
+                        <option value="true">Male</option>
+                        <option value="false">Female</option>
+                    </select>
+                </div>
+
+                {/* Multiple Role Select */}
+                <div className="form-group col-lg-6">
+                    <label htmlFor="roleIds">Role</label>
+                    <div className="role-checkboxes">
+                        {roles.map(role => (
+                            <div key={role.id}>
+                                <input
+                                    type="checkbox"
+                                    id={`role_${role.id}`}
+                                    value={role.id}
+                                    checked={formData.roleIds.includes(role.id)}
+                                    onChange={handleRoleChange}
+                                />
+                                <label htmlFor={`role_${role.id}`} style={{ marginLeft: '5px' }}>
+                                    {role.label}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Buttons */}
+                <div className="col-12">
+                    <button
+                        type="submit"
+                        className="btn btn-success"
+                    >
+                        Thêm
+                    </button>
+                </div>
+                <div className="col-12">
+                    <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => navigate('/admin/users')}
+                    >
+                        Trở lại
+                    </button>
+                </div>
+            </form>
         </div>
     );
 };

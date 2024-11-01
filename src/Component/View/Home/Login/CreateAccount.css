@@ -1,0 +1,134 @@
+/* Container tổng của Create Account */
+.create-account-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+    background-color: #4e5d6c; /* Màu nền giống với trang đăng nhập */
+    margin: 0;
+}
+
+/* Hộp tạo tài khoản */
+.create-account-box {
+    background-color: #f8f9fa; /* Màu nền của hộp */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    width: 1000px;
+    text-align: center;
+}
+
+/* Tiêu đề chính */
+.create-account-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Tiêu đề phụ */
+.create-account-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Ô nhập email */
+.create-account-input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #eef1f5;
+    font-size: 16px;
+    color: #495057;
+    transition: border-color 0.3s ease;
+}
+
+/* Ô nhập khi nhấn vào */
+.create-account-input:focus {
+    outline: none;
+    border-color: #007bff; /* Đổi màu viền khi focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Ô nhập không hợp lệ */
+.invalid-input {
+    border-color: #dc3545; /* Màu viền đỏ khi nhập sai định dạng */
+    background-color: #ffe6e6; /* Màu nền nhạt đỏ */
+}
+
+/* Thông báo lỗi email không hợp lệ */
+.error-message {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: -5px;
+    margin-bottom: 10px;
+}
+
+/* Nút Next */
+.create-account-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff; /* Màu xanh của nút */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-bottom: 15px;
+}
+
+/* Hiệu ứng hover cho nút Next */
+.create-account-button:hover {
+    background-color: #0056b3; /* Màu đậm hơn khi hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Vô hiệu hóa nút Next */
+.create-account-button:disabled {
+    background-color: #b0c4de; /* Màu xám khi bị vô hiệu hóa */
+    cursor: not-allowed;
+}
+
+/* Nút trở lại */
+.create-account-back-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    background-color: #f1f1f1; /* Màu xám nhẹ */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Hiệu ứng hover cho nút trở lại */
+.create-account-back-button:hover {
+    background-color: #e2e6ea;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 480px) {
+    .create-account-box {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .create-account-title {
+        font-size: 20px;
+    }
+
+    .create-account-input, 
+    .create-account-button,
+    .create-account-back-button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
