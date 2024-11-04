@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import log from 'loglevel';
 import "./App.css";
 import Footer from "./Component/Include/Home/Footer";
 import Header from "./Component/Include/Home/Header";
@@ -55,6 +56,12 @@ function App() {
     script.src = 'https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1';
     script.async = true;
     document.body.appendChild(script);
+    log.setLevel('info'); // Thiết lập cấp độ log
+    log.info("Dialogflow Messenger script đã được thêm vào.");
+
+    return () => {
+      log.info("Component App đã unmount.");
+    };
   }, []);
 
   return (
