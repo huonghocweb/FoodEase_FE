@@ -4,8 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import axiosConfig from "../../../Config/AxiosConfig";
 import "./BlogDetail.css";
 
-const gf = new GiphyFetch("q3uppv6idE1HLdqwbWU936H6miiaEFwp");
-
 const BlogDetail = () => {
   const { blogId } = useParams();
   const [blog, setBlog] = useState(null);
