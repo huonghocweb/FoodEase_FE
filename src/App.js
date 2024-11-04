@@ -1,21 +1,33 @@
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./Component/Include/Home/Footer";
 import Header from "./Component/Include/Home/Header";
 import AdminLayOut from "./Component/View/Admin/AdminLayOut";
+import BlogForm from "./Component/View/Admin/Blog/BlogForm.js";
+import BlogList from "./Component/View/Admin/Blog/BlogList.js";
 import CouponFormPage from "./Component/View/Admin/Coupon/CouponFormPage";
 import CouponPage from "./Component/View/Admin/Coupon/CouponPage";
 import Inventory from "./Component/View/Admin/Inventory/Inventory.js";
 import Notification from "./Component/View/Admin/Notification/Notification";
 import OrderPage from "./Component/View/Admin/Order/OrderPage";
+import PaymentReport from "./Component/View/Admin/PaymentReport/PaymentReport.js";
+import AddFood from './Component/View/Admin/Product/AddFood.js';
 import FoodPage from "./Component/View/Admin/Product/FoodPage";
 import ResTableForm from "./Component/View/Admin/ResTable/ResTableForm.js";
 import ResTableList from "./Component/View/Admin/ResTable/ResTableList.js";
 import Revenue from "./Component/View/Admin/Revenue/Revenue";
+import ServiceForm from "./Component/View/Admin/Service/ServiceForm.js";
+import ServiceList from "./Component/View/Admin/Service/ServiceList.js";
 import UserFormPage from "./Component/View/Admin/User/UserFormPage.js";
 import UserPage from "./Component/View/Admin/User/UserPage";
+// Hòa
+import UserEdit from "./Component/View/Admin/User/UserEdit";
+// Hòa
 import UserOrder from "./Component/View/Admin/UserBuy/UserOrder.js";
-import UserEdit from "./Component/View/Admin/User/UserEdit";  // Đảm bảo đường dẫn đúng
+import BlogDetail from "./Component/View/Home/BlogEntries/BlogDetail.js";
+import BlogEntries from "./Component/View/Home/BlogEntries/BlogEntries.js";
+import BookTablePage from "./Component/View/Home/BookingTable/BookTablePage.js";
 import CartPage from "./Component/View/Home/Cart/CartPage";
 import BoxChatPage from "./Component/View/Home/Chat/BoxChatPage";
 import ClaimCouponPage from "./Component/View/Home/CouponStorage/ClaimCouponPage";
@@ -25,19 +37,37 @@ import Order from "./Component/View/Home/Details/Order";
 import HomeLayOut from "./Component/View/Home/HomeLayOut";
 import FoodIndex from "./Component/View/Home/Index/FoodIndex";
 import Login from "./Component/View/Home/Login/Login";
+/* Hòa */ 
 import ResetPass from './Component/View/Home/Login/ResetPass';
 import SetNewPassword from './Component/View/Home/Login/SetNewPassword';
 import CreateAccount from './Component/View/Home/Login/CreateAccount';
 import ConfirmCode from './Component/View/Home/Login/ConfirmCode';
 import CreateUser from './Component/View/Home/Login/CreateUser';
+
+/* Hòa */ 
 import OrderStatus from "./Component/View/Home/MyOrder/OrderStatus";
 import OrderHistoryPage from "./Component/View/Home/OrderHistory/OrderHistoryPage";
 import Thanks from "./Component/View/Home/Thank/Thanks";
 import WishList from "./Component/View/Home/WishList/WishList.js";
-import BookTablePage from "./Component/View/Home/BookingTable/BookTablePage.js";
-import PaymentReport from "./Component/View/Admin/PaymentReport/PaymentReport.js";
-import AddFood from './Component/View/Admin/Product/AddFood.js';
+import MyReservationPage from "./Component/View/Home/MyReservation/MyReservationPage.js";
+import ReservationPage from "./Component/View/Admin/Reservation/ReservationPage.js";
+import MyDeliveryAddressPage from "./Component/View/Home/MyDeliveryAddrress/MyDeliveryAddressPage.js";
+import ReservationOccupiedPage from "./Component/View/Admin/Reservation/ReservationChecked/ReservationOccupiedPage.js";
+import ReservationList from './Component/View/Admin/Reservation/ReservationList';
+import ReservationCancelledList from './Component/View/Admin/Reservation/ReservationCancelledList';
+import ReservationAcceptedList from './Component/View/Admin/Reservation/ReservationAcceptedList';
+import FoodReviewTable from './Component/View/Admin/Review/FoodReviewTable';
+import DeliveryTimeEstimator from './Component/View/Admin/Delivery/DeliveryTimeEstimator';
 function App() {
+
+  useEffect(() => {
+    // Load Dialogflow Messenger script
+    const script = document.createElement('script');
+    script.src = 'https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1';
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -46,11 +76,13 @@ function App() {
           <Route path="/" element={<HomeLayOut />}>
             <Route index element={<FoodIndex />} />
             <Route path="login" element={<Login />} />
+            {/* Hòa */}
             <Route path="/reset-password" element={<ResetPass />} />
             <Route path="/set-new-password" element={<SetNewPassword />} />
             <Route path="/create-account" element={<CreateAccount />} />
-        <Route path="/confirm-code" element={<ConfirmCode />} />
-        <Route path="/create-user" element={<CreateUser />} />
+            <Route path="/confirm-code" element={<ConfirmCode />} />
+            <Route path="/create-user" element={<CreateUser />} />
+            {/* Hòa */}
             <Route path="notification" element={<Notification />} />
             <Route path="foodDetailsPopup" element={<Order />} />
             <Route path="foodDetails/:id" element={<FoodDetails />} />
@@ -62,10 +94,16 @@ function App() {
             <Route path="WishList" element={<WishList />} />
             <Route path='claimCoupon' element={<ClaimCouponPage />} />
             <Route path='orderHistory/order/:userName' element={<OrderHistoryPage />} />
-            <Route path='/myOrder' element={<OrderStatus/>} />
+            <Route path='/myOrder' element={<OrderStatus />} />
             <Route path='/bookTable' element={<BookTablePage />} />
             <Route path="wishlist/:wishListId" element={<WishList />} />
             <Route path="claimCoupon" element={<ClaimCouponPage />} />
+            <Route path='myReservation/:userName' element={<MyReservationPage />} />
+            <Route path='mydAddress/:userName' element={<MyDeliveryAddressPage />} />
+            {/* chánh */}
+            <Route path="blog" element={<BlogEntries />} />
+            <Route path="blog/:blogId" element={<BlogDetail />} />
+            {/* chánh */}
             <Route
               path="orderHistory/order/:userName"
               element={<OrderHistoryPage />}
@@ -75,12 +113,16 @@ function App() {
 
           <Route path="/admin" element={<AdminLayOut />}>
             <Route index element={<OrderPage />} />
+            <Route path="review" element={<FoodReviewTable />} />
+            <Route path="delivery" element={<DeliveryTimeEstimator />} />
             <Route path="users" element={<UserPage />} />
             <Route path="user/create" element={<UserFormPage />} />
             <Route path="user/edit/:userId" element={<UserEdit />} />
             <Route path="foods" element={<FoodPage />} />
             <Route path="coupons" element={<CouponPage />} />
             <Route path="coupon/create" element={<CouponFormPage />} />
+            <Route path='reservation' element={<ReservationPage />} />
+            <Route path='reservationOccupied/:reservationId' element={<ReservationOccupiedPage />} />
             <Route
               path="coupon/update/:couponId"
               element={<CouponFormPage />}
@@ -94,19 +136,45 @@ function App() {
             <Route path="resTableList" element={<ResTableList />} />
             <Route path="tables/new" element={<ResTableForm />} />
             <Route path="tables/edit/:tableId" element={<ResTableForm />} />
+            <Route path="services" element={<ServiceList />} />
+            <Route path="tableService/new" element={<ServiceForm />} />
+            <Route path="tableService/edit/:serviceId" element={<ServiceForm />} />
+            <Route path="BlogList" element={<BlogList />} />
+            <Route path="blog/new" element={<BlogForm />} />
+            <Route path="blog/edit/:blogId" element={<BlogForm />} />
             {/* Chanh */}
 
             <Route path="revenue" element={<Revenue />} />
             <Route path="reportpayment" element={<PaymentReport />} />
             <Route path="inventory" element={<Inventory />} />
             <Route path="UserOrder" element={<UserOrder />} />
-          <Route path="inventory" element={<Inventory />} />
-          <Route path="UserOrder" element={<UserOrder />} />
-          <Route path="addFood" element={<AddFood />} />
+            <Route path="inventory" element={<Inventory />} />
+            <Route path="UserOrder" element={<UserOrder />} />
+            <Route path="addFood" element={<AddFood />} />
+            <Route path="reservation-list" element={<ReservationList />} />
+            <Route
+              path="reservation-cancelled-list"
+              element={<ReservationCancelledList />}
+            />
+            <Route
+              path="reservation-accepted-list"
+              element={<ReservationAcceptedList />}
+            />
           </Route>
         </Routes>
         <Footer />
       </BrowserRouter>
+
+      {/* Dialogflow Messenger Chatbot */}
+      <h1>FoodEase - Chatbot</h1>
+      <df-messenger
+        intent="WELCOME"
+        chat-title="Hỗ_trợ_khách_hàng"
+        agent-id="43d594b7-0744-4670-b827-407b2255c6f3"
+        language-code="vi"
+      >
+      </df-messenger>
+
     </div>
   );
 }
