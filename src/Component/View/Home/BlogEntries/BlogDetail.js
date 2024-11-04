@@ -1,4 +1,3 @@
-import { GiphyFetch } from "@giphy/js-fetch-api";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useParams } from "react-router-dom";
