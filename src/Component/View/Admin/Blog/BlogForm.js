@@ -20,8 +20,9 @@ const BlogForm = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageBlog, setImageBlog] = useState([]);
   const [content, setContent] = useState("");
-  const [hashtags, setHashtags] = useState([]); // Thêm trạng thái cho danh sách hashtag
-  const [hashtagInput, setHashtagInput] = useState(""); // Trạng thái cho input hashtag
+  const [hashtags, setHashtags] = useState([]);
+  const [hashtagInput, setHashtagInput] = useState("");
+  const [selectedHashtags, setSelectedHashtags] = useState([]);
 
   const {
     register,
@@ -78,20 +79,31 @@ const BlogForm = () => {
     }
   };
 
-  const handleHashtagKeyDown = (e) => {
+  const handleHashtagKeyDown = async (e) => {
     if (e.key === "Enter" && hashtagInput) {
-      e.preventDefault(); // Ngăn chặn hành vi mặc định của Enter
-      const newHashtag = `#${hashtagInput.trim()}`; // Thêm dấu #
-      if (!hashtags.includes(newHashtag)) {
-        // Kiểm tra không trùng lặp
-        setHashtags([...hashtags, newHashtag]);
-        setHashtagInput(""); // Xóa input sau khi thêm
+      e.preventDefault();
+      const newHashtagName = `#${hashtagInput.trim()}`;
+
+      if (!hashtags.some((h) => h.hashtagName === newHashtagName)) {
+        try {
+          const response = await axiosConfig.post("/hashtag", {
+            hashtagName: newHashtagName,
+          });
+
+          const newHashtag = response.data;
+          setHashtags([...hashtags, newHashtag]);
+          setSelectedHashtags([...selectedHashtags, newHashtag.hashtagId]);
+          setHashtagInput("");
+        } catch (error) {
+          console.error("Error adding hashtag", error);
+        }
       }
     }
   };
 
-  const removeHashtag = (hashtag) => {
-    setHashtags(hashtags.filter((h) => h !== hashtag)); // Xóa hashtag
+  const removeHashtag = async (hashtagId) => {
+    setHashtags(hashtags.filter((h) => h.hashtagId !== hashtagId));
+    setSelectedHashtags(selectedHashtags.filter((id) => id !== hashtagId));
   };
 
   useEffect(() => {
@@ -102,7 +114,10 @@ const BlogForm = () => {
         setBlogCategoryId(blogById.blogCategory.blogCategoryId);
         setBlogAuthorId(blogById.blogAuthor.blogAuthorId);
         setContent(blogById.content);
-        setHashtags(blogById.hashtags || []);
+        setHashtags(blogById.hashtags || []); // Chứa chi tiết các hashtag
+        setSelectedHashtags(
+          blogById.hashtags.map((hashtag) => hashtag.hashtagId)
+        );
         reset(blogById);
       });
     }
@@ -116,7 +131,8 @@ const BlogForm = () => {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    const payload = { ...data, content, hashtags };
+    const payload = { ...data, content, hashtagIds: selectedHashtags };
+    console.log("Payload:", payload);
     formData.append(
       "blogRequest",
       new Blob([JSON.stringify(payload)], { type: "application/json" })
@@ -245,11 +261,11 @@ const BlogForm = () => {
                 <div className="form-group col-lg-6">
                   <div className="hashtag-list">
                     {hashtags.map((hashtag, index) => (
-                      <span key={index} className="hashtag">
-                        {hashtag}
+                      <span key={hashtag.hashtagId} className="hashtag">
+                        {hashtag.hashtagName}
                         <span
                           className="hashtag-remove"
-                          onClick={() => removeHashtag(hashtag)} // Gọi hàm xóa hashtag
+                          onClick={() => removeHashtag(hashtag.hashtagId)} // Gọi hàm xóa hashtag
                         >
                           &times;
                         </span>
