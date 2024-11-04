@@ -76,7 +76,6 @@ const ReservationList = ({reservations,paginationState,handlePaginationChange, s
                                   <button onClick={() => handleReservationById(item.reservationId)} >Checkin</button> 
                                   : item.reservationStatus.reservationStatusId === 3 ? <NavLink className='btn btn-primary' to={`/admin/reservationOccupied/${item.reservationId}`}>Order Food</NavLink> :" "
                                 }
-                                 
                               </td>
                             </tr>
                           </>
