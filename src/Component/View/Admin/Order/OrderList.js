@@ -17,10 +17,12 @@ const OrderList = () => {
   const [page,setPage] =useState(0);
   const [inputFind, setInputFind] = useState('');
   const [TotalPage,setTotalPage] = useState();
+  const [endDate,setEndDate] = useState('');
+  const [inputFindEndDate,setinputFindEndDate]=useState('');
  
 const featchOrderList = async ()=>{
   try {
-    const responseOrder = await axiosConfig(`/order/findOrderByOrderDate?date=${date}&page=${page}`)
+    const responseOrder = await axiosConfig(`/order/findOrderByOrderDate?date=${date}&EndDate=${endDate}&page=${page}`)
     .then(responseOrder =>{
       setOrder(responseOrder.data.content)
       setTotalPage(responseOrder.data.totalPages)
@@ -33,11 +35,20 @@ const handleinputFind=(e)=>{
 setInputFind(e.target.value);
 console.log(e.target.value);
 }
+const handleinputFindendDate=(e)=>{
+  setinputFindEndDate(e.target.value);
+}
 const findDate =()=>{
   const formattedDate = inputFind.replace(/\//g, '-');
+  const formattedEndDate = inputFindEndDate.replace(/\//g, '-');
   setDate(formattedDate)
-  if(inputFind == null){
+  setEndDate(formattedEndDate)
+  if(inputFind == null ){
     setDate('');
+   
+  }
+  if(inputFindEndDate == null){
+    setEndDate('');
   }
   console.log(inputFind);
 }
@@ -121,6 +132,7 @@ const Next = () => {
                 <h2 className="tm-block-title">Orders List</h2>
                 <div className='orderlist-find'>
                   <input type='date' value={inputFind}onChange={handleinputFind}/>
+                  <input type='date' value={inputFindEndDate}onChange={handleinputFindendDate}/>
                   <button onClick={findDate}>find</button>
                 </div>
                 <table className="table">
