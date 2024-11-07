@@ -138,7 +138,8 @@ const Next = () => {
                       <th scope="col">Total Price</th>
                       <th scope="col">Total Quantity</th>
                       <th scope="col">Funtion</th>
-                      <th></th>
+                      <th scope="col"> </th>
+                      <th scope="col"> Export</th>
                     </tr>
                   </thead>
                   <tbody>

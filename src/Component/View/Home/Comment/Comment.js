@@ -35,8 +35,9 @@ const [file, setFile] = useState(null);
             }}
             
             );
-           
+            
             console.log('Added successfully',response);
+            Reset();
         } catch (error) {
           
             console.log('Error in adding product');
@@ -47,6 +48,12 @@ const [file, setFile] = useState(null);
     const handleRating = (value) => {
       setRating(value);
     };
+    const Reset =()=>{
+      setFile(null);
+      setReview('')
+      setRating(0);
+
+    }
  useEffect (() =>{
   fetchCommnet ();
 }
@@ -98,7 +105,7 @@ const [file, setFile] = useState(null);
         
         
       />
-      <button onClick={handleAdd}>send</button>
+      <button onClick={handleAdd}>Send</button>
     </div>
   </form>
 

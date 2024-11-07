@@ -34,7 +34,7 @@ const Iventory =()=>{
     },[page])
     return (
        
-        <div className=''>
+        <div className='revenue-container'>
              <table  className="revenue-table ">
                     <thead>
                         <tr>
@@ -52,9 +52,13 @@ const Iventory =()=>{
                         {invnetory.map((item, index) => (
                             <tr key={index}>
                                 <td className="revenue-td">{index + 1}</td>
-                                <td className="revenue-td">{item.food.createdAt}</td>
+                                <td className="revenue-td">  {(() => {
+                                    const orderDate = new Date(item.food.createdAt);
+                                    return `${orderDate.getFullYear()}/${String(orderDate.getMonth() + 1).padStart(2, '0')}/${String(orderDate.getDate()).padStart(2, '0')}`;
+                                })()}</td>
+                                                
                                 <td className="revenue-td">{item.food.foodName}</td>
-                                <td><img className='inventory-img' src={`${item.food.imageUrl}`} /></td>
+                                <td className="revenue-td"><img className='inventory-img' src={`${item.food.imageUrl}`} /></td>
                                 <td className="revenue-td">{item.foodSize.foodSizeName}</td>
                                 <td className="revenue-td">{item.food.description}</td>
                                 <td className="revenue-td">{item.food.basePrice.toLocaleString('vi-vn')}đ</td>

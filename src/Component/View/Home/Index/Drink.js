@@ -16,9 +16,9 @@ const FoodMenu = () => {
   const fetchMaindDishes = async () => {
     try {
       await axiosConfig
-        .get("/user/foodvariation/findFoodVariationByDrink")
+        .get(`/user/foodvariation/findFoodVariationByDrink?page=${page}`)
         .then((response) => {
-          setMainDishes(response.data);
+          setMainDishes(response.data.content);
           console.log(response.data);
           setTotalPage(response.data.totalPages);
         });
@@ -56,6 +56,7 @@ const FoodMenu = () => {
   useEffect(() => {
     fetchMaindDishes();
     fetchWishLists();
+    console.log(mainDishes)
   }, [page, wishLists]);
   const [selectedProduct, setSelectedProduct] = useState(null);
 

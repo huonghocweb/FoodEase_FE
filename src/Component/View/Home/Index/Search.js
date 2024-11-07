@@ -25,18 +25,20 @@ const Search =()=>{
 
 return (
 
- <div className="search-bar" >
-        <form onSubmit={handleSearch}>
-                <input className='search-input'
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Search for food..."
-                />
-                <button className="search-button" type="submit">Search</button>
-            </form>
-   
-  </div>
+<div className="search-bar">
+  <form onSubmit={handleSearch}>
+    <input
+      className="search-input"
+      type="text"
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      placeholder="Search for food..."
+    />
+    <button className="search-button" type="submit">Search</button>
+  </form>
+</div>
+
+  
   
 );
 } 

@@ -455,8 +455,7 @@ html {
     min-height: 650px;
   }
   .tm-product-table-container {
-    max-height: 465px;
-    margin-bottom: 15px;
+    max-height: 765px;
     overflow-y: scroll;
   }
   .tm-product-table tr {
