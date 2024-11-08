@@ -12,7 +12,21 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [remember, setRemember] = useState(false);
     const [alert, setAlert] = useState(null); 
+    const urlGoogle = 'http://localhost:8080/oauth2/authorization/google';
     const navigate = useNavigate();
+
+    const handleGoogleLogin =async() => {
+        try {
+            window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+        } catch (error) {
+            console.error('error in login Google',error);
+        }
+       
+    };
+
+    const handleFacebookLogin = () => {
+        window.location.href = 'http://localhost:8080/oauth2/authorization/facebook';
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -119,21 +133,23 @@ const Login = () => {
                                         </a>{" "}
                                         for social sign in buttons.
                                     </label>
-                                    <a
+                                    {/* <a
                                         className="btn btn-block btn-social btn-facebook margin-bottom-15"
                                         to="@{/oauth2/authorization/facebook}"
-                                    />
-                                    <i className="fa-brands fa-facebook"></i>{" "}
-                                    {customTranslate("Sign in with Facebook")}
+                                    /> */}
+                                    <div onClick={() => handleFacebookLogin()}>
+                                        <i className="fa-brands fa-facebook"></i>{" "}
+                                        {customTranslate("Sign in with Facebook")}
+                                    </div>
+                                    
                                     <a className="btn btn-block btn-social btn-twitter margin-bottom-15" />
                                     <i className="fa-brands fa-twitter"></i>{" "}
                                     {customTranslate("Sign in with Twitter")}
-                                    <a
-                                        className="btn btn-block btn-social btn-google-plus"
-                                        to="@{/oauth2/authorization/google}"
-                                    />
+                                    
+                                    <div onClick={() => handleGoogleLogin()}>
                                     <i className="fa-brands fa-google"></i>{" "}
                                     {customTranslate("Sign in with Google")}
+                                    </div>
                                     </div>
                             </div>
                         </form>
