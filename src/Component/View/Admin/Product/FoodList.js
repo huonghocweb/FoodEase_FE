@@ -113,8 +113,7 @@ if(categories == null)
                     <th scope="col">FOOD NAME</th>
                     <th scope="col">BASE PRICE</th>
                     <th scope="">IMAGE</th>
-                    <th scope="col">CREATED AT</th>
-                    <th scope="col">UPDATE AT</th>
+                    <th scope="col">CREATED AT</th>                  
                     <th scope="col">DISCOUNT</th>
                     <th scope="col">CATEGORY</th>
                     <th>
@@ -132,9 +131,12 @@ if(categories == null)
                     <td className="tm-product-name">{item.foodName}</td>
                     <td>{item.basePrice}</td>
                     <td  onClick={() => handleRowClick(item)}><img src={`${item.imageUrl}`}/></td>
+                    <td>  {(() => {
+                      const orderDate = new Date(item.createdAt);
+                      return `${orderDate.getFullYear()}/${String(orderDate.getMonth() + 1).padStart(2, '0')}/${String(orderDate.getDate()).padStart(2, '0')}`;
+                  })()}</td>
+                   
                     
-                    <td>{item.createdAt}</td>
-                    <td>{item.updatedAt}</td>
                     <td>{item.discount}%</td>
                     <td>{item.category.cartegoryName}</td>
                     <td><i onClick={()=> edit (item)} style={{ cursor: 'pointer' }} className="fa-solid fa-circle-info fa-lg"></i></td>
@@ -166,6 +168,10 @@ if(categories == null)
                 <button className="Button-next" onClick={Next}>Next</button>
             </div>
           
+            <Link
+             to="/admin/addFood"
+              className="btn btn-primary btn-block text-uppercase mb-3">Add Food</Link>
+            
           </div>
         </div>
         <div className="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-block-col">

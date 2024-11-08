@@ -76,7 +76,7 @@ const AddFoodVariation = ({ onClose, item }) => {
             fetchFoodVariation();
 
         } catch (error) {
-            setAlert({ type: 'error', message: 'Added Failed!' });
+            setAlert({ type: 'error', message: 'Added Failed,Size already exists!' });
             console.error('Error:', error);
         }
     };
@@ -211,7 +211,7 @@ const AddFoodVariation = ({ onClose, item }) => {
                         />
                        
                         <div className="order-detailst">
-                            <h4>{varItem.food.foodName}</h4>
+                            
                             <h4>Size: {varItem.foodSize.foodSizeName}</h4>
                             <h4>Quantity: {varItem.quantityStock}</h4>
                             <h4>Discount: {varItem.food.discount}%</h4>
