@@ -74,9 +74,9 @@ const Header = () => {
                   <li>
                     <NavLink
                       className="dropdown-item"
-                      to="/admin/reservation-accepted-list"
+                      to="/admin/reservationOrderPayment"
                     >
-                      Reservation Accepted List
+                      Reservation OrderPayment List
                     </NavLink>
                   </li>
                   <li>

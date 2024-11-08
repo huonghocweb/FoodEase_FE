@@ -3,7 +3,7 @@ import PaginationControls from '../../../../Include/Pagination/PaginationControl
 import './ReservationOccupied.css';
 
 const ReservationOccupiedList = ({ reservationById, foods, paginationState, handlePaginationChange, sortOptions , handleSelecteFood , foodIdSelected 
-  , handleReservationOrder , handleFoodOrderItemChange , reservationOrder
+  , handleReservationOrder , handleFoodOrderItemChange , reservationOrder , handleOpenCheckoutPopup
  }) => {
   const [tables, setTables] = useState([
     { id: 'T-01', status: 'available', image: 'path/to/table01.jpg' },
@@ -62,7 +62,7 @@ const ReservationOccupiedList = ({ reservationById, foods, paginationState, hand
                       )}
                   </div>
                 </div>
-                <button>Payment</button>
+                <button onClick={()=> handleOpenCheckoutPopup()}>CheckOut</button>
                 {/* Danh sách món đã chọn */}
               {/* Danh sách món đã chọn */}
               <div className="selected-foods-box">
@@ -81,7 +81,7 @@ const ReservationOccupiedList = ({ reservationById, foods, paginationState, hand
                                       <div className="quantity-container">
                                           <input
                                               type="number"
-                                              min="1"
+                                              min={0}
                                               defaultValue={1}
                                               onChange={(e) => handleFoodOrderItemChange(item.foodId, parseInt(e.target.value))}
                                               className="quantity-input"
@@ -123,7 +123,7 @@ const ReservationOccupiedList = ({ reservationById, foods, paginationState, hand
                         <p className="reservation-table-detail">Description: {item.description || 'No description available.'}</p>
                         <p className="reservation-table-detail">Price: {item.basePrice.toLocaleString('vi-VN')} đ</p>
                         <p className="reservation-table-detail">Type: {item.foodCategories?.cartegoryName || 'N/A'}</p>
-                        <button onClick={() => handleSelecteFood(item)} className="reservation-select-button">Order</button>
+                        <button onClick={() => handleSelecteFood(item)} className="reservation-select-button">Choose Item</button>
                     </div>
                 </div>
             ))}

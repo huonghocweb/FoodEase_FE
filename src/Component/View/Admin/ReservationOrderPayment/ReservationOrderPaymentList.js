@@ -1,9 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import PaginationControls from '../../../Include/Pagination/PaginationControls';
 import FilterAndSearchControls from '../../../Include/FilterAndSearch/FilterAndSearch';
 
-const ReservationList = ({reservations,paginationState,handlePaginationChange, sortOptions , handleReservationById}) => {
+const ReservationOrderPaymentList = ({paginationState, handleChangePaginationState,sortOptions, reservationOrderPayment, handleReservationOrderPaymentById}) => {
+    console.log(reservationOrderPayment);
     return (
         <>
            <div className="body" style={{padding : '20px'}}>
@@ -16,65 +16,61 @@ const ReservationList = ({reservations,paginationState,handlePaginationChange, s
                     <h2 className="tm-block-title">Reservation List</h2>
                     <PaginationControls
                     paginationState={paginationState}
-                    handlePaginationChange={handlePaginationChange}
+                    handlePaginationChange={handleChangePaginationState}
                     sortOptions = {sortOptions}
                      />
                      <FilterAndSearchControls 
                     paginationState={paginationState}
-                    handlePaginationChange={handlePaginationChange}
+                    handlePaginationChange={handleChangePaginationState}
                      />
                     <table className="table" style={{marginTop : '25px'}}> 
                       <thead>
                         <tr>
                           <th scope="col"> NO.</th>
-                          <th scope="col">Reservation Id</th>
+                          <th scope="col">ReservationOrder Id</th>
                           <th>Customer Name</th>
-                          <th>TableName</th>
                           <th scope="col">Table Image</th>
                           <th scope="col">Booking Date</th>
-                          <th scope="col">Checkin Time </th>
-                          <th scope="col">Checkout Time </th>
-                          <th scope="col">TotalDeposit</th>
+                          <th scope="col">Checkin Checkout Time </th>
+                          <th scope="col">Total Amount</th>
+                          <th>Total Quantity</th>
                           <th scope="col">Services</th>
                           <th>Status</th>
                           <th colSpan={2}>Function</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {reservations.map((item, index) => (
+                        {reservationOrderPayment.map((item, index) => (
                           <>
                             <tr  key={index}>
                             <th>{index+1}</th>
                               <th scope="row">
-                                <b>#{item.reservationId}</b>
+                                <b>#{item.reservationOrderPaymentId}</b>
                               </th>
                               <td>
-                                <b>{item.user.fullName}</b>
+                                <b>{item.reservationOrder.reservation.user.fullName}</b>
                               </td>
-                              <td>{item.resTable.tableName}</td>
                               <td>
                                 <img
-                                  src={item.resTable.imageUrl}
+                                  src={item.reservationOrder.reservation.resTable.imageUrl}
                                   alt="coupon_image"
-                                  style={{ width: "180px", height: "120px" }}
+                                  style={{ width: "120px", height: "80px" }}
                                 />
                               </td>
-                              <td>{new Date(item.checkinTime).toLocaleDateString('vi-VN')}</td>
-                              <td>{new Date(item.checkinTime).toLocaleTimeString('vi-VN')}</td>
-                              <td>{new Date(item.checkoutTime).toLocaleTimeString('vi-VN')}</td>
+                              <td>{new Date(item.reservationOrder.reservation.checkinTime).toLocaleDateString('vi-VN')}</td>
+                              <td>{new Date(item.reservationOrder.reservation.checkinTime).toLocaleTimeString('vi-VN')} --
+                              {new Date(item.reservationOrder.reservation.checkoutTime).toLocaleTimeString('vi-VN')}</td>
                               <td>
-                                {item.totalDeposit?.toLocaleString('vi-VN')}{" "}
+                                {item.totalAmount?.toLocaleString('vi-VN')}{" "}
                                 đ
                               </td>
+                              <td>{item?.reservationOrder.totalQuantity} Item</td>
                               <td>
-                                {item.services.map(service => service.serviceName ).join(',')}
+                                {item.reservationOrder.reservation.services.map(service => service.serviceName ).join(',')}
                               </td>
-                              <td>{item.reservationStatus.reservationStatusName}</td>
+                              <td>{item.reservationOrder.reservation.reservationStatus.reservationStatusName}</td>
                               <td>
-                                {item.reservationStatus.reservationStatusId === 3 ? 
-                                  <button onClick={() => handleReservationById(item.reservationId)} >Checkin</button> 
-                                  : item.reservationStatus.reservationStatusId === 4 ? <NavLink className='btn btn-primary' to={`/admin/reservationOccupied/${item.reservationId}`}>Order Food</NavLink> :" "
-                                }
+                                  <button onClick={() => handleReservationOrderPaymentById(item.reservationOrderPaymentId)} >See Details</button> 
                               </td>
                             </tr>
                           </>
@@ -87,9 +83,9 @@ const ReservationList = ({reservations,paginationState,handlePaginationChange, s
             </div>
           </div>
         </div>
-      </div> 
+      </div>   
         </>
     );
 };
 
-export default ReservationList;
+export default ReservationOrderPaymentList;

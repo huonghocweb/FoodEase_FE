@@ -3,11 +3,14 @@ import MyReservationList from './MyReservationList';
 import { useParams } from 'react-router-dom';
 import axiosConfig from './../../../Config/AxiosConfig';
 import CustomAlert from './../../../Config/CustomAlert';
+import ReservationOrderPaymentPopup from './ReservationOrderPaymentPopup';
 
 const MyReservationPage = () => {
     const {userName} = useParams();
     const [bookingInfo,setBookingInfo] = useState([]);
     const [alert,setAlert]  = useState(null);
+    const [isOpenReservationOrderPaymentPopup , setIsOpenReservationOrderPaymentPopup] = useState(false);
+    const [reservationOrderPayment, setReservationOrderPayment] = useState();
 
     const [paginationState , setPaginationState] = useState({
         pageCurrent : 0,
@@ -35,6 +38,17 @@ const MyReservationPage = () => {
             }
         } catch (error) {
             console.error('error in cancelRequest Reservation',error);
+        }
+    }
+
+    const handleReservationOrderPayment = async (reservationId) => {
+        setIsOpenReservationOrderPaymentPopup(true);
+        try {
+            const resReservationOrderPaymentByReservationId = await axiosConfig.get(`/reservationOrderPaymentApi/getByReservationId/${reservationId}`);
+            console.log(resReservationOrderPaymentByReservationId.data.data);
+            setReservationOrderPayment(resReservationOrderPaymentByReservationId.data.data);
+        } catch (error) {
+            console.error('error in handleReservationOrderPayment ' , error);            
         }
     }
     const fetchReservation = async() => {
@@ -80,6 +94,12 @@ const MyReservationPage = () => {
                 handlePaginationChange = {handlePaginationChange}
                 handleCancelRequestReservation = {handleCancelRequestReservation}
                 sortOptions = {sortOptions}
+                handleReservationOrderPayment = {handleReservationOrderPayment}
+            />
+            <ReservationOrderPaymentPopup 
+                isOpenReservationOrderPaymentPopup = {isOpenReservationOrderPaymentPopup}
+                reservationOrderPayment={reservationOrderPayment}
+                setIsOpenReservationOrderPaymentPopup = {setIsOpenReservationOrderPaymentPopup}
             />
         </>
     );

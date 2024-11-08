@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axiosConfig from '../../../../Config/AxiosConfig';
 import CustomAlert from '../../../../Config/CustomAlert';
 import ReservationOccupiedList from './ReservationOccupiedList';
+import ReservationCheckoutPopup from '../ReservationCheckout/ReservationCheckoutPopup';
 
 const ReservationOccupiedPage = () => {
   const {reservationId} = useParams();
@@ -12,6 +13,12 @@ const ReservationOccupiedPage = () => {
   const [foodIdSelected,setFoodIdSelected] = useState([]);
   const [foodOrderItem ,setFoodOrderItem] = useState({});
   const [reservationOrder,setReservationOrder] = useState();
+  const [isOpentCheckoutPopup, setIsOpentCheckoutPopup] = useState(null);
+  const [paymentMethod ,setPaymentMethod ] = useState();
+  const userName = localStorage.getItem(`userNameLogin`);
+  const baseUrlReturn = window.location.origin;
+
+  const navigate = useNavigate();
   const [paginationState,setPaginationState] = useState({
     pageCurrent : 0,
     pageSize : 4,
@@ -57,6 +64,35 @@ const ReservationOccupiedPage = () => {
       console.error('erorr in handleReservationOrder',error)
     }
   }
+
+  const handleCheckoutReservationOrder = async (paymentMethodId) => {
+    const reservationOrderId = reservationOrder.reservationOrderId;
+    console.log(reservationOrder.reservationOrderId);
+    console.log(paymentMethodId);
+    console.log(baseUrlReturn);
+    try {
+      // const resCheckOutReservationOrder = await axiosConfig.post(`/reservationOrderPaymentApi/${reservationOrderId}/${paymentMethodId}`);
+      const resCheckOutReservationOrder = await axiosConfig.get(`/paymentMethod/payment/${reservationOrderId}/${reservationOrder.totalPrice}`, {
+        params : {
+          paymentMethodId : paymentMethodId, 
+          baseUrlReturn : baseUrlReturn ,
+          userName : userName
+        }
+      })
+       console.log(resCheckOutReservationOrder.data.data);
+       if(paymentMethodId !== 5 && resCheckOutReservationOrder.data.data !== null){
+        window.location.href = resCheckOutReservationOrder.data.data;
+       }
+      if(resCheckOutReservationOrder.data.data !== null){
+        setAlert({type : 'success' , message : 'Checkout Success'});
+        navigate('/admin/reservation');
+      }else {
+        setAlert({type : 'error' , message : 'Checkout Failed'});
+      }
+    } catch (error) {
+      console.log('error in handleCheckoutReservationOrder',error);
+    }
+  }
   const fetchReservationById = async () => {
     try {
       const resReservationById = await axiosConfig.get(`/reservation/${reservationId}`);
@@ -65,6 +101,18 @@ const ReservationOccupiedPage = () => {
     } catch (error) {
       console.error('error  in fetchReservationById',error);
     }
+  }
+  const fetchPaymentMethod = async () => {
+    try {
+      const resPaymentMethods = await axiosConfig.get(`/payment/getAll`);
+      console.log(resPaymentMethods);
+      setPaymentMethod(resPaymentMethods.data.data);
+    } catch (error) {
+      console.error('error in fetchPaymentMethod ' + error);
+    }
+  }
+  const handleOpenCheckoutPopup =  async( ) => {
+    setIsOpentCheckoutPopup(!isOpentCheckoutPopup);
   }
   const fetchFoods = async () => {
     try {
@@ -78,7 +126,6 @@ const ReservationOccupiedPage = () => {
       })
       setFoods(resGetAllFood.data.data.content);
       handlePaginationChange('totalPage',resGetAllFood.data.data.totalPages)
-      console.log(resGetAllFood.data.data);
     } catch (error) {
       console.error('error in fetchFoods',error);
     }
@@ -102,6 +149,7 @@ const ReservationOccupiedPage = () => {
     fetchReservationById();
     fetchFoods ();
     fetchReservaionOrderByReservationId();
+    fetchPaymentMethod();
   },[reservationId , ...Object.values(paginationState)])
     return (
         <>
@@ -123,7 +171,15 @@ const ReservationOccupiedPage = () => {
               handleReservationOrder = {handleReservationOrder}
               handleFoodOrderItemChange = {handleFoodOrderItemChange}
               reservationOrder = {reservationOrder}
+              handleOpenCheckoutPopup = {handleOpenCheckoutPopup}
               />
+              <ReservationCheckoutPopup
+                isOpentCheckoutPopup={isOpentCheckoutPopup}
+                paymentMethod={paymentMethod}
+                reservationOrder={reservationOrder}
+                handleCheckoutReservationOrder = {handleCheckoutReservationOrder}
+                handleOpenCheckoutPopup = {handleOpenCheckoutPopup}
+               />
         </>
     );
 };

@@ -7,6 +7,7 @@ import ServicesPopup from './ServicesPopup';
 import axiosConfig from '../../../Config/AxiosConfig';
 import CustomAlert from '../../../Config/CustomAlert';
 import CheckTimePopup from './CheckTimePopup';
+import { parse, isDate, isAfter, isBefore } from "date-fns"; 
 
 const BookTablePage = () => {
 
@@ -35,17 +36,24 @@ const BookTablePage = () => {
         checkinTime : '',
         checkoutTime :''
     });
+
     const handleInputChange= (name,value) => {
         setFormStateCheckTime({
             ...formStateCheckTime,
             [name] : value
         });
     }
+
     const resetFormStateCheckTime =  () => {
         setFormStateCheckTime({
             date : '',
             checkinTime : '',
             checkoutTime : ''
+        })
+        setErrorCheckTimeState({
+            checkinTime : '',
+            checkoutTime : '',
+            date : ''
         })
         fetchtUserByUserName();
     }
@@ -77,10 +85,21 @@ const BookTablePage = () => {
 
     const [isCheckTimePopup,setIsCheckTimePopup] = useState(false);
     const [reservated,setReservted] = useState([]);
+    const [errorCheckTimeState, setErrorCheckTimeState] = useState({
+        checkinTime : '',
+        checkoutTime : '',
+        date : ''
+    })
+    const handleErrorCheckTime = (name, value) => {
+        setErrorCheckTimeState(prev => ({
+            ...prev,
+            [name] : value
+        }))
+    }
     const [tableIdSelected,setTableIdSelected] = useState();
     const openCheckTimePopup = async (tableId)=> {
         setIsCheckTimePopup(!isCheckTimePopup);
-        console.log(tableId);
+     //   console.log(tableId);
         setTableIdSelected(tableId);
     }
     const handleCheckTimePopup = async (dateCheckTime) => {
@@ -94,29 +113,46 @@ const BookTablePage = () => {
                     }
                 }
             );
-            console.log(resTableReserved.data.data);
+           // console.log(resTableReserved.data.data);
             setReservted(resTableReserved.data.data)
         } catch (error) {
             console.error('error in CheckTimePopup',error);
         }
     }
 
+    
     const handleCheckResTableAvailable = async () => {
         const formData = new FormData();
-        
         // Thêm các giá trị vào FormData
         formData.append("tableId", tableIdSelected);
         formData.append("date", formStateCheckTime.date);
         formData.append("checkinTime", formStateCheckTime.checkinTime);
-        formData.append("checkoutTime", formStateCheckTime.checkoutTime);
+        formData.append("checkoutTime", formStateCheckTime.checkoutTime);   
         formData.append("userId", formStateCheckTime.user?.userId);
-        
+        const startDate = parse(formStateCheckTime.checkinTime , "HH:mm" , new Date()) ;
+        const endDate= parse(formStateCheckTime.checkoutTime , "HH:mm" , new Date());
+        const date = parse(formStateCheckTime.date, "yyyy-MM-dd", new Date());
+        const datenow =new Date();
+        console.log(datenow);
+          // console.log(startDate);
+        // console.log(endDate);
+        if(isAfter(date,datenow)){
+            handleErrorCheckTime('date', 'Date is need after to day');
+            return ;
+        }
+        if(isAfter(startDate,endDate)){
+            console.log('Check out Time is need Afted checkin Time');
+            handleErrorCheckTime('checkinTime','Check Int Time is need Afted checkin Time');
+            handleErrorCheckTime('checkoutTime','Check out Time is need Afted checkin Time');
+            return ;
+        }
         // Thêm từng serviceId vào FormData
         selectedServiceIds.forEach(item => {
             formData.append("serviceIds", item.serviceId);
         });
     
         try {
+            console.log('Checkin')
             const resCheckResTableVai = await axiosConfig.post(`/restables/checkResTableAvailable`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data' // Đặt kiểu dữ liệu cho FormData
@@ -211,7 +247,7 @@ const BookTablePage = () => {
                     sortBy : tabSortBy 
                 }
             })
-            console.log(resTableByCapaAndCate.data.data);
+          //  console.log(resTableByCapaAndCate.data.data);
             setTabResTables(resTableByCapaAndCate.data.data?.content);
             setTabToTalPage(resTableByCapaAndCate.data.data?.totalPages);
             setToTalTab(resTableByCapaAndCate.data.data?.totalElements);
@@ -269,6 +305,7 @@ const BookTablePage = () => {
             selectedServiceIds = {selectedServiceIds}
             isOpenServicesPopup = {isOpenServicesPopup}
             handleServicesPopup = {handleServicesPopup}
+            errorCheckTimeState = {errorCheckTimeState}
          />
          <ServicesPopup 
             isOpenServicesPopup = {isOpenServicesPopup}

@@ -2,11 +2,9 @@ import React from 'react';
 
 const ReturnRequestPopup = ({ isOpenReturnOrder, checkOrderReturnRequest, orderReturnByOrderId, hanldeApproveOrderReturn }) => {
     const orderReturn = orderReturnByOrderId && orderReturnByOrderId.length > 0 ? orderReturnByOrderId[0] : null;
-    
-    if (!orderReturn) {
-        console.log('No order return data available');
-        return null; // Return null if no data is available
-    }
+    // if (!orderReturn) {
+    //     return null; // Return null if no data is available
+    // }
 
     return (
         <>

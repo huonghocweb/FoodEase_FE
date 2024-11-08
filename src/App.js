@@ -43,10 +43,9 @@ import ReservationPage from "./Component/View/Admin/Reservation/ReservationPage.
 import MyDeliveryAddressPage from "./Component/View/Home/MyDeliveryAddrress/MyDeliveryAddressPage.js";
 import ReservationOccupiedPage from "./Component/View/Admin/Reservation/ReservationChecked/ReservationOccupiedPage.js";
 import ReservationList from './Component/View/Admin/Reservation/ReservationList';
-import ReservationCancelledList from './Component/View/Admin/Reservation/ReservationCancelledList';
-import ReservationAcceptedList from './Component/View/Admin/Reservation/ReservationAcceptedList';
 import FoodReviewTable from './Component/View/Admin/Review/FoodReviewTable';
 import DeliveryTimeEstimator from './Component/View/Admin/Delivery/DeliveryTimeEstimator';
+import ReservationOrderPaymentPage from './Component/View/Admin/ReservationOrderPayment/ReservationOrderPaymentPage.js';
 function App() {
 
   useEffect(() => {
@@ -134,14 +133,7 @@ function App() {
           <Route path="UserOrder" element={<UserOrder />} />
           <Route path="addFood" element={<AddFood />} />
           <Route path="reservation-list" element={<ReservationList />} />
-          <Route
-              path="reservation-cancelled-list"
-              element={<ReservationCancelledList />}
-            />
-            <Route
-              path="reservation-accepted-list"
-              element={<ReservationAcceptedList />}
-            />
+          <Route path="reservationOrderPayment" element={<ReservationOrderPaymentPage />} />         
           </Route>
         </Routes>
         <Footer />
