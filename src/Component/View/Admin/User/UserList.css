@@ -1,72 +1,141 @@
-th,
-td {
+.user-list-body {
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.user-list-container {
+  margin: 0 auto;
+  max-width: 1600px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-list-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.btn-edit {
-  width: 100%;
-  background-color: #28a745;
+.user-btn-create {
+  display: inline-block;
+  margin-bottom: 15px;
+  padding: 10px 20px;
+  background-color: #04bc38;
   color: #fff;
-  border-radius: 4px;
+
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
-.btn-edit:hover {
-  background-color: #218838;
+.user-btn-create:hover {
+  background-color: #00b36e;
 }
 
-.btn-delete {
-  width: 100%;
-  background-color: #dc3545;
-  color: #fff;
-  border-radius: 4px;
+.user-import-export-container {
+  margin-bottom: 20px;
 }
 
-.btn-delete:hover {
-  background-color: #c82333;
+.user-file-input {
+  margin-bottom: 10px;
 }
 
-button:hover {
-  text-decoration: underline;
-}
-
-/* Đổ bóng cho bảng */
-.tm-block-scroll {
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 8px;
-}
-/* UserList.css */
-
-.import-export-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 20px 0;
-}
-
-.import-export-container h2 {
-  margin: 0;
-}
-
-.import-export-container input[type="file"] {
-  margin-right: 10px;
-}
-
-.import-export-buttons {
+.user-import-export-buttons {
   display: flex;
   gap: 10px;
 }
 
-.btn-import-export {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.user-btn-import,
+.user-btn-export {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
-.btn-import-export:hover {
-  background-color: #0056b3;
+.user-btn-export {
+  background-color: #006271;
+}
+
+.user-btn-import:hover {
+  background-color: #218838;
+}
+
+.user-btn-export:hover {
+  background-color: #117a8b;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-y: auto;
+}
+
+.user-table th,
+.user-table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #dee2e6;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.user-action-buttons {
+  display: flex;
+  gap: 8px; /* Khoảng cách giữa các nút */
+  justify-content: center; /* Căn giữa các nút trong ô */
+}
+
+.user-btn {
+  padding: 6px 12px; /* Kích thước nút */
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none; /* Bỏ gạch chân cho link */
+  color: #fff; /* Màu chữ */
+  border: none; /* Bỏ viền */
+  transition: background-color 0.3s ease; /* Hiệu ứng khi hover */
+}
+
+.user-btn-edit {
+  background-color: #007bff; /* Màu nền xanh dương */
+  
+}
+
+.user-btn-edit:hover {
+  background-color: #0056b3; /* Màu nền khi hover */
+}
+
+.user-btn-delete {
+  background-color: #dc3545; /* Màu nền đỏ */
+}
+
+.user-btn-delete:hover {
+  background-color: #b02a37; /* Màu nền khi hover */
+}
+
+
+.user-no-users-text {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
+
+.user-loading-text,
+.user-error-text {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
 }

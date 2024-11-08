@@ -25,6 +25,7 @@ import UserOrder from "./Component/View/Admin/UserBuy/UserOrder.js";
 import BlogDetail from "./Component/View/Home/BlogEntries/BlogDetail.js";
 import BlogEntries from "./Component/View/Home/BlogEntries/BlogEntries.js";
 import BookTablePage from "./Component/View/Home/BookingTable/BookTablePage.js";
+import UserEdit from "./Component/View/Admin/User/UserEdit";  // Đảm bảo đường dẫn đúng
 import CartPage from "./Component/View/Home/Cart/CartPage";
 import BoxChatPage from "./Component/View/Home/Chat/BoxChatPage";
 import ClaimCouponPage from "./Component/View/Home/CouponStorage/ClaimCouponPage";
@@ -34,6 +35,13 @@ import Order from "./Component/View/Home/Details/Order";
 import HomeLayOut from "./Component/View/Home/HomeLayOut";
 import FoodIndex from "./Component/View/Home/Index/FoodIndex";
 import Login from "./Component/View/Home/Login/Login";
+
+import ResetPass from './Component/View/Home/Login/ResetPass';
+import SetNewPassword from './Component/View/Home/Login/SetNewPassword';
+import CreateAccount from './Component/View/Home/Login/CreateAccount';
+import ConfirmCode from './Component/View/Home/Login/ConfirmCode';
+import CreateUser from './Component/View/Home/Login/CreateUser';
+
 import OrderStatus from "./Component/View/Home/MyOrder/OrderStatus";
 import OrderHistoryPage from "./Component/View/Home/OrderHistory/OrderHistoryPage";
 import Thanks from "./Component/View/Home/Thank/Thanks";
@@ -64,6 +72,13 @@ function App() {
           <Route path="/" element={<HomeLayOut />}>
             <Route index element={<FoodIndex />} />
             <Route path="login" element={<Login />} />
+
+            <Route path="/reset-password" element={<ResetPass />} />
+            <Route path="/set-new-password" element={<SetNewPassword />} />
+            <Route path="/create-account" element={<CreateAccount />} />
+            <Route path="/confirm-code" element={<ConfirmCode />} />
+            <Route path="/create-user" element={<CreateUser />} />
+            
             <Route path="notification" element={<Notification />} />
             <Route path="foodDetailsPopup" element={<Order />} />
             <Route path="foodDetails/:id" element={<FoodDetails />} />
@@ -98,7 +113,7 @@ function App() {
             <Route path="delivery" element ={<DeliveryTimeEstimator />} />
             <Route path="users" element={<UserPage />} />
             <Route path="user/create" element={<UserFormPage />} />
-            <Route path="user/edit/:userId" element={<UserFormPage />} />
+            <Route path="user/edit/:userId" element={<UserEdit />} />
             <Route path="foods" element={<FoodPage />} />
             <Route path="coupons" element={<CouponPage />} />
             <Route path="coupon/create" element={<CouponFormPage />} />
