@@ -25,25 +25,34 @@ const ConfirmCode = () => {
             alert('Please enter a valid 5-digit code.');
             return;
         }
-
+    
         try {
-            // Gửi yêu cầu xác nhận mã
-            const response = await axios.post('http://localhost:8080/api/user/confirm-reset-password', {
+            const response = await axios.post('http://localhost:8080/api/user/confirm-registration-code', {
                 token: code,
-                action: 'yes',
+                email,
             });
-
+            
+            // In phản hồi ra console để kiểm tra
+            console.log(response.data);
+    
+            // Kiểm tra nếu phản hồi có chứa `success` và `message`
             if (response.data.success) {
                 alert('Code confirmed successfully!');
                 navigate('/create-user', { state: { email } });
+            } else if (response.data.message) {
+                alert(response.data.message);
             } else {
-                alert('Failed to confirm code. Please try again.');
+                alert('Unexpected error: No message from server.');
             }
         } catch (error) {
-            alert('Invalid or expired code.');
+            // Kiểm tra chi tiết lỗi từ phản hồi
             console.error('Error:', error);
+            const errorMessage = error.response?.data?.message || 'Invalid or expired code.';
+            alert(errorMessage);
         }
     };
+    
+    
 
     return (
         <div className="confirm-code-container">

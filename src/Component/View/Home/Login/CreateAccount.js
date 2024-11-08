@@ -21,18 +21,17 @@ const CreateAccount = () => {
     const handleNext = async (e) => {
         e.preventDefault();
         if (!isEmailValid || email === '') return;
-
+    
         setIsLoading(true);
         try {
-            // Gửi yêu cầu gửi mã xác thực
-            const response = await axios.post('http://localhost:8080/api/user/request-reset-password', { email });
-
-            if (response.data.success) {
-                alert('Verification code has been sent to your email!');
-                // Điều hướng đến ConfirmCode cùng với email đã gửi
+            const response = await axios.post('http://localhost:8080/api/user/request-registration-code', { email });
+            console.log(response.data); // Kiểm tra phản hồi từ API
+    
+            if (response.data.message) {  // Kiểm tra nếu có message
+                alert(response.data.message);
                 navigate('/confirm-code', { state: { email } });
             } else {
-                alert('Failed to send verification code.');
+                alert('Something went wrong. Please try again.');
             }
         } catch (error) {
             alert('Failed to send verification code. Please try again.');
@@ -40,6 +39,9 @@ const CreateAccount = () => {
         }
         setIsLoading(false);
     };
+    
+    
+    
 
     const handleBack = () => {
         navigate('/login');

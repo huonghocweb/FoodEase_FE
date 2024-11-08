@@ -50,10 +50,10 @@ const Login = () => {
                     localStorage.setItem('rolesLogin', JSON.stringify(roles));
                 } else {
                     // Lưu vào sessionStorage
-                    sessionStorage.setItem('jwtToken', jwtToken);
-                    sessionStorage.setItem('userIdLogin', userId);
-                    sessionStorage.setItem('userNameLogin', username);
-                    sessionStorage.setItem('rolesLogin', JSON.stringify(roles));
+                    localStorage.setItem('jwtToken', jwtToken);
+                    localStorage.setItem('userIdLogin', userId);
+                    localStorage.setItem('userNameLogin', username);
+                    localStorage.setItem('rolesLogin', JSON.stringify(roles));
                 }
 
                 setAlert({ type: 'success', message: 'Login Success!' });

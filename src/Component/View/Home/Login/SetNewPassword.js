@@ -31,19 +31,23 @@ const SetNewPassword = () => {
             setAlert({ type: 'error', message: customTranslate("Passwords do not match!") });
             return;
         }
+        
+        console.log("Sending data:", form); // Thêm dòng này để kiểm tra dữ liệu form
     
         try {
             // Gửi yêu cầu đặt lại mật khẩu với mã số xác nhận
             await axios.post('http://localhost:8080/api/user/reset-password', {
-                token: form.token, // Mã xác nhận
+                token: form.token,
                 newPassword: form.newPassword
             });
             setAlert({ type: 'success', message: customTranslate("Password reset successful!") });
             setTimeout(() => navigate("/"), 3000);
         } catch (error) {
             setAlert({ type: 'error', message: customTranslate("Failed to reset password!") });
+            console.error('Error in reset password:', error.response || error.message);
         }
     };
+    
     
 
     return (
@@ -100,7 +104,7 @@ const SetNewPassword = () => {
                             </div>
                             <div className="form-text text-center mb-5 text-dark">
                                 {customTranslate("Remember your password?")} 
-                                <a href="/" className="text-dark fw-bold">
+                                <a href="/login" className="text-dark fw-bold">
                                     {customTranslate("Back to Login")}
                                 </a>
                             </div>
