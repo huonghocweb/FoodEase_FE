@@ -8,6 +8,7 @@ const [rating, setRating] = useState(0);
 const [review, setReview] = useState('');
 const [file, setFile] = useState(null);
 const [user,setUser]=useState([]);
+
 const userId =localStorage.getItem('userIdLogin');
   const fetchCommnet = async ()=>{
            await axiosConfig.get(`/user/foodReview/findfoodReviewByFoodId/${foodDetail.foodDetail.foodId}`)
@@ -73,7 +74,7 @@ const userId =localStorage.getItem('userIdLogin');
  useEffect (() =>{
   fetchCommnet ();
   fetchUser();
-  console.log(comment)
+ 
 }
 
 ,[comment])
@@ -86,7 +87,7 @@ const userId =localStorage.getItem('userIdLogin');
       
             <div className="avatar">
               {/* Add an image or icon for the avatar if needed */}
-              <img key={user.userId} src={`/assets/images/${user.imageUrl}`}/>
+              <img  src={`/assets/images/${user.imageUrl}`}/>
             
               
             </div>
@@ -112,6 +113,8 @@ const userId =localStorage.getItem('userIdLogin');
       ))}
       <span className="rating-value">{rating} sao</span>
     </div>
+
+
     <div className="comment">
      
       <input
@@ -146,6 +149,7 @@ const userId =localStorage.getItem('userIdLogin');
                 <span className="user-name">{comment.user.fullName}</span>
                 <span className="review-date">{comment.reviewDate}</span>
               </div>
+              
             </div>
             <div className="rating">
               {comment.rating}⭐
@@ -155,6 +159,7 @@ const userId =localStorage.getItem('userIdLogin');
             </div>
             <div className="comment-image">
               <img src={`/assets/images/${comment.imageUrl}`}/>
+              
               
             </div>
             <div className="reply">
