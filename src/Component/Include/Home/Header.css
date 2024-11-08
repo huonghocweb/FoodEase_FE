@@ -65,3 +65,18 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+/* Thêm vào tệp CSS của bạn */
+.cart-count {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-count span {
+  position: absolute;
+  top: -10px; /* Điều chỉnh theo sự cần thiết */
+  right: -10px; /* Điều chỉnh theo sự cần thiết */
+  background-color: red; /* Màu nền của số */
+  color: white; /* Màu chữ của số */
+  padding: 2px 5px; /* Điều chỉnh kích thước padding */
+  border-radius: 50%; /* Để làm cho số có dạng tròn */
+}

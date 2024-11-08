@@ -113,8 +113,7 @@ if(categories == null)
                     <th scope="col">FOOD NAME</th>
                     <th scope="col">BASE PRICE</th>
                     <th scope="">IMAGE</th>
-                    <th scope="col">CREATED AT</th>
-                  
+                    <th scope="col">CREATED AT</th>                  
                     <th scope="col">DISCOUNT</th>
                     <th scope="col">CATEGORY</th>
                     <th>

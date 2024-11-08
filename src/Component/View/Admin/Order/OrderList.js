@@ -19,10 +19,20 @@ const OrderList = () => {
   const [TotalPage,setTotalPage] = useState();
   const [endDate,setEndDate] = useState('');
   const [inputFindEndDate,setinputFindEndDate]=useState('');
- 
+  const [sortDirection, setSortDirection] = useState('ASC');
+    const [sortBy, setSortBy] = useState('orderDate');
+
+    const handleSort = (columnName) => {
+      if (columnName === sortBy) {
+          setSortDirection(sortDirection === 'ASC' ? 'DESC' : 'ASC');
+      } else {
+          setSortBy(columnName);
+          setSortDirection('ASC');
+      }
+  };
 const featchOrderList = async ()=>{
   try {
-    const responseOrder = await axiosConfig(`/order/findOrderByOrderDate?date=${date}&EndDate=${endDate}&page=${page}`)
+    const responseOrder = await axiosConfig(`/order/findOrderByOrderDate?date=${date}&EndDate=${endDate}&page=${page}&sortBy=${sortBy}&sortDirection=${sortDirection}`)
     .then(responseOrder =>{
       setOrder(responseOrder.data.content)
       setTotalPage(responseOrder.data.totalPages)
@@ -133,14 +143,19 @@ const Next = () => {
                 <div className='orderlist-find'>
                   <input type='date' value={inputFind}onChange={handleinputFind}/>
                   <input type='date' value={inputFindEndDate}onChange={handleinputFindendDate}/>
-                  <button onClick={findDate}>find</button>
+                  <button onClick={findDate}><i class="bi bi-search"></i></button>
                 </div>
                 <table className="table">
                   <thead>
                     <tr>
                    
                       <th scope="col">ORDER NO.</th>
-                      <th scope="col">Order Date</th>
+                      <th scope="col" onClick={() => handleSort('orderDate')}>
+                        Order Date
+                        {sortBy === 'orderDate' && (
+                            sortDirection === 'ASC' ? '▲' : '▼'
+                        )}
+                    </th>
                       <th scope="col">Order Time</th>
                       <th scope="col">User Name</th>
                       <th scope="col">Delivery Address</th>

@@ -7,7 +7,8 @@ const [comment,setComment ] =useState([]);
 const [rating, setRating] = useState(0);
 const [review, setReview] = useState('');
 const [file, setFile] = useState(null);
-
+const [user,setUser]=useState([]);
+const userId =localStorage.getItem('userIdLogin');
   const fetchCommnet = async ()=>{
            await axiosConfig.get(`/user/foodReview/findfoodReviewByFoodId/${foodDetail.foodDetail.foodId}`)
         .then(response =>{
@@ -15,6 +16,20 @@ const [file, setFile] = useState(null);
         
         })
       };
+  const fetchUser = async ()=>{
+    try {
+    
+      await axiosConfig.get(`user/${userId}`)
+      .then(response =>{
+        setUser(response.data)
+        
+      })
+    } catch (error) {
+      
+    }
+    
+    
+  }
       const handleAdd = async (e) => {
         e.preventDefault();
     
@@ -27,6 +42,7 @@ const [file, setFile] = useState(null);
         formData.append('rating',rating);
         formData.append('review',review);
         formData.append('foodId',foodDetail.foodDetail.foodId);
+        formData.append('userId',userId);
         
         try {
             const response = await axiosConfig.post('/user/foodReview/comment',formData,
@@ -56,6 +72,8 @@ const [file, setFile] = useState(null);
     }
  useEffect (() =>{
   fetchCommnet ();
+  fetchUser();
+  console.log(comment)
 }
 
 ,[comment])
@@ -63,12 +81,18 @@ const [file, setFile] = useState(null);
     return (
      
         <div className="review-container ">
+          
            <div className="user-info">
+      
             <div className="avatar">
               {/* Add an image or icon for the avatar if needed */}
+              <img key={user.userId} src={`/assets/images/${user.imageUrl}`}/>
+            
+              
             </div>
             <div className="user-details">
-              <span className="user-name">Duong</span>
+              <span className="user-name">{user.fullName}</span>
+              
               <span className="review-date"></span>
             </div>
           </div>
@@ -115,10 +139,11 @@ const [file, setFile] = useState(null);
           <div key={comment.id} className="comment-item">
             <div className="user-info">
               <div className="avatar">
+              <img src={`/assets/images/${comment.user.imageUrl}`}/>
                 {/* Add an image or icon for the avatar if needed */}
               </div>
               <div className="user-details">
-                <span className="user-name">{comment.user.fullname}</span>
+                <span className="user-name">{comment.user.fullName}</span>
                 <span className="review-date">{comment.reviewDate}</span>
               </div>
             </div>
@@ -130,6 +155,7 @@ const [file, setFile] = useState(null);
             </div>
             <div className="comment-image">
               <img src={`/assets/images/${comment.imageUrl}`}/>
+              
             </div>
             <div className="reply">
               <span className="reply-from">TASTY Kitchen</span>
