@@ -32,7 +32,7 @@
 /* Ordered Foods */
 /* Container cho Ordered Foods */
 .ordered-food-container {
-    flex-basis: 300px; /* Đặt chiều rộng tối thiểu cho ordered foods */
+    flex-basis: 400px; /* Đặt chiều rộng tối thiểu cho ordered foods */
     padding: 15px; /* Thêm khoảng cách bên trong cho container */
     background-color: #ffffff; /* Màu nền trắng cho container */
     border-radius: 10px; /* Bo góc cho container */
@@ -46,6 +46,10 @@
     gap: 10px; /* Khoảng cách giữa các món ăn */
 }
 
+.ordered-food-list span {
+    font-weight: bolder;
+    color: rgb(26, 199, 124);
+}
 /* Món ăn đã đặt */
 .ordered-food-item {
     display: flex; /* Đặt các phần tử con theo hàng ngang */
@@ -81,7 +85,7 @@
 /* Tên món ăn đã đặt */
 .ordered-food-name {
     font-weight: bold; 
-    font-size: 1rem; 
+    font-size: 15px; 
     margin: 0; 
 }
 

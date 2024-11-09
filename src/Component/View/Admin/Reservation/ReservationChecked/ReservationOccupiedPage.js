@@ -55,6 +55,8 @@ const ReservationOccupiedPage = () => {
       const resReservationOrder = await axiosConfig.post(`/reservationOrderDetail/createReservationOrderDetails/${reservationId}`,formData);
       console.log(resReservationOrder.data);
       if(resReservationOrder.data.data !== null ){
+        setFoodOrderItem({});
+        setFoodIdSelected([]); 
         setAlert({type : 'success', message : 'Order Food Success'});
       }else{
         setAlert({type : 'erorr' , message : 'Order Food Faild'});
@@ -150,7 +152,7 @@ const ReservationOccupiedPage = () => {
     fetchFoods ();
     fetchReservaionOrderByReservationId();
     fetchPaymentMethod();
-  },[reservationId , ...Object.values(paginationState)])
+  },[reservationId , ...Object.values(paginationState) ])
     return (
         <>
         {alert && (

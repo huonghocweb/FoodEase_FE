@@ -98,7 +98,7 @@ const PaymentReport = () => {
       </div>
 
       {/* Biểu đồ số lượng người dùng */}
-      <div className="row justify-content-center">
+      <div className="row justify-content-center mb-5">
         <div className="col-md-10">
           <h3 className="text-center">User Count by Payment Method</h3>
           <ResponsiveContainer width="100%" height={300}>
@@ -114,13 +114,32 @@ const PaymentReport = () => {
         </div>
       </div>
 
+      {/* Biểu đồ số lượng đơn hàng */}
+      <div className="row justify-content-center">
+        <div className="col-md-10">
+          <h3 className="text-center">Order Count by Payment Method</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={revenueData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="paymentMethodName" />
+              <YAxis domain={[0, 10]} />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="orderCount" stroke="#ff7300" name="Order Count" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Thông tin chi tiết */}
       <div className="mt-4">
         {revenueData.length > 0 ? (
           <ul className="list-group">
             {revenueData.map((item, index) => (
               <li key={index} className="list-group-item">
                 {item.paymentMethodName}: {formatCurrency(item.totalRevenue)} -{" "}
-                <strong>Users:</strong> {item.userCount}
+                <strong>Users:</strong> {item.userCount} - <strong>Orders:</strong>{" "}
+                {item.orderCount}
               </li>
             ))}
           </ul>

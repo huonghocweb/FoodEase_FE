@@ -48,14 +48,14 @@ const ReservationOccupiedList = ({ reservationById, foods, paginationState, hand
                                   <div key={index} className="ordered-food-item">
                                       <img src={item?.foods?.imageUrl} alt={item?.foods.foodName} className="ordered-food-image" />
                                       <div className="ordered-food-details">
-                                          <p className="ordered-food-name">{item?.foods.foodName}</p>
+                                          <p  className="ordered-food-name">{item?.foods.foodName}</p>
                                           <p className="ordered-food-price">{item?.foods.basePrice?.toLocaleString('vi-VN')} đ</p>
                                           <p className="ordered-food-quantity">Số lượng: {item.quantity}</p>
                                       </div>
                                   </div>
                               ))}
-                              <p>Total Item : {reservationOrder.totalQuantity}</p>
-                              <p>Total Price: {reservationOrder.totalPrice?.toLocaleString('vi-VN')} đ</p>
+                              <p>Total Item : <span >{reservationOrder.totalQuantity}</span> </p>
+                              <p>Total Price: <span >{reservationOrder.totalPrice?.toLocaleString('vi-VN')}</span> đ</p>
                           </div>
                       ) : (
                           <p>No foods ordered yet.</p>

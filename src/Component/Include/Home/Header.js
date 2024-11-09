@@ -130,16 +130,10 @@ const Header = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to={`/login`}>
-              <i className="fa-solid fa-right-to-bracket fa-xl"></i>
-            </NavLink>
-          </li>
-          <li>
             <NavLink to={`/notification`}>
               <i className="fa-solid fa-bell fa-lg"></i>
             </NavLink>
           </li>
-          {user && <div>{user?.userName}</div>}
           <li>
             <i
               className="fa-xl fas fa-globe"

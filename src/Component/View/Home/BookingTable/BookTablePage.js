@@ -136,7 +136,7 @@ const BookTablePage = () => {
         console.log(datenow);
           // console.log(startDate);
         // console.log(endDate);
-        if(isAfter(date,datenow)){
+        if(!isAfter(date,datenow)){
             handleErrorCheckTime('date', 'Date is need after to day');
             return ;
         }
