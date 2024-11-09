@@ -1,15 +1,17 @@
 .user-list-body {
   padding: 20px;
   background-color: #f8f9fa;
+  
 }
 
 .user-list-container {
   margin: 0 auto;
-  max-width: 1600px;
+  max-width: 1800px;
   background-color: #fff;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
 .user-list-title {
@@ -93,13 +95,12 @@
 }
 
 .user-action-buttons {
-  display: flex;
   gap: 8px; /* Khoảng cách giữa các nút */
   justify-content: center; /* Căn giữa các nút trong ô */
 }
 
 .user-btn {
-  padding: 6px 12px; /* Kích thước nút */
+  padding: 8px 14px; /* Kích thước nút */
   border-radius: 4px;
   font-size: 14px;
   cursor: pointer;

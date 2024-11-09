@@ -1,58 +1,55 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-// import './ConfirmCode.css';
+import './ConfirmCode.css';
 
 const ConfirmCode = () => {
-    const [code, setCode] = useState('');
+    const [code, setCode] = useState(['', '', '', '', '']);
     const [isCodeValid, setIsCodeValid] = useState(true);
     const navigate = useNavigate();
     const location = useLocation();
     const email = location.state?.email || '';
 
-    const handleInputChange = (e) => {
+    const handleInputChange = (e, index) => {
         const value = e.target.value;
-        setCode(value);
+        if (/^\d?$/.test(value)) {  // Only allow single digit
+            const newCode = [...code];
+            newCode[index] = value;
+            setCode(newCode);
+            setIsCodeValid(newCode.every(digit => digit !== ''));
 
-        // Kiểm tra định dạng mã (5 chữ số)
-        const codeRegex = /^\d{5}$/;
-        setIsCodeValid(codeRegex.test(value));
+            // Move to the next input if current input is filled
+            if (value && index < code.length - 1) {
+                document.getElementById(`code-input-${index + 1}`).focus();
+            }
+        }
     };
 
     const handleConfirm = async (e) => {
         e.preventDefault();
-        if (!isCodeValid || code === '') {
+        const codeString = code.join('');
+        if (!isCodeValid || codeString.length !== 5) {
             alert('Please enter a valid 5-digit code.');
             return;
         }
-    
+
         try {
             const response = await axios.post('http://localhost:8080/api/user/confirm-registration-code', {
-                token: code,
+                token: codeString,
                 email,
             });
-            
-            // In phản hồi ra console để kiểm tra
-            console.log(response.data);
-    
-            // Kiểm tra nếu phản hồi có chứa `success` và `message`
+
             if (response.data.success) {
                 alert('Code confirmed successfully!');
-                navigate('/create-user', { state: { email } });
-            } else if (response.data.message) {
-                alert(response.data.message);
+                navigate('/create-user', { state: { email, token: codeString } });
             } else {
-                alert('Unexpected error: No message from server.');
+                alert(response.data.message || 'Invalid or expired code.');
             }
         } catch (error) {
-            // Kiểm tra chi tiết lỗi từ phản hồi
             console.error('Error:', error);
-            const errorMessage = error.response?.data?.message || 'Invalid or expired code.';
-            alert(errorMessage);
+            alert('Failed to confirm code. Please try again.');
         }
     };
-    
-    
 
     return (
         <div className="confirm-code-container">
@@ -60,19 +57,25 @@ const ConfirmCode = () => {
                 <h2 className="confirm-code-title">Verify Your Code</h2>
                 <p className="confirm-code-subtitle">Enter the 5-digit code sent to {email}</p>
 
-                <input
-                    type="text"
-                    className={`confirm-code-input ${isCodeValid ? '' : 'invalid-input'}`}
-                    placeholder="Enter Code"
-                    value={code}
-                    onChange={handleInputChange}
-                />
+                <div className="confirm-code-inputs">
+                    {code.map((digit, index) => (
+                        <input
+                            key={index}
+                            id={`code-input-${index}`}
+                            type="text"
+                            className={`confirm-code-input ${isCodeValid ? '' : 'invalid-input'}`}
+                            maxLength="1"
+                            value={digit}
+                            onChange={(e) => handleInputChange(e, index)}
+                        />
+                    ))}
+                </div>
                 {!isCodeValid && <p className="error-message">Please enter a valid 5-digit code.</p>}
 
                 <button
                     className="confirm-code-button"
                     onClick={handleConfirm}
-                    disabled={!isCodeValid || code === ''}
+                    disabled={!isCodeValid}
                 >
                     Confirm
                 </button>

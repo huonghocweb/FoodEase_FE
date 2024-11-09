@@ -159,9 +159,17 @@ const Header = () => {
           )}
           {/* Nút đăng nhập/đăng xuất */}
           <li onClick={user ? handleLogout : () => navigate('/login')}>
-            <NavLink to={user ? "#" : "/login"}>
-              <i className="fa-solid fa-right-to-bracket fa-xl"></i>
-            </NavLink>
+            {user ? (
+              // Nếu đã đăng nhập, hiển thị biểu tượng sang phải và nút đăng xuất
+              <NavLink to="#">
+                <i className="fa-solid fa-right-to-bracket fa-xl"></i>  {/* Biểu tượng chỉ sang phải */}
+              </NavLink>
+            ) : (
+              // Nếu chưa đăng nhập, hiển thị biểu tượng sang trái và nút đăng nhập
+              <NavLink to="/login">
+                <i class="fa-solid fa-arrow-left fa-xl"></i>  {/* Biểu tượng chỉ sang trái */}
+              </NavLink>
+            )}
           </li>
 
           {/* Hiển thị ngôn ngữ */}

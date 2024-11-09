@@ -27,9 +27,9 @@ const CreateAccount = () => {
             const response = await axios.post('http://localhost:8080/api/user/request-registration-code', { email });
             console.log(response.data); // Kiểm tra phản hồi từ API
     
-            if (response.data.message) {  // Kiểm tra nếu có message
+            if (response.data.success) {  // Không kiểm tra `token` ở đây
                 alert(response.data.message);
-                navigate('/confirm-code', { state: { email } });
+                navigate('/confirm-code', { state: { email } });  // Chuyển tới `ConfirmCode`
             } else {
                 alert('Something went wrong. Please try again.');
             }
@@ -40,9 +40,6 @@ const CreateAccount = () => {
         setIsLoading(false);
     };
     
-    
-    
-
     const handleBack = () => {
         navigate('/login');
     };

@@ -19,7 +19,8 @@ const CreateUser = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const email = location.state?.email || '';
-    const token = location.state?.token || ''; // Nhận mã xác thực từ trạng thái điều hướng
+    const token = location.state?.token || '';  // Nhận mã xác thực từ trạng thái điều hướng
+
 
     // Xử lý thay đổi dữ liệu đầu vào
     const handleInputChange = (e) => {
@@ -38,7 +39,7 @@ const CreateUser = () => {
     // Xử lý gửi dữ liệu để tạo tài khoản
     const handleCreateAccount = async (e) => {
         e.preventDefault();
-    
+
         // Kiểm tra xem các trường có hợp lệ không (bao gồm cả token)
         const formDataToSubmit = new FormData();
         formDataToSubmit.append("userName", formData.userName);
@@ -54,7 +55,7 @@ const CreateUser = () => {
         if (avatar) {
             formDataToSubmit.append("image", avatar);
         }
-    
+
         try {
             const response = await axios.post("http://localhost:8080/api/user/register", formDataToSubmit, {
                 headers: { "Content-Type": "multipart/form-data" },
@@ -72,32 +73,25 @@ const CreateUser = () => {
                 alert("Failed to create account: An unknown error occurred.");
             }
         }
-        
+
     };
-    
+
 
     return (
         <div className="create-user-wrapper">
             <h2 className="create-user-header">Create Account</h2>
             <form className="create-user-form" onSubmit={handleCreateAccount}>
-                
+
                 {/* Avatar Upload */}
                 <div className="create-user-avatar-container">
-                    <img
-                        src={avatar ? URL.createObjectURL(avatar) : 'img/default-avatar.png'}
-                        alt="Avatar"
-                        className="create-user-avatar"
-                    />
-                    <input
-                        type="file"
-                        accept="image/*"
-                        id="avatarUpload"
-                        onChange={handleImageUpload}
-                        style={{ display: 'none' }}
-                    />
-                    <label htmlFor="avatarUpload" className="create-user-avatar-upload">
-                        Upload Avatar
-                    </label>
+                <img src={avatar} alt="" className="user-form-avatar" onClick={() => document.getElementById('avatarUpload').click()} />
+                <input
+                    type="file"
+                    accept="image/*"
+                    id="avatarUpload"
+                    onChange={handleImageUpload}
+                    style={{ display: 'none' }}
+                />
                 </div>
 
                 {/* Account Name */}
