@@ -1,5 +1,5 @@
 .blog-detail-container {
-  max-width: 800px; /* Giới hạn chiều rộng tối đa cho bài viết chi tiết */
+  max-width: 900px; /* Giới hạn chiều rộng tối đa cho bài viết chi tiết */
   margin: 0 auto; /* Giữa màn hình */
   margin-top: 40px;
   padding: 20px; /* Padding cho container */
@@ -19,6 +19,22 @@
   align-items: center; /* Căn giữa chiều dọc */
   margin-bottom: 20px; /* Khoảng cách dưới khối publish */
 }
+.blog-detail-hashtags {
+  display: flex;
+  flex-wrap: wrap; /* Cho phép các hashtag xuống dòng khi không còn chỗ */
+  margin-top: 35px; /* Khoảng cách giữa input và danh sách hashtag */
+}
+
+.hashtag {
+  background-color: #e0e0e0; /* Màu nền cho hashtag */
+  color: #333; /* Màu chữ */
+  border-radius: 5px; /* Bo góc */
+  padding: 5px 10px; /* Khoảng cách bên trong */
+  margin-right: 10px; /* Khoảng cách giữa các hashtag */
+  margin-bottom: 5px; /* Khoảng cách giữa các dòng */
+  display: flex; /* Để có thể sử dụng flex cho nút xóa */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
 
 .author-info {
   display: flex;
@@ -36,7 +52,7 @@
 
 .blog-detail-content {
   line-height: 1.6 !important; /* Tăng chiều cao dòng cho dễ đọc */
-  margin-bottom: 70px !important; /* Khoảng cách dưới nội dung bài viết */
+  margin-bottom: 30px !important; /* Khoảng cách dưới nội dung bài viết */
 }
 
 .related-blogs {
@@ -68,4 +84,51 @@
   font-size: 1.3em; /* Kích thước chữ cho tiêu đề bài viết liên quan */
   margin: 10px; /* Bỏ margin mặc định */
   color: black;
+}
+
+.comment-input-container {
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+.comment-input-container input {
+  flex-grow: 1; /* Giúp textarea chiếm hết không gian có sẵn */
+  margin-right: 10px; /* Thêm khoảng cách giữa textarea và nút gửi */
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.send-button {
+  background: blue; /* Không có nền */
+  border: none; /* Không có viền */
+  cursor: pointer; /* Thay đổi con trỏ khi di chuột */
+}
+
+.comment-tools {
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  margin-top: 10px; /* Thêm khoảng cách trên */
+}
+
+.comment-tools input[type="file"] {
+  margin-right: 10px; /* Thêm khoảng cách giữa các nút */
+}
+
+.gif-results {
+  position: absolute; /* Để đặt modal GIF bên dưới ô tìm kiếm */
+  background-color: white; /* Nền trắng cho modal */
+  border: 1px solid #ccc; /* Đường viền nhẹ */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng cho modal */
+  z-index: 1000; /* Đảm bảo modal nằm trên các phần tử khác */
+  max-height: 240px; /* Đặt chiều cao tối đa cho modal */
+  overflow-y: auto; /* Cuộn dọc nếu nội dung quá lớn */
+  max-width: 120px;
+}
+
+.gif-results img {
+  width: 100px; /* Đặt chiều rộng hình GIF */
+  margin: 5px; /* Thêm khoảng cách giữa các hình GIF */
+  cursor: pointer; /* Thay đổi con trỏ khi di chuột */
 }

@@ -7,16 +7,17 @@ const BlogList = () => {
   const [Blogs, setBlogs] = useState([]);
   const [selectedBlogId, setSelectedBlogId] = useState(null);
   useEffect(() => {
-    fetchTables();
+    fetchBlogs();
   }, []);
 
-  const fetchTables = () => {
+  const fetchBlogs = () => {
     axiosConfig
       .get("/blog")
       .then((response) => {
         // Sắp xếp bàn mới nhất lên đầu, sắp xếp theo ID giảm dần
         const sortedBlogs = response.data.sort((a, b) => b.blogId - a.blogId);
         setBlogs(sortedBlogs);
+        console.log(response.data);
       })
       .catch((error) => console.error(error));
   };
@@ -26,14 +27,14 @@ const BlogList = () => {
   };
 
   const handleSuccess = () => {
-    fetchTables();
+    fetchBlogs();
     setSelectedBlogId(null); // Reset ID sau khi chỉnh sửa thành công
   };
 
   const handleDelete = (blogId) => {
     axiosConfig
       .delete(`/blog/delete/${blogId}`)
-      .then(() => fetchTables())
+      .then(() => fetchBlogs())
       .catch((error) => {
         console.error("Lỗi xóa blog: ", error);
         alert("Xóa không thành công. Vui lòng thử lại.");
@@ -65,6 +66,7 @@ const BlogList = () => {
                       <tr>
                         <th scope="col">No.</th>
                         <th colSpan={2}>Title</th>
+                        <th scope="col">Hashtags</th>
                         <th scope="col">Blog category</th>
                         <th scope="col">Author</th>
                         <th scope="col">Date</th>
@@ -83,11 +85,20 @@ const BlogList = () => {
                             ></img>
                           </td>
                           <td>{blog.title}</td>
+                          <td>
+                            {blog.hashtags
+                              .map((hashtag) => `${hashtag.hashtagName}`)
+                              .join(", ")}
+                          </td>
                           <td>{blog.blogCategory.blogCategoryName}</td>
                           <td>{blog.blogAuthor.blogAuthorName}</td>
                           <td>
-                            {new Date(blog.createAt).toLocaleDateString('vi-VN')}{" "}
-                            {new Date(blog.createAt).toLocaleTimeString('vi-VN')}
+                            {new Date(blog.createAt).toLocaleDateString(
+                              "vi-VN"
+                            )}{" "}
+                            {new Date(blog.createAt).toLocaleTimeString(
+                              "vi-VN"
+                            )}
                           </td>
                           <td>
                             <NavLink
