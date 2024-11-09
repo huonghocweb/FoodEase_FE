@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from "react-i18next";
 import { useNavigate } from 'react-router-dom';
 import { customTranslate } from "../../../../i18n";
@@ -49,7 +49,7 @@ const Login = () => {
             if (resToken) {
                 const { jwtToken, userId, roles } = resToken.data.data;
                 const storage = remember ? localStorage : sessionStorage;
-
+                console.log(roles);
                 storage.setItem('jwtToken', jwtToken);
                 storage.setItem('userIdLogin', userId);
                 storage.setItem('userNameLogin', username);
@@ -68,6 +68,15 @@ const Login = () => {
     };
 
     const { username, password, remember, showPassword } = credentials;
+
+    const fetchCodeOauth = () => {
+        const fullUrl = window.location.href;
+        console.log(fullUrl); // In ra toàn bộ URL
+    }
+    
+    useEffect(() => {
+        fetchCodeOauth();
+    }, []);
 
     return (
         <div className="login-container">
@@ -147,6 +156,9 @@ const Login = () => {
                                 <button type="submit" className="btn login-btn-color px-5 mb-5 w-100">
                                     {customTranslate("Login")}
                                 </button>
+                            </div>
+                            <div>
+                                <button onClick={() => handleGoogleLogin()}>GOOGLE</button>
                             </div>
                             <div className="form-text text-center mb-5 text-dark">
                                 {customTranslate("Forgot your password?")}

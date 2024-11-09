@@ -54,6 +54,7 @@ import ReservationList from './Component/View/Admin/Reservation/ReservationList'
 import FoodReviewTable from './Component/View/Admin/Review/FoodReviewTable';
 import DeliveryTimeEstimator from './Component/View/Admin/Delivery/DeliveryTimeEstimator';
 import ReservationOrderPaymentPage from './Component/View/Admin/ReservationOrderPayment/ReservationOrderPaymentPage.js';
+import OAuthRedirect from './Component/View/Home/Login/OAuthRedirect.js';
 function App() {
 
   useEffect(() => {
@@ -72,7 +73,7 @@ function App() {
           <Route path="/" element={<HomeLayOut />}>
             <Route index element={<FoodIndex />} />
             <Route path="login" element={<Login />} />
-
+            <Route path="/oauth2/redirect" element={<OAuthRedirect />} />
             <Route path="/reset-password" element={<ResetPass />} />
             <Route path="/set-new-password" element={<SetNewPassword />} />
             <Route path="/create-account" element={<CreateAccount />} />
