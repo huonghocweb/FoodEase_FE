@@ -8,7 +8,9 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 const InvoiceDownloadComponent = ({ orderId }) => {
   const [orderDetails, setOrderDetails] = useState([]);
   const [orderInfo, setOrderInfo] = useState({
-    user: "",
+    fullName: "",
+    email: "",
+    phoneNumber: "",
     orderDate: "",
     deliveryAddress: "",
   });
@@ -20,7 +22,9 @@ const InvoiceDownloadComponent = ({ orderId }) => {
         const data = response.data;
         setOrderDetails(data.orderDetails);
         setOrderInfo({
-          user: data.user,
+          fullName: data.user.fullName,
+          email: data.user.email,
+          phoneNumber: data.user.phoneNumber,
           orderDate: data.orderDate,
           deliveryAddress: data.deliveryAddress,
         });
@@ -31,29 +35,46 @@ const InvoiceDownloadComponent = ({ orderId }) => {
   }, [orderId]);
 
   const exportPDF = () => {
-    // Tạo cấu trúc tài liệu PDF bằng Tiếng Anh
     const docDefinition = {
       content: [
         { text: "Hóa đơn chi tiết", style: "header" },
         {
-          text: `Người mua: ${orderInfo.user}\nNgày đặt hàng: ${orderInfo.orderDate}\nĐịa chỉ nhận hàng: ${orderInfo.deliveryAddress}`,
+          text: `Người mua: ${orderInfo.fullName}\nEmail: ${orderInfo.email}\nSố điện thoại: ${orderInfo.phoneNumber}\nNgày đặt hàng: ${orderInfo.orderDate}\nĐịa chỉ nhận hàng: ${orderInfo.deliveryAddress}`,
           style: "info",
         },
         {
           style: "table",
           table: {
+            widths: ["auto", "*", "auto", "auto", "auto"], // Để bảng rộng ra hơn
             body: [
-              ["STT", "Tên sản phẩm", "Đơn giá", "Số lượng", "Thành tiền"],
+              [
+                { text: "STT", bold: true },
+                { text: "Tên sản phẩm", bold: true },
+                { text: "Đơn giá", bold: true },
+                { text: "Số lượng", bold: true },
+                { text: "Thành tiền", bold: true },
+              ],
               ...orderDetails.map((item, index) => [
-                index + 1,
-                item.foodName,
-                `${item.price.toLocaleString("vi-VN")}đ`,
-                item.quantity,
-                `${(item.price * item.quantity).toLocaleString("vi-VN")}đ`,
+                { text: index + 1, alignment: "center" },
+                // { text: item.foodName },
+                {
+                  text: [
+                    { text: `${item.foodName}\n`, bold: true }, // Tên món in đậm
+                    { text: `${item.size}\n`, fontSize: 10, italics: true }, // Size nhỏ hơn và in nghiêng
+                    { text: `Topping: ${item.topping.join(", ")}`, fontSize: 10, italics: true }, // Topping nhỏ hơn và in nghiêng
+                  ],
+                },
+                { text: `${item.price.toLocaleString("vi-VN")}đ`, alignment: "right" },
+                { text: item.quantity, alignment: "center" },
+                {
+                  text: `${(item.price * item.quantity).toLocaleString("vi-VN")}đ`,
+                  alignment: "right",
+                },
               ]),
             ],
           },
         },
+        { text: "\n" },
         {
           text: `Tổng tiền: ${orderDetails
             .reduce((acc, item) => acc + item.price * item.quantity, 0)
@@ -62,17 +83,16 @@ const InvoiceDownloadComponent = ({ orderId }) => {
         },
       ],
       styles: {
-        header: { fontSize: 18, alignment: "center" },
-        info: { margin: [0, 20, 0, 20] },
+        header: { fontSize: 18, alignment: "center", bold: true, margin: [0, 0, 0, 10] },
+        info: { margin: [0, 0, 0, 20], fontSize: 12 },
         table: { margin: [0, 10, 0, 10] },
-        total: { fontSize: 14, alignment: "right" },
+        total: { fontSize: 14, alignment: "right", bold: true, margin: [0, 10, 0, 0] },
       },
       defaultStyle: {
-        font: "Roboto", // Sử dụng font Roboto hoặc một font mặc định
+        font: "Roboto",
       },
     };
 
-    // Tạo PDF
     pdfMake.createPdf(docDefinition).download(`order_${orderId}_details.pdf`);
   };
 
