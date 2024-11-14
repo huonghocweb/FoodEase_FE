@@ -158,7 +158,7 @@ const userId =localStorage.getItem('userIdLogin');
               {comment.review}
             </div>
             <div className="comment-image">
-              <img src={`/assets/images/${comment.imageUrl}`}/>
+              <img src={`${comment.imageUrl}`}/>
               
               
             </div>

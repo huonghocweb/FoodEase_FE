@@ -13,20 +13,22 @@ const FoodMenu = () => {
   const [selectedFood, setSelectedFood] = useState(null); // State để lưu món ăn đã chọn
   const [showWishlistModal, setShowWishlistModal] = useState(false); // State để hiển thị modal danh sách wishlist
   const [selectedWishListId, setSelectedWishListId] = useState(null); // ID của wishlist đã chọn
+ 
+ 
   const fetchMaindDishes = async () => {
     try {
       await axiosConfig
         .get(`/user/foodvariation/findFoodVariationByDrink?page=${page}`)
         .then((response) => {
           setMainDishes(response.data.content);
-          console.log(response.data);
+          console.log(response.data.content);
           setTotalPage(response.data.totalPages);
         });
     } catch (err) {
       console.log(err, "Lỗi không nhận dữ liệu");
     }
   };
-
+  
   const fetchWishLists = async () => {
     const userId = localStorage.getItem("userIdLogin");
     try {
@@ -56,7 +58,9 @@ const FoodMenu = () => {
   useEffect(() => {
     fetchMaindDishes();
     fetchWishLists();
+
     console.log(mainDishes)
+   
   }, [page, wishLists]);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -157,7 +161,7 @@ const FoodMenu = () => {
               <h5 className="description">{item.food.description}</h5>
               <div className="menu-footer">
                 <p>sold:{item.quantityStock}</p>
-                <p>Rating: 5⭐</p>
+                
               </div>
             </div>
             <div className="row d-flex justify-content-center ">
