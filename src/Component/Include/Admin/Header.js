@@ -40,9 +40,9 @@ const Header = () => {
                   <li>
                     <NavLink
                       className="dropdown-item"
-                      to="/admin/reservation-cancelled-list"
+                      to="/admin/foodBuyMost"
                     >
-                      Reservation Cancelled List
+                     fOOD BUY MOST
                     </NavLink>
                   </li>
                 </ul>
