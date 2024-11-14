@@ -129,7 +129,7 @@ if(categories == null)
                       <tr  key={item.foodId}>
                     <td>{index +1}</td>
                     <td className="tm-product-name">{item.foodName}</td>
-                    <td>{item.basePrice}</td>
+                    <td>{item.basePrice.toLocaleString("vi-VN")}đ</td>
                     <td  onClick={() => handleRowClick(item)}><img src={`${item.imageUrl}`}/></td>
                     <td>  {(() => {
                       const orderDate = new Date(item.createdAt);

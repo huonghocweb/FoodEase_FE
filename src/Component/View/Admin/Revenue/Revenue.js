@@ -92,7 +92,7 @@ const Revenue = () => {
                     
                     <thead>
                         <tr>
-                            <th className="revenue-th">STT</th>
+                            <th className="revenue-th">No.</th>
                             <th className="revenue-th">Order date</th>
                             <th className="revenue-th">Order time</th>
                             <th className="revenue-th">Total price</th>
@@ -118,7 +118,7 @@ const Revenue = () => {
                 <table  className="revenue-table">
                     <thead>
                         <tr>
-                            <th className="revenue-th">STT</th>
+                            <th className="revenue-th">No.</th>
                             <th className="revenue-th">Year</th>
                             <th className="revenue-th">Month</th>
                             <th className="revenue-th">totalPrice</th>
@@ -143,7 +143,7 @@ const Revenue = () => {
                 <table  className="revenue-table">
                     <thead>
                         <tr>
-                            <th className="revenue-th">STT</th>
+                            <th className="revenue-th">No.</th>
                             <th className="revenue-th">Year</th>
                             <th className="revenue-th">Total price</th>
                             <th  className="revenue-th">Quantity</th>
