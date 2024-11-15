@@ -15,10 +15,7 @@ import OrderPage from "./Component/View/Admin/Order/OrderPage";
 import PaymentReport from "./Component/View/Admin/PaymentReport/PaymentReport.js";
 import AddFood from './Component/View/Admin/Product/AddFood.js';
 import FoodPage from "./Component/View/Admin/Product/FoodPage";
-import ReservationAcceptedList from './Component/View/Admin/Reservation/ReservationAcceptedList';
-import ReservationCancelledList from './Component/View/Admin/Reservation/ReservationCancelledList';
 import ReservationOccupiedPage from "./Component/View/Admin/Reservation/ReservationChecked/ReservationOccupiedPage.js";
-import ReservationList from './Component/View/Admin/Reservation/ReservationList';
 import ReservationPage from "./Component/View/Admin/Reservation/ReservationPage.js";
 import ResTableForm from "./Component/View/Admin/ResTable/ResTableForm.js";
 import ResTableList from "./Component/View/Admin/ResTable/ResTableList.js";
@@ -52,9 +49,10 @@ import MyReservationPage from "./Component/View/Home/MyReservation/MyReservation
 import OrderHistoryPage from "./Component/View/Home/OrderHistory/OrderHistoryPage";
 import Thanks from "./Component/View/Home/Thank/Thanks";
 import WishList from "./Component/View/Home/WishList/WishList.js";
-import MyDeliveryAddressPage from "./Component/View/Home/MyDeliveryAddrress/MyDeliveryAddressPage.js";
-import ReservationOrderPaymentPage from './Component/View/Admin/ReservationOrderPayment/ReservationOrderPaymentPage.js';
+import FoodBuyMost from './Component/View/Admin/FoodBuyMost/foodBuyMost.js';
+import FoodRating from './Component/View/Admin/FoodRating/FoodRating.js';
 import OAuthRedirect from './Component/View/Home/Login/OAuthRedirect.js';
+import MyDeliveryAddressPage from './Component/View/Home/MyDeliveryAddrress/MyDeliveryAddressPage.js';
 function App() {
 
   useEffect(() => {
@@ -148,8 +146,8 @@ function App() {
           <Route path="inventory" element={<Inventory />} />
           <Route path="UserOrder" element={<UserOrder />} />
           <Route path="addFood" element={<AddFood />} />
-          <Route path="reservation-list" element={<ReservationList />} />
-          <Route path="reservationOrderPayment" element={<ReservationOrderPaymentPage />} />         
+          <Route path="foodBuyMost" element={<FoodBuyMost />} />
+          <Route path="foodRating" element={<FoodRating />} />
           </Route>
         </Routes>
         <Footer />

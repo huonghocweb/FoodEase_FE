@@ -15,19 +15,22 @@ const FoodMenu = () => {
   const [showWishlistModal, setShowWishlistModal] = useState(false); // State để hiển thị modal danh sách wishlist
   const [selectedWishListId, setSelectedWishListId] = useState(null); // ID của wishlist đã chọn
   const [alert, setAlert] = useState(null);
+ 
+ 
   const fetchMaindDishes = async () => {
     try {
       await axiosConfig
         .get(`/user/foodvariation/findFoodVariationByDrink?page=${page}`)
         .then((response) => {
           setMainDishes(response.data.content);
+          console.log(response.data.content);
           setTotalPage(response.data.totalPages);
         });
     } catch (err) {
       console.log(err, "Lỗi không nhận dữ liệu");
     }
   };
-
+  
   const fetchWishLists = async () => {
     const userId = localStorage.getItem("userIdLogin");
     try {
@@ -55,6 +58,7 @@ const FoodMenu = () => {
   useEffect(() => {
     fetchMaindDishes();
     fetchWishLists();
+
   }, [page, wishLists]);
   const [selectedProduct, setSelectedProduct] = useState(null);
 

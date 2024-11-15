@@ -10,6 +10,8 @@ const FoodDetails = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [foodImage,setFoodImage]=useState([]);
     const[propose,setPropose] = useState([]);
+    const[rating,setRating] = useState([]);
+    const[sold,setSold] = useState([]);
     // dử liệu foodDetails đươcj sử lí trước khi foodImage được gọi
     useEffect(() => {
       const fetchData = async () => {
@@ -24,13 +26,20 @@ const FoodDetails = () => {
              
               const responsePropose =await axiosConfig.get(`/user/foodvariation/findFoodVariationByCategoryId/${responseDetails.data.food.categoryId}`);
               setPropose(responsePropose.data);
+           
+              const ResponseRating =await axiosConfig.get(`/user/foodReview/AvgRating?foodId=${responseDetails.data.foodId}`);
+              setRating(ResponseRating.data);
              
+             const ResponseSole = await axiosConfig.get(`/orderDetails/findSold?foodId=${responseDetails.data.foodId}`);
+              setSold(ResponseSole.data)
+            
           } catch (error) {
               console.log(error);
           }
       };
   
       fetchData();
+      
   }, [foodDetail]);
         if(!foodDetail.food )    { return null;} 
         if(!foodImage ) {return null;}
@@ -71,7 +80,7 @@ const newPrice = foodDetail.food.basePrice- foodDetail.food.basePrice * foodDeta
         src={`/assets/images/${image.images}`} // Thay đổi đường dẫn hình ảnh
         alt="Seasonal Vegetable Salad"
     />
-      ))}
+      ))}Portion
      
    
      
@@ -83,14 +92,17 @@ const newPrice = foodDetail.food.basePrice- foodDetail.food.basePrice * foodDeta
         <h3>Ingredients:</h3>
         <p>
          {foodDetail.food.description}
+        
         </p>
       </div> 
       <div className="portion">
-        <h3>Portion:</h3>
-        <p>1 people</p>
+        <h3>Rating: {rating.rating ? rating.rating : 5}⭐</h3>
+      
+      
+       
       </div>
       <div className="nutrition">
-        <h3>Sold:{foodDetail.quantityStock}</h3>
+        <h3>Sold:{sold.countFood ? sold.countFood : 0}</h3>
         <p>Proteins: 2.2, Carbs: 14.4, Fats: 1.2, Total Kcal: 157.8</p>
       </div>
       <div className="">
