@@ -88,22 +88,28 @@
 
 .comment-input-container {
   display: flex;
-  align-items: center; /* Căn giữa theo chiều dọc */
+  /* align-items: center; Căn giữa theo chiều dọc */
+  justify-content: center;
 }
 
 .comment-input-container input {
   flex-grow: 1; /* Giúp textarea chiếm hết không gian có sẵn */
-  margin-right: 10px; /* Thêm khoảng cách giữa textarea và nút gửi */
+  /* margin-right: 10px; Thêm khoảng cách giữa textarea và nút gửi */
   padding: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 0;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+.comment-input-container label {
 }
 
 .send-button {
   background: blue; /* Không có nền */
   border: none; /* Không có viền */
   cursor: pointer; /* Thay đổi con trỏ khi di chuột */
+  margin: 0 auto;
+  padding: 10px;
+  height: 40px;
 }
 
 .comment-tools {
@@ -114,6 +120,14 @@
 
 .comment-tools input[type="file"] {
   margin-right: 10px; /* Thêm khoảng cách giữa các nút */
+}
+
+.comment-blog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 860px;
+  margin-bottom: 30px;
 }
 
 .gif-results {
@@ -131,4 +145,176 @@
   width: 100px; /* Đặt chiều rộng hình GIF */
   margin: 5px; /* Thêm khoảng cách giữa các hình GIF */
   cursor: pointer; /* Thay đổi con trỏ khi di chuột */
+}
+
+.user-imgUrl {
+  width: 40px; /* Đường kính vòng tròn */
+  height: 40px; /* Đường kính vòng tròn */
+  border-radius: 50%; /* Biến thành hình tròn */
+  border: 1px solid black; /* Độ dày và màu viền của vòng tròn */
+  background-color: transparent; /* Phần bên trong trong suốt */
+  margin-right: 10px;
+}
+
+.imgUrl-Comment {
+  width: 100px; /* Chiều rộng ảnh */
+  height: 100px; /* Chiều cao ảnh */
+  border-radius: 10px; /* Bo tròn để tạo hình tròn */
+  object-fit: cover; /* Giữ tỷ lệ ảnh và cắt phần thừa */
+}
+.imgComment {
+  width: 100px; /* Chiều rộng ảnh */
+  height: 100px; /* Chiều cao ảnh */
+  margin-left: 50px;
+  border-radius: 10px; /* Bo tròn để tạo hình tròn */
+  object-fit: cover; /* Giữ tỷ lệ ảnh và cắt phần thừa */
+}
+.imgCommentEdit {
+  width: 100px; /* Chiều  rộng ảnh */
+  height: 100px; /* Chiều cao ảnh */
+  /* margin-left: 50px; */
+  border-radius: 10px; /* Bo tròn để tạo hình tròn */
+  object-fit: cover; /* Giữ tỷ lệ ảnh và cắt phần thừa */
+}
+
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7); /* Màu nền mờ */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.image-modal-content {
+  max-width: 70%;
+  max-height: 70%;
+}
+
+.image-modal-image {
+  width: 100%;
+  height: 100%; /* Giữ nguyên tỷ lệ */
+  object-fit: contain;
+}
+
+.hidden {
+  display: none;
+}
+
+.comment-in4 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.comment-userName {
+  margin-top: 10px;
+  margin-right: 30px;
+}
+.comment-time {
+  margin-top: 10px;
+}
+
+.comment-userName {
+  font-size: medium;
+}
+
+.list-comment {
+  margin-left: 50px;
+  margin-bottom: 0;
+}
+
+.edit-comment-form {
+  margin-left: 50px;
+}
+
+.edit-comment-form input {
+  flex-grow: 1; /* Giúp textarea chiếm hết không gian có sẵn */
+  margin-right: 10px; /* Thêm khoảng cách giữa textarea và nút gửi */
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.selected-image-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.comment-img-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.comment-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative; /* Để dropdown định vị theo nút */
+}
+
+.comment-edit-dropdown {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 100%; /* Đặt dropdown ngay dưới biểu tượng ba chấm */
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100px; /* Chiều rộng của dropdown */
+  z-index: 1000;
+  /* display: none; Ẩn dropdown ban đầu */
+}
+
+/* .comment-actions.active .comment-edit-dropdown {
+  display: block; /* Hiển thị dropdown khi có lớp active 
+} */
+
+.comment-edit-dropdown li {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.comment-edit-dropdown li:hover {
+  background-color: #f0f0f0;
+}
+
+.like-button,
+.dislike-button {
+  cursor: pointer;
+  background-color: #e0e0e0; /* Màu nền cho hashtag */
+  border-radius: 5px; /* Bo góc */
+  padding: 5px 10px; /* Khoảng cách bên trong */
+  margin-right: 10px; /* Khoảng cách giữa các hsashtag */
+  margin-bottom: 5px; /* Khoảng cách giữa các dòng */
+  display: flex; /* Để có thể sử dụng flex cho nút xóa */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+.like-button, .dislike-button {
+  color: white;
+}
+
+/* Trạng thái khi đã nhấn */
+.like-button.active, .dislike-button.active {
+  color: rgba(4, 85, 235, 0.767);
+}
+
+.blog-like {
+  display: flex;
+  margin-top: 35px;
+}
+
+.blog-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

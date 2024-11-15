@@ -16,6 +16,7 @@ const WishList = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const userId = localStorage.getItem("userIdLogin");
   const [alert, setAlert] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const {
     register,
@@ -58,6 +59,7 @@ const WishList = () => {
         userId: userId,
       });
       fetchWishLists();
+      setShowAddModal(false);
       reset();
     } catch (error) {
       console.error("Error adding wishlist", error);
@@ -83,6 +85,7 @@ const WishList = () => {
       fetchWishLists();
       setRenameWishListId(null);
       setRenameWishListName("");
+      setShowAddModal(false);
     } catch (error) {
       console.error("Error renaming wishlist", error);
     }
@@ -111,6 +114,13 @@ const WishList = () => {
     setSelectedProduct(null);
   };
 
+  const openAddModal = () => setShowAddModal(true);
+  const closeAddModal = () => {
+    setShowAddModal(false);
+    setRenameWishListId(null);
+    reset();
+  };
+
   return (
     <div className="wishList-container">
       {alert && (
@@ -120,18 +130,13 @@ const WishList = () => {
           onClose={() => setAlert(null)}
         />
       )}
-      <form onSubmit={handleSubmit(addWishList)}>
-        <input
-          type="text"
-          {...register("newWishListName", { required: true })} // Register input with validation
-          placeholder="Enter your wish list name"
-        />
-        {errors.newWishListName && (
-          <span className="error">This field is required</span>
-        )}
-        <button type="submit">Add</button>
-      </form>
-      <h1>Wish List</h1>
+      
+      <div className="wishList-header">
+        <h1>Wish List</h1>
+        <button className="add-wishList-btn" onClick={openAddModal}>
+          +
+        </button>
+      </div>
       <ul className="wishList-bar">
         {Array.isArray(wishLists) && wishLists.length > 0 ? (
           wishLists.map((wishList) => (
@@ -139,30 +144,30 @@ const WishList = () => {
               key={wishList.wishListId}
               onClick={() => fetchFoods(wishList.wishListId)}
             >
-              <span>{wishList.wishListName}</span>
-              <button onClick={() => deleteWishList(wishList.wishListId)}>
-                Delete
-              </button>
-              {renameWishListId === wishList.wishListId ? (
-                <>
-                  <input
-                    type="text"
-                    value={renameWishListName}
-                    onChange={(e) => setRenameWishListName(e.target.value)}
-                    placeholder="Enter new name"
-                  />
-                  <button onClick={() => renameWishList(wishList.wishListId)}>
+              <span className="wishListName">{wishList.wishListName}</span>
+              <div className="dropdown-wishlist">
+                <button className="dropdown-btn-wishlist"><i className="fa fa-ellipsis-vertical "></i></button>
+                <div className="dropdown-content-wishlist">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setRenameWishListId(wishList.wishListId);
+                      setShowAddModal(true);
+                      setRenameWishListName(wishList.wishListName);
+                    }}
+                  >
                     Rename
                   </button>
-                  <button onClick={cancelRename}>Cancel</button>
-                </>
-              ) : (
-                <button
-                  onClick={() => setRenameWishListId(wishList.wishListId)}
-                >
-                  Rename
-                </button>
-              )}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteWishList(wishList.wishListId);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
             </li>
           ))
         ) : (
@@ -171,7 +176,7 @@ const WishList = () => {
       </ul>
       {selectedWishListId && (
         <div>
-          <h2>
+          <h2 className="wishListName1">
             {
               wishLists.find(
                 (wishList) => wishList.wishListId === selectedWishListId
@@ -215,10 +220,9 @@ const WishList = () => {
                         <h3>{food.foodName}</h3>
                         <div>
                           <b className="price">
-                            {(
-                              food.basePrice?.toLocaleString("vi-VN") -
-                              (food.discount / 100) * food.basePrice?.toLocaleString("vi-VN")
-                            )}{" "}
+                            {food.basePrice?.toLocaleString("vi-VN") -
+                              (food.discount / 100) *
+                                food.basePrice?.toLocaleString("vi-VN")}{" "}
                             đ
                           </b>
                           <del className="price">
@@ -267,6 +271,29 @@ const WishList = () => {
               <p>No foods available in this wishlist.</p> // Hiển thị khi không có món ăn nào
             )}
           </div>
+        </div>
+      )}
+      {(showAddModal || renameWishListId) && (
+        <div className="modal">
+          <form
+            onSubmit={handleSubmit(
+              renameWishListId ? renameWishList : addWishList
+            )}
+          >
+            <input
+              type="text"
+              {...register("newWishListName", { required: true })}
+              placeholder="Enter wishlist name"
+              defaultValue={renameWishListName || ""}
+            />
+            {errors.newWishListName && (
+              <span className="error">This field is required</span>
+            )}
+            <button type="submit">{renameWishListId ? "Rename" : "Add"}</button>
+            <button type="button" onClick={closeAddModal}>
+              Cancel
+            </button>
+          </form>
         </div>
       )}
       <Order product={selectedProduct} onClose={closeModal} />;
