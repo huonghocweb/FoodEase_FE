@@ -19,6 +19,9 @@ const Order  = ({ product, onClose }) => {
   // dử liệu chứa tổng tiền của topping
   const [totalToppingPrice,setTotalToppingPrice] = useState(0);
   const [FoodVariationgTopping,setFoodVariationTopping]  = useState([]);
+
+
+  const cartId =localStorage.getItem('userIdLogin');
   // lấy dử liệu từ bảng topping
   const fetchToppings = async  ()=>{
     axiosConfig.get('/user/topping/findAllTopping')
@@ -147,7 +150,7 @@ const fetchToTal = async ()=>{
   const handleAddToCart = async (foodVaId) => {
     console.log(foodVaId);
     const quantity =1;
-    const cartId =1;
+
       try {
         const resCart = await axiosConfig.post(`/cart/addCartItem/${cartId}/${foodVaId}/${quantity}`);
         onClose();

@@ -21,7 +21,6 @@ const FoodMenu = () => {
         .get(`/user/foodvariation/findFoodVariationByDrink?page=${page}`)
         .then((response) => {
           setMainDishes(response.data.content);
-          console.log(response.data);
           setTotalPage(response.data.totalPages);
         });
     } catch (err) {
@@ -56,13 +55,11 @@ const FoodMenu = () => {
   useEffect(() => {
     fetchMaindDishes();
     fetchWishLists();
-    console.log(mainDishes)
   }, [page, wishLists]);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const openModal = (Food) => {
     setSelectedProduct(Food);
-    console.log(Food, "Dữ liệu food");
   };
 
   const closeModal = () => {

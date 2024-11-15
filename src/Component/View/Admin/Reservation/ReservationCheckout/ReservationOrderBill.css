@@ -1,0 +1,244 @@
+/* Overlay cho phần nền tối */
+.reservation-overlay, .payment-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001;
+}
+
+/* Popup của xác nhận hóa đơn */
+.reservation-popup, .payment-popup {
+    background: #ffffff;
+    padding: 30px;
+    width: 600px;
+    height: auto;
+    max-height: 800px;
+    overflow-y: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    text-align: left;
+}
+
+/* Tiêu đề */
+.reservation-title, .payment-title {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Nút chọn phương thức thanh toán */
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.payment-btn {
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: white;
+}
+
+.credit-card-btn {
+    background-color: #4CAF50;
+}
+
+.paypal-btn {
+    background-color: #0070BA;
+}
+
+.cash-btn {
+    background-color: #FF9800;
+}
+
+.payment-btn:hover {
+    opacity: 0.9;
+}
+
+/* Nút quay lại */
+.payment-back-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.payment-back-btn:hover {
+    background-color: #bbb;
+}
+
+/* Định dạng các thông tin khác cho hóa đơn */
+.reservation-user-info, .reservation-item-list, .reservation-service-list, .reservation-summary {
+    margin: 10px 0;
+}
+
+/* Căn chỉnh thông tin User và Bàn trên một hàng ngang */
+.reservation-user-info {
+    display: flex;
+    justify-content: space-between; /* Chia đều không gian giữa các phần tử */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 15px; /* Khoảng cách giữa các mục */
+    margin-bottom: 20px; /* Khoảng cách dưới cùng */
+}
+
+.reservation-user-info .user-info, .reservation-user-info .table-info {
+    font-size: 16px;
+    flex: 1; /* Đảm bảo mỗi phần chiếm không gian đều */
+    text-align: left;
+}
+
+/* Tiêu đề các mục trong hóa đơn */
+.section-title {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+/* Cách điệu các mục trong danh sách món ăn và dịch vụ */
+.reservation-item, .reservation-service {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f1f1;
+    padding: 10px 0;
+}
+
+.item-name, .service-name {
+    font-size: 16px;
+    font-weight: 500;
+    flex: 2;
+}
+
+.item-quantity, .service-price, .item-price {
+    font-size: 16px;
+    font-weight: 400;
+    flex: 1;
+    text-align: center;
+}
+
+/* Định dạng cho tổng cộng và các thông tin hóa đơn */
+.reservation-summary {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 5px 0;
+}
+
+.summary-label {
+    font-size: 16px;
+    color: #555;
+    flex: 3;
+}
+
+.summary-value {
+    font-size: 16px;
+    color: #333;
+    flex: 1;
+    text-align: right;
+}
+
+.total-row .summary-label, .total-row .summary-value {
+    font-size: 18px;
+    color: #000;
+    font-weight: 600;
+}
+
+/* Nút xác nhận và hủy */
+.reservation-button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.reservation-confirm-btn {
+    padding: 12px 20px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.reservation-cancel-btn {
+    padding: 12px 20px;
+    background-color: #f44336;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.reservation-confirm-btn:hover, .reservation-cancel-btn:hover {
+    opacity: 0.9;
+}
+
+.reservation-confirm-btn:active, .reservation-cancel-btn:active {
+    transform: scale(0.98);
+}
+
+/* Các mục trong hóa đơn được căn lề trái */
+.reservation-user-info p, .reservation-item-list p, .reservation-service-list p {
+    text-align: left;
+}
+
+/* Căn chỉnh thông tin thẳng hàng và dễ nhìn */
+.reservation-item, .reservation-service {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.reservation-item .item-name, .reservation-service .service-name {
+    flex: 3;
+    font-weight: 600;
+}
+
+.reservation-item .item-quantity, .reservation-service .service-price, .reservation-item .item-price {
+    flex: 1;
+    text-align: right;
+}
+
+/* Responsive cho màn hình nhỏ */
+@media screen and (max-width: 768px) {
+    .reservation-popup, .payment-popup {
+        width: 90%;
+    }
+
+    .payment-options {
+        flex-direction: column;
+    }
+
+    .reservation-button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .reservation-user-info {
+        flex-direction: column; /* Chuyển thành dạng cột trên màn hình nhỏ */
+        align-items: flex-start; /* Căn lề trái khi chuyển thành cột */
+        gap: 10px; /* Giảm khoảng cách khi hiển thị dưới dạng cột */
+    }
+}

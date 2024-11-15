@@ -1,6 +1,8 @@
 .login-btn-color {
   background-color: #0e1c36;
   color: #fff;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .login-profile-image-pic {
@@ -17,4 +19,57 @@
   text-decoration: none;
 }
 
+.auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  width: 350px;
+  margin: 0 auto;
+}
+
+.auth-row {
+  display: flex;
+  gap: 10px;
+}
+
+.auth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  width: 145px; /* Giảm chiều rộng để hai nút nằm vừa hàng */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.auth-btn span {
+  margin-right: 10px;
+}
+
+.google-btn {
+  background-color: #db4437;
+}
+
+.facebook-btn {
+  background-color: #254ea7;
+}
+
+.github-btn {
+  background-color: #333;
+}
+
+.linkedin-btn {
+  background-color: rgba(1, 34, 250, 0.711);
+}
+
+.auth-btn i {
+  font-size: 20px;
+}
 

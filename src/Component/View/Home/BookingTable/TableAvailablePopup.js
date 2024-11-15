@@ -32,7 +32,7 @@ const TableAvailable = ({ handleServicesPopup , tabToTalPage,tabResTables,tabPag
             <div className="reservation-table-info">
               <h3 className="reservation-table-title">{table.tableName}</h3>
               <p className="reservation-table-detail">Seats: {table.capacity}</p>
-              <p className="reservation-table-detail">Price: {table.price}</p>
+              <p className="reservation-table-detail">Price: {table.price.toLocaleString('vi-Vn')}đ</p>
               <p className="reservation-table-detail">Type: {table.tableCategory.tableCategoryName}(+{table.tableCategory.price.toLocaleString('vi-Vn')}đ)</p>
               <button
                 className="reservation-select-button"

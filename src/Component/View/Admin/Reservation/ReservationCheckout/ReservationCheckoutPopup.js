@@ -18,7 +18,6 @@ const ReservationCheckoutPopup = ({isOpentCheckoutPopup , paymentMethod , reserv
                                                 <h1 style={{fontWeight : 'bolder'}}>CHECK OUT </h1>
                                                     <div className="card rounded-0 border-0 card2" id="paypage">
                                                         <div className="form-card">
-                                                            <label className="pay">Your Name</label>
                                                             <div className="row">
                                                                 <div className="col-8 col-md-6">
                                                                     <label className="pay">FullName </label>
@@ -29,7 +28,7 @@ const ReservationCheckoutPopup = ({isOpentCheckoutPopup , paymentMethod , reserv
                                                                     <input  className="placeicon" value={reservationOrder.reservation.resTable.tableCategory.tableCategoryName}  readOnly/>
                                                                 </div>
                                                             </div>
-                                                            <div className="row">
+                                                            {/* <div className="row">
                                                                 <div className="col-8 col-md-6">
                                                                     <label className="pay">CheckIn Time </label>
                                                                     <input type="text" name="cardno" value={new Date(reservationOrder.reservation.checkinTime).toLocaleString('vi-Vn')} />
@@ -39,7 +38,7 @@ const ReservationCheckoutPopup = ({isOpentCheckoutPopup , paymentMethod , reserv
                                                                     <input type="text" name="cardno" value={new Date(reservationOrder.reservation.checkoutTime).toLocaleString('vi-Vn')} />
                                                                 </div>
                                                               
-                                                            </div>
+                                                            </div> */}
                                                             <div className="row">
                                                             <div className="col-4 col-md-6">
                                                                     <label className="pay">Total Deposit(VNĐ)</label>

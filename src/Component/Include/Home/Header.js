@@ -167,7 +167,7 @@ const Header = () => {
             ) : (
               // Nếu chưa đăng nhập, hiển thị biểu tượng sang trái và nút đăng nhập
               <NavLink to="/login">
-                <i class="fa-solid fa-arrow-left fa-xl"></i>  {/* Biểu tượng chỉ sang trái */}
+              <i class="fa-solid fa-right-to-bracket fa-rotate-180 fa-xl"></i>  {/* Biểu tượng chỉ sang trái */}
               </NavLink>
             )}
           </li>

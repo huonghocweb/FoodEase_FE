@@ -12,7 +12,7 @@ const CartPage = () => {
     const {cartId} = useParams();
     const [isOpenPayment,setIsOpentPayment] = useState(false);
     const [isOpenCoupon,setIsOpentCoupon] = useState(false);
-    const {register,handleSubmit, reset} = useForm();
+    const {register,handleSubmit, reset , watch} = useForm();
     const [cart,setCart] = useState([]);
     const [cartItem,setCartItem] = useState([]);
     const [totalQuantity,setTotalQuantity] = useState(0);
@@ -42,11 +42,7 @@ const CartPage = () => {
 
     const baseReturnUrl = window.location.origin;
 
-    useEffect (() => {
-        fecthGetCartByCartId();
-        fetchDeliveryAddressByUserName();
-        console.log(deliveryAddress);
-    },[cartId,cart,deliveryAddress]);
+  
 
     const fecthGetCartByCartId = async () => {
       try {
@@ -229,6 +225,8 @@ const CartPage = () => {
             console.error('error in handleUseCoupon',error);
         }
     }
+
+    // Mở form chọn địa chỉ, lấy sẵn list provinceData 
     const handleDeliveryAddress = async () => {
         setIsOpentDelivery(!isOpenDelivery);
         try {
@@ -274,6 +272,7 @@ const CartPage = () => {
             console.error('error in handle Choose District By ProvinceId',error);            
         }
     }
+
     const handleChooseWardByDistrictId = async(districtId) => {
         try {
             const selectedDistrict = districtData.find(item => item.districtId === Number(districtId));
@@ -294,6 +293,8 @@ const CartPage = () => {
             console.error('error in handle Choose Province',error);            
         }
     }
+    
+    // Lấy về list dịch vụ có thể chọn dựa trên districtId
     const handleShipService = async (districtId) => {
         try {
             const resShipService = await axiosConfig.post(`/ship/getShipService/${districtId}`);
@@ -310,6 +311,36 @@ const CartPage = () => {
             console.error('error n handleShip Service',error);
         }
     }
+
+
+    // const [deliveryAddressState ,setDeliveryAddressState] = useState({
+    //     provinceId : '',
+    //     districtId : '',
+    //     wardCode : '',
+    //     houseNumber : '',
+    // })
+    const hanldeAddressByDeliveryAddressId = async (mydeliveryAddressId) => {
+        try {
+            const resMyDeliveryAddressById = await axiosConfig.get(`/deliveryAddress/getById/${mydeliveryAddressId}`);
+            const mydeliveryAddressData = resMyDeliveryAddressById.data.data;
+    
+            if (mydeliveryAddressData) {
+                await handleChooseDistrictByProvinceId(mydeliveryAddressData.provinceId);
+                await handleChooseWardByDistrictId(mydeliveryAddressData.districtId);
+    
+                reset({
+                    provinceId: mydeliveryAddressData.provinceId,
+                    districtId: mydeliveryAddressData.districtId,
+                    wardCode: mydeliveryAddressData.wardCode,
+                    houseNumber: mydeliveryAddressData.houseNumber,
+                });
+            }
+        } catch (error) {
+            console.error('Error in hanldeAddressByDeliveryAddressId', error);
+        }
+    };
+    
+
     const handleChooseWardId = async (wardId) => {
         const wardChoosed = wardData.find(item => item.wardId === wardId);
         console.log(wardChoosed);
@@ -354,6 +385,11 @@ const CartPage = () => {
         });
     };
     
+    useEffect (() => {
+        fecthGetCartByCartId();
+        fetchDeliveryAddressByUserName();
+        console.log(deliveryAddress);
+    },[cartId,cart,deliveryAddress]);
     
     return (
         <div>
@@ -403,6 +439,9 @@ const CartPage = () => {
               handleChooseWardId = {handleChooseWardId}
               setDeliveryAdress = {setDeliveryAdress}
               deliveryAddressByUserName = {deliveryAddressByUserName}
+              hanldeAddressByDeliveryAddressId = {hanldeAddressByDeliveryAddressId}
+              watch = {watch}
+              register = {register}
               />
         </div>
     );

@@ -3,7 +3,7 @@ import PaginationControls from '../../../../Include/Pagination/PaginationControl
 import './ReservationOccupied.css';
 
 const ReservationOccupiedList = ({ reservationById, foods, paginationState, handlePaginationChange, sortOptions , handleSelecteFood , foodIdSelected 
-  , handleReservationOrder , handleFoodOrderItemChange , reservationOrder , handleOpenCheckoutPopup
+  , handleReservationOrder , handleFoodOrderItemChange , reservationOrder , handleOpenCheckoutPopup , handleOpenResTableMap
  }) => {
   const [tables, setTables] = useState([
     { id: 'T-01', status: 'available', image: 'path/to/table01.jpg' },
@@ -30,12 +30,13 @@ const ReservationOccupiedList = ({ reservationById, foods, paginationState, hand
                             <img src={reservationById.resTable?.imageUrl} alt={`Table ${reservationById.tableId}`} className="reservation-table-image" />
 
                             <div className="reservation-details">
+                                <p><strong>Table:</strong> #{reservationById.resTable?.tableId} - Capacity :  {reservationById.resTable?.capacity} </p>
                                 <p><strong>User:</strong> {reservationById.user?.userName || 'N/A'}</p>
-                                <p><strong>Date:</strong> {new Date(reservationById.reservationDate).toLocaleDateString('vi-VN')}</p>
-                                <p><strong>Time:</strong> {new Date(reservationById.reservationDate).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</p>
-                                <p><strong>Total Price:</strong> {reservationById.totalPrice?.toLocaleString('vi-VN')} đ</p>
+                                <p><strong>Date:</strong> {new Date(reservationById.checkinTime).toLocaleDateString('vi-VN')}</p>
+                                <p><strong>Time:</strong> {new Date(reservationById.checkinTime).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</p>
                                 <p><strong>Status:</strong> {reservationById.reservationStatus?.reservationStatusName || 'N/A'}</p>
                             </div>
+                            <button onClick={handleOpenResTableMap}>Change Table</button>
                         </div>
                     </div>
 
@@ -81,7 +82,7 @@ const ReservationOccupiedList = ({ reservationById, foods, paginationState, hand
                                       <div className="quantity-container">
                                           <input
                                               type="number"
-                                              min={0}
+                                              min={1}
                                               defaultValue={1}
                                               onChange={(e) => handleFoodOrderItemChange(item.foodId, parseInt(e.target.value))}
                                               className="quantity-input"

@@ -190,12 +190,12 @@ const Next = () => {
                         <td onClick={() => handleInfoClick(item.orderId,item)}>
                         <i className="fa-solid fa-circle-info fa-lg"></i>
                         </td>
-                        <td> {item.orderStatus.orderStatusName === 'Return Requested' && (
-                                <button style={{fontSize : '10px'}}  onClick={() => checkOrderReturnRequest(item.orderId)}>Check</button>
-                        )}</td>
                         <td>
                             <InvoiceDownloadComponent orderId={item.orderId} />
                           </td>
+                          <td> {item.orderStatus.orderStatusName === 'Return Requested' && (
+                                <button style={{fontSize : '10px'}}  onClick={() => checkOrderReturnRequest(item.orderId)}>Check</button>
+                        )}</td>
                       </tr>
                   ))
                     }

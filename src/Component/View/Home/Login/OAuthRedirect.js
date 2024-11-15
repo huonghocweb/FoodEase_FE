@@ -30,7 +30,7 @@ const OAuthRedirect = () => {
       localStorage.setItem('rolesLogin', JSON.stringify(authResponseObj.roles));
 
       // Chuyển hướng người dùng đến trang chủ hoặc trang khác
-     // navigate('/');
+     navigate('/');
     } else {
       console.log('Token không có trong URL');
     }
