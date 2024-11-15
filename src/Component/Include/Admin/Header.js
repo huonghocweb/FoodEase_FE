@@ -45,6 +45,14 @@ const Header = () => {
                      fOOD BUY MOST
                     </NavLink>
                   </li>
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to="/admin/foodRating"
+                    >
+                     fOOD RATING MOST
+                    </NavLink>
+                  </li>
                 </ul>
               </li>
 

@@ -3,26 +3,16 @@ import axiosConfig from "../../../Config/AxiosConfig";
 import React, { useState, useEffect } from "react";
 import Header from './../../../Include/Admin/Header';
 
-const FoodBuyMost =()=>{
-
-    const [foodBuyMost,setFoodBuyMost] = useState([]);
+const FoodRating =()=>{
+    const[foodRating,setFoodRating] = useState([]);
     const [TotalPage,setTotalPage] = useState();
     const [page,setPage] =useState(0);
     const [sortDirection, setSortDirection] = useState('DESC');
-    const [sortBy, setSortBy] = useState('countFood');
-    const handleSort = (columnName) => {
-        console.log('đã thự hién')
-        if (columnName === sortBy) {
-            setSortDirection(sortDirection === 'DESC' ? 'ASC' : 'DESC');
-        } else {
-            setSortBy(columnName);
-            setSortDirection('ASC');
-        }
-    };
+    const [sortBy, setSortBy] = useState('avgRating');
     const fetchFoodBuyMost = async ()=>{
-        await axiosConfig.get(`/orderDetails/foodBuyMost?page=${page}&sortBy=${sortBy}&sortDirection=${sortDirection}`)
+        await axiosConfig.get(`/user/foodReview/FoodRating?page=${page}&sortBy=${sortBy}&sortDirection=${sortDirection}`)
         .then(response =>{
-            setFoodBuyMost(response.data.content);   
+            setFoodRating(response.data.content);   
             setTotalPage(response.data.totalPages);
             console.log(response.data.content)
         })
@@ -47,7 +37,8 @@ const FoodBuyMost =()=>{
             fetchFoodBuyMost();
         },[page,sortBy, sortDirection])
     return (
-        <div className='revenue-container2'>
+        <div>
+             <div className='revenue-container2'>
               <select onChange={handleSortChange}>
                 <option value="ASC">Worst selling food</option>
                 <option value="DESC">Best selling dish</option>
@@ -63,12 +54,12 @@ const FoodBuyMost =()=>{
                             <th className="revenue-th2">Description</th>
                             <th className="revenue-th2">basePrice</th>                         
                             <th className="revenue-th2">discount</th>
-                            <th onClick={() => handleSort('countFood')} className="revenue-th2">Sold</th>
+                            <th  className="revenue-th2">Rating</th>
                             
                         </tr>
                     </thead>
                     <tbody>
-                        {foodBuyMost.map((item, index) => (
+                        {foodRating.map((item, index) => (
                             <tr key={index}>
                                 <td className="revenue-td2">{index + 1}</td>
                                 <td className="revenue-td2">  {(() => {
@@ -85,7 +76,7 @@ const FoodBuyMost =()=>{
                                 <td className="revenue-td2">{item.foods.basePrice.toLocaleString('vi-vn')}đ</td>
                              
                                 <td className="revenue-td2">{item.foods.discount}%</td>
-                                <td   className="revenue-td2">{item.countFood}</td>
+                                <td   className="revenue-td2">{item.rating}⭐</td>
                                 
                                 
                             </tr>
@@ -96,6 +87,7 @@ const FoodBuyMost =()=>{
   <button className="Button-Previous" onClick={Previous}>Previous</button>
       <button className="Button-next" onClick={Next}>Next</button>
         </div>
+        </div>
     )
 }
-export default FoodBuyMost;
+export default FoodRating;

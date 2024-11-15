@@ -11,6 +11,7 @@ const FoodDetails = () => {
     const [foodImage,setFoodImage]=useState([]);
     const[propose,setPropose] = useState([]);
     const[rating,setRating] = useState([]);
+    const[sold,setSold] = useState([]);
     // dử liệu foodDetails đươcj sử lí trước khi foodImage được gọi
     useEffect(() => {
       const fetchData = async () => {
@@ -25,11 +26,13 @@ const FoodDetails = () => {
              
               const responsePropose =await axiosConfig.get(`/user/foodvariation/findFoodVariationByCategoryId/${responseDetails.data.food.categoryId}`);
               setPropose(responsePropose.data);
-
+           
               const ResponseRating =await axiosConfig.get(`/user/foodReview/AvgRating?foodId=${responseDetails.data.foodId}`);
               setRating(ResponseRating.data);
              
-             
+             const ResponseSole = await axiosConfig.get(`/orderDetails/findSold?foodId=${responseDetails.data.foodId}`);
+              setSold(ResponseSole.data)
+            
           } catch (error) {
               console.log(error);
           }
@@ -99,7 +102,7 @@ const newPrice = foodDetail.food.basePrice- foodDetail.food.basePrice * foodDeta
        
       </div>
       <div className="nutrition">
-        <h3>Sold:{foodDetail.quantityStock}</h3>
+        <h3>Sold:{sold.countFood ? sold.countFood : 0}</h3>
         <p>Proteins: 2.2, Carbs: 14.4, Fats: 1.2, Total Kcal: 157.8</p>
       </div>
       <div className="">

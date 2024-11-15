@@ -32,6 +32,7 @@ import BookTablePage from "./Component/View/Home/BookingTable/BookTablePage.js";
 import PaymentReport from "./Component/View/Admin/PaymentReport/PaymentReport.js";
 import AddFood from './Component/View/Admin/Product/AddFood.js';
 import FoodBuyMost from './Component/View/Admin/FoodBuyMost/foodBuyMost.js';
+import FoodRating from './Component/View/Admin/FoodRating/FoodRating.js';
 function App() {
   return (
     <div className="App">
@@ -94,6 +95,7 @@ function App() {
           <Route path="UserOrder" element={<UserOrder />} />
           <Route path="addFood" element={<AddFood />} />
           <Route path="foodBuyMost" element={<FoodBuyMost />} />
+          <Route path="foodRating" element={<FoodRating />} />
           </Route>
         </Routes>
         <Footer />

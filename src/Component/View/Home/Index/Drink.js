@@ -160,7 +160,7 @@ const FoodMenu = () => {
               </div>
               <h5 className="description">{item.food.description}</h5>
               <div className="menu-footer">
-                <p>sold:{item.quantityStock}</p>
+                <p>Quantity:{item.quantityStock}</p>
                 
               </div>
             </div>
