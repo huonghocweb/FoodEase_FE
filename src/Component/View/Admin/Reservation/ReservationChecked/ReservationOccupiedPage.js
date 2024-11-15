@@ -65,6 +65,9 @@ const ReservationOccupiedPage = () => {
   }
 
   const handleChangeTable = async (reservationOrderId, resTableId) => {
+    if(!reservationOrderId ){
+      setAlert({type : 'error', message : 'Change Table Failed!'});
+    }
     console.log(reservationOrderId,resTableId);
     try {
       const resReservationOrderChangeTable = await axiosConfig.get(`/reservationOrder/changeTable/${reservationOrderId}/${resTableId}`);
@@ -147,9 +150,9 @@ const ReservationOccupiedPage = () => {
         }
       })
       // console.log(resCheckOutReservationOrder.data.data);
-       if(paymentMethodId !== 5 && resCheckOutReservationOrder.data.data !== null){
-        window.location.href = resCheckOutReservationOrder.data.data;
-       }
+      //  if(paymentMethodId !== 5 && resCheckOutReservationOrder.data.data !== null){
+      //   window.location.href = resCheckOutReservationOrder.data.data;
+      //  }
       if(resCheckOutReservationOrder.data.data !== null){
         setAlert({type : 'success' , message : 'Checkout Success'});
         navigate('/admin/reservation');

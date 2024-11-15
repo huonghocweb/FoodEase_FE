@@ -53,6 +53,7 @@ import FoodBuyMost from './Component/View/Admin/FoodBuyMost/foodBuyMost.js';
 import FoodRating from './Component/View/Admin/FoodRating/FoodRating.js';
 import OAuthRedirect from './Component/View/Home/Login/OAuthRedirect.js';
 import MyDeliveryAddressPage from './Component/View/Home/MyDeliveryAddrress/MyDeliveryAddressPage.js';
+import ReservationOrderPaymentPage from './Component/View/Admin/ReservationOrderPayment/ReservationOrderPaymentPage.js';
 function App() {
 
   useEffect(() => {
@@ -122,7 +123,7 @@ function App() {
               path="coupon/update/:couponId"
               element={<CouponFormPage />}
             />
-            {/* <Route path="reservation-list" element={<ReservationList />} /> */}
+            <Route path='reservationOrderPayment' element={<ReservationOrderPaymentPage/>} />
             <Route
               path="coupon/update/:couponId"
               element={<CouponFormPage />}

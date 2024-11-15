@@ -22,8 +22,8 @@ const TableAvailable = ({ handleServicesPopup , tabToTalPage,tabResTables,tabPag
               </button><span style={ {fontWeight : "bolder"}}>Available : {totalTab}</span>
             </div>
       <div className="reservation-table-list">
-        {tabResTables.map((table) => (
-          <div key={table.id} className="reservation-table-item">
+        {tabResTables.map((table,index) => (
+          <div key={index} className="reservation-table-item">
             <img
               src={table.imageUrl}
               alt={table.tableName}

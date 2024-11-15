@@ -49,13 +49,14 @@
     flex-wrap: wrap;
     gap: 15px;
 }
-/* Form Styles 
-.form-group {
+/* Form Styles */
+
+/* .form-group {
     flex: 1 1 45%;
     display: flex;
     flex-direction: column;
 }
-    */
+     */
 
 .user-form-signup-form .form-group label {
     font-weight: bold;

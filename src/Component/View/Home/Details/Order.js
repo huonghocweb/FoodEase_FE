@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosConfig from '../../../Config/AxiosConfig';
 import './Order.css';
+import CustomAlert from '../../../Config/CustomAlert';
 
 const Order  = ({ product, onClose }) => {
 
@@ -19,6 +20,9 @@ const Order  = ({ product, onClose }) => {
   // dử liệu chứa tổng tiền của topping
   const [totalToppingPrice,setTotalToppingPrice] = useState(0);
   const [FoodVariationgTopping,setFoodVariationTopping]  = useState([]);
+
+
+  const [alert, setAlert] = useState(null);
 
 
   const cartId =localStorage.getItem('userIdLogin');
@@ -153,9 +157,17 @@ const fetchToTal = async ()=>{
 
       try {
         const resCart = await axiosConfig.post(`/cart/addCartItem/${cartId}/${foodVaId}/${quantity}`);
-        onClose();
-        alert('Add Food To Cart Success');
+       
+        if(resCart.data.data !== null){
+          setAlert({ type: 'success', message: 'Add Food To Cart '});
+        }else {
+          setAlert({type : 'error', message : 'Add Food To Cart Failed!'});
+        }
         console.log(resCart.data);
+        setTimeout(() => {
+           onClose();
+      }, 3000);
+       
       } catch (error) {
         console.error('error in handle add to Cart',error);
       }
@@ -163,7 +175,17 @@ const fetchToTal = async ()=>{
 
  
     return (
+      <>
+            {alert && (
+          <CustomAlert
+            type={alert.type}
+            message={alert.message}
+            onClose={() => setAlert(null)}
+          />
+        )}
+
       <div className="modal">
+
         <div className="modal-content">
               <span className="close"onClick={() => { onClose && onClose(); setTotal(0); setSelectedToppings([])}}>&times;</span>
               <h2>Order</h2>        
@@ -249,6 +271,7 @@ const fetchToTal = async ()=>{
              
         </div>
       </div>
+      </>
     );
   };
 

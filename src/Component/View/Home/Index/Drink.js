@@ -23,7 +23,6 @@ const FoodMenu = () => {
         .get(`/user/foodvariation/findFoodVariationByDrink?page=${page}`)
         .then((response) => {
           setMainDishes(response.data.content);
-          console.log(response.data.content);
           setTotalPage(response.data.totalPages);
         });
     } catch (err) {

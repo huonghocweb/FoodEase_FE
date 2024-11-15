@@ -35,7 +35,7 @@ const RestaurantMap = ({ isOpenResTableMap, handleOpenResTableMap, handleCheckRe
                       <span>{`Bàn ${table.tableName}`}</span>
                       <div className="res-seats">{`${table.capacity} ghế`}</div>
                     </div>
-                    <button onClick={() => handleChangeTable(reservationOrder.reservationOrderId,table.tableId)} ><i class="fa-brands fa-get-pocket"></i></button>
+                    <button onClick={() => handleChangeTable(reservationOrder?.reservationOrderId,table.tableId)} ><i class="fa-brands fa-get-pocket"></i></button>
                   </div>
                 ))}
               </div>
