@@ -54,7 +54,7 @@ const newPrice = foodDetail.food.basePrice- foodDetail.food.basePrice * foodDeta
     <div className="food-info">
     <div className="food-image">
       <img
-        src= {`/assets/images/${foodDetail.food.imageUrl}`} // Thay đổi đường dẫn hình ảnh
+        src= {`${foodDetail.food.imageUrl}`} // Thay đổi đường dẫn hình ảnh
         alt="Seasonal Vegetable Salad"
       />
       {foodDetail.quantityStock === 0 &&
@@ -116,7 +116,7 @@ const newPrice = foodDetail.food.basePrice- foodDetail.food.basePrice * foodDeta
        <div key={item.foodVariationId} className="">
          <div className="image-discount">
            <Link to={`/FoodDetails/${item.foodVariationId}`} >
-           <img  src={`/assets/images/${item.food.imageUrl}`} alt={item.name} className="menu-image" />
+           <img  src={`${item.food.imageUrl}`} alt={item.name} className="menu-image" />
            </Link>
            <div className="disscount1">Discount:{item.food.discount}%</div>
          </div>

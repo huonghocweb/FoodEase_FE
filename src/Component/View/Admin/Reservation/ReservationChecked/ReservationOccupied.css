@@ -1,110 +1,171 @@
+.reservation-info-layout {
+    display: flex;
+    flex-direction: column; /* Đặt chiều dọc cho selected foods box */
+    gap: 20px; /* Khoảng cách giữa các phần tử */
+    margin-bottom: 20px;
+}
+
 .reservation-info-box {
-    width: 500px;
-    margin-top: 20px;
+    width: 900px;
+    display: flex; /* Sử dụng Flexbox để căn chỉnh bên trái và bên phải */
+    justify-content: space-between; /* Phân chia không gian giữa reservation và ordered foods */
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #f9f9f9;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
-
-.reservation-info-layout {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.reservation-table-image {
-    width: 120px;
-    height: 120px;
-    border-radius: 8px;
-    object-fit: cover;
-}
-
-.reservation-info-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.ordered-foods {
-    margin-top: 20px;
-}
-
-.ordered-foods-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.ordered-food-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100px;
-    padding: 10px;
+.reservation-selected-info-box {
+    width: 400px;
+    display: flex; /* Sử dụng Flexbox để căn chỉnh bên trái và bên phải */
+    justify-content: space-between; /* Phân chia không gian giữa reservation và ordered foods */
+    padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    background-color: #f9f9f9;
+}
+/* Reservation Box */
+.reservation-box {
+    flex: 1; /* Chiếm toàn bộ chiều cao */
+    margin-right: 20px; /* Khoảng cách bên phải */
 }
 
-.food-image {
-    width: 80px;
-    height: 80px;
-    border-radius: 8px;
-    object-fit: cover;
-    margin-bottom: 10px;
+/* Ordered Foods */
+/* Container cho Ordered Foods */
+.ordered-food-container {
+    flex-basis: 400px; /* Đặt chiều rộng tối thiểu cho ordered foods */
+    padding: 15px; /* Thêm khoảng cách bên trong cho container */
+    background-color: #ffffff; /* Màu nền trắng cho container */
+    border-radius: 10px; /* Bo góc cho container */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho container */
 }
 
-.food-details {
+/* Danh sách món đã đặt */
+.ordered-food-list {
+    display: flex;
+    flex-direction: column;  
+    gap: 10px; /* Khoảng cách giữa các món ăn */
+}
+
+.ordered-food-list span {
+    font-weight: bolder;
+    color: rgb(26, 199, 124);
+}
+/* Món ăn đã đặt */
+.ordered-food-item {
+    display: flex; /* Đặt các phần tử con theo hàng ngang */
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    margin-bottom: 10px; /* Khoảng cách giữa các món ăn */
+    height: 70px; /* Chiều cao món ăn */
+    padding: 10px; /* Khoảng cách bên trong */
+    border: 1px solid #e0e0e0; /* Đường viền cho từng món ăn */
+    border-radius: 8px; /* Bo góc cho từng món ăn */
+    background-color: #f8f8f8; /* Màu nền cho món ăn */
+    transition: box-shadow 0.3s; /* Hiệu ứng chuyển động cho viền */
+}
+
+/* Hiệu ứng hover cho món ăn */
+.ordered-food-item:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Đổ bóng khi hover */
+}
+
+/* Hình ảnh món ăn đã đặt */
+.ordered-food-image {
+    width: 50px; /* Đặt chiều rộng hình ảnh */
+    height: 50px; /* Đặt chiều cao hình ảnh */
+    object-fit: cover; /* Giữ tỷ lệ hình ảnh */
+    border-radius: 5px; /* Bo góc cho hình ảnh */
+    margin-right: 15px; /* Khoảng cách giữa hình ảnh và tên món ăn */
+}
+
+/* Chi tiết món ăn đã đặt */
+.ordered-food-details {
+    flex-grow: 1; /* Cho phép chi tiết món ăn chiếm không gian còn lại */
+}
+
+/* Tên món ăn đã đặt */
+.ordered-food-name {
+    font-weight: bold; 
+    font-size: 15px; 
+    margin: 0; 
+}
+
+/* Giá món ăn đã đặt */
+.ordered-food-price {
+    color: #ff5722; 
+    font-size: 0.9rem; 
+    margin: 0;
+}
+
+/* Số lượng món ăn đã đặt */
+.ordered-food-quantity {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0;
+}
+
+/* Tổng giá */
+.ordered-food-total {
+    font-weight: bold; 
+    font-size: 1rem; 
+    margin-top: 10px; 
+    color: #333; 
+}
+
+
+/* Selected Foods Box */
+.selected-foods-box {
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+    padding: 10px;
+    margin-top: 20px; 
+    background-color: #fff; 
+}
+
+.selected-foods-list {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 8px;
 }
 
-.food-name {
-    font-weight: bold;
+.selected-food-item {
+    display: flex;
+    align-items: center; 
+    padding: 5px;
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    background-color: #f9f9f9;
 }
 
-.food-price {
-    color: #ff7f50;
-}
-
-
-/* CSS cho hình ảnh của bàn trong ô thông tin đặt bàn */
-.reservation-info-box .reservation-table-image {
-    width: 180px;
-    height: 180px;
-    border-radius: 8px;
-    margin-bottom: 15px;
+.selected-food-image {
+    width: 40px;
+    height: 40px;
     object-fit: cover;
+    margin-right: 8px; 
 }
 
-/* CSS cho phần còn lại */
-.reservation-info-content {
+.selected-food-details {
+    flex-grow: 1; 
     display: flex;
-    gap: 30px;
-    justify-content: space-around;
-    width: 100%;
+    justify-content: space-between; 
+    align-items: center; 
 }
 
-
-.reservation-info-content {
-    display: flex;
-    gap: 30px;
-    justify-content: space-around;
-    width: 100%;
-}
-
-.reservation-info-content p {
-    margin: 0;
+.selected-food-name {
+    font-weight: bold; 
+    margin: 0; 
     font-size: 14px;
-    color: #555;
 }
 
+.quantity-input {
+    width: 40px; 
+    padding: 3px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    font-size: 12px;
+}
+
+
+/* Table Management */
 .table-management-container {
     display: flex;
     flex-direction: column;
@@ -133,100 +194,4 @@
 .table-management-filters .reservation,
 .table-management-filters .running-order {
     background-color: #d3d3d3;
-}
-
-.table-management-container .table-container {
-    display: flex;
-    gap: 20px;
-}
-
-.table-management-table {
-    width: 100px;
-    height: 100px;
-    background-color: #d3d3d3;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.table-management-table .status {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-}
-
-.table-management-table.available .status {
-    background-color: purple;
-}
-
-.table-management-table.reserved .status {
-    background-color: orange;
-}
-
-.table-management-table.billed .status {
-    background-color: green;
-}
-
-.table-management-table.available-soon .status {
-    background-color: yellow;
-}
-
-.table-management-sidebar {
-    position: fixed;
-    right: 20px;
-    top: 20px;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.table-management-sidebar .place-order {
-    display: block;
-    margin-bottom: 20px;
-    padding: 10px 20px;
-    background-color: #ff7f50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.table-management-sidebar .table-status {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.table-management-sidebar .table-status .status-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.table-management-sidebar .table-status .status-item .status-color {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-}
-
-.table-management-sidebar .table-status .status-item.available .status-color {
-    background-color: purple;
-}
-
-.table-management-sidebar .table-status .status-item.reserved .status-color {
-    background-color: orange;
-}
-
-.table-management-sidebar .table-status .status-item.billed .status-color {
-    background-color: green;
-}
-
-.table-management-sidebar .table-status .status-item.available-soon .status-color {
-    background-color: yellow;
 }

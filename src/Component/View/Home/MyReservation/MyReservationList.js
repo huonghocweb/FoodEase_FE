@@ -2,7 +2,7 @@ import React from 'react';
 import './MyReservation.css';
 import PaginationControls from '../../../Include/Pagination/PaginationControls';
 
-const MyReservationList = ({ bookingInfo , paginationState , handlePaginationChange , handleCancelRequestReservation,sortOptions}) => {
+const MyReservationList = ({ bookingInfo , paginationState , handlePaginationChange , handleCancelRequestReservation,sortOptions, handleReservationOrderPayment}) => {
     return (
         <div className="booking-info-form-container">
             <h1 className="booking-info-form-title">My Booking Information</h1>
@@ -65,19 +65,16 @@ const MyReservationList = ({ bookingInfo , paginationState , handlePaginationCha
 
                             <div className="booking-info-form-buttons">
                                 <button className="booking-info-form-btn">Update</button>
-                                {item.reservationStatus.reservationStatusId === 1  && (
+                                {item.reservationStatus.reservationStatusId === 1  ? (
                                     <button 
                                     className="booking-info-form-btn delete"
                                      onClick={()=>handleCancelRequestReservation(item.reservationId)}
                                      >Cancel</button>
-                                )}
+                                ) : <button className="booking-info-form-btn" onClick={() => handleReservationOrderPayment(item.reservationId)}>See ReservationOrder</button>}
                                     
                             </div>
-                            
                         </div>
-
                         </>
-                        
                     ))
                 ) : (
                     <p className="booking-info-form-error">No booking information found.</p>

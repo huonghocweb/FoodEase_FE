@@ -1,7 +1,7 @@
 import React from 'react';
 
 const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , openCheckTimePopup  , tableIdSelected , formStateCheckTime, handleInputChange,resetFormStateCheckTime, 
-    handleCheckResTableAvailable , selectedServiceIds , isOpenServicesPopup , handleServicesPopup}) => {
+    handleCheckResTableAvailable , selectedServiceIds , isOpenServicesPopup , handleServicesPopup , errorCheckTimeState}) => {
     return (
         <> 
         {isCheckTimePopup && (
@@ -40,6 +40,7 @@ const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , 
                                     className="checktime-input-date"
                                     required
                                 />
+                                  {errorCheckTimeState.date && <div>{errorCheckTimeState.date}</div>}
                             </div>
                             <div className="checktime-form-group">
                                 <label htmlFor="tableIdDisplay">Table ID:</label>
@@ -62,6 +63,7 @@ const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , 
                                     className="checktime-input-time"
                                     required
                                 />
+                                {errorCheckTimeState.checkinTime && <div>{errorCheckTimeState.checkinTime}</div>}
                             </div>
                             <div className="checktime-form-group">
                                 <label htmlFor="checkOutTime">Check-out Time:</label>
@@ -72,6 +74,7 @@ const CheckTimePopup = ({isCheckTimePopup , handleCheckTimePopup , reservated , 
                                     className="checktime-input-time"
                                     required
                                 />
+                                  {errorCheckTimeState.checkoutTime && <div>{errorCheckTimeState.checkoutTime}</div>}
                             </div>
                         </div>
 

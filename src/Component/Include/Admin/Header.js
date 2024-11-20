@@ -6,9 +6,6 @@ const Header = () => {
     <div className="row">
       <nav className="navbar navbar-expand-xl">
         <div className="container h-100">
-          <NavLink className="navbar-brand" to="/admin">
-            <h1 className="tm-site-title mb-0">Product Admin</h1>
-          </NavLink>
           <div className="collapse navbar-collapse">
             <ul className="navbar-nav mx-auto h-100">
               <li className="nav-item dropdown">
@@ -74,9 +71,9 @@ const Header = () => {
                   <li>
                     <NavLink
                       className="dropdown-item"
-                      to="/admin/reservation-accepted-list"
+                      to="/admin/reservationOrderPayment"
                     >
-                      Reservation Accepted List
+                      Reservation OrderPayment List
                     </NavLink>
                   </li>
                   <li>

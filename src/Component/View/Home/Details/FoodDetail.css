@@ -1,8 +1,6 @@
 
 .food-details {
     display: flex; /* Sử dụng flexbox để xếp theo chiều ngang */
-
- 
     padding: 16px;
     max-width: 70%; /* Tăng chiều rộng */
     margin: 0 auto;

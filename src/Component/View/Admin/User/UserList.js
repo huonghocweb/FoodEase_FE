@@ -1,21 +1,53 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import "./UserList.css";
-import { useNavigate } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
+import "./UserList.css"; // CSS với các class mới
 import axiosConfig from "../../../Config/AxiosConfig";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showPassword, setShowPassword] = useState({});
-  const navigate = useNavigate();
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
+  // Định nghĩa hàm fetchUsers để lấy dữ liệu người dùng
+  const fetchUsers = async () => {
+    try {
+      const response = await axiosConfig.get(
+        "http://localhost:8080/api/user",
+        {
+          params: {
+            pageNumber: 0,
+            pageSize: 100,
+            sortOrder: "asc",
+            sortBy: "userId",
+          },
+        }
+      );
+
+      const sortedUsers = response.data.content.sort(
+        (a, b) => a.userId - b.userId
+      );
+      setUsers(sortedUsers);
+    } catch (error) {
+      setError("Failed to load users");
+      console.error("Error fetching users:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Gọi fetchUsers khi component được mount
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  // Xử lý chọn file để import
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
 
+  // Xử lý import dữ liệu người dùng từ file
   const handleImport = async () => {
     if (!file) {
         alert("Vui lòng chọn một tệp để tải lên.");
@@ -36,6 +68,17 @@ const UserList = () => {
     } catch (error) {
         console.error("Có lỗi xảy ra khi nhập dữ liệu: ", error);
         alert("Có lỗi xảy ra khi nhập dữ liệu.");
+    //   const response = await axiosConfig.post("/api/user/import", formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   });
+    //   alert(response.data);
+    //   // Tải lại danh sách người dùng sau khi import thành công
+    //   fetchUsers();
+    // } catch (error) {
+    //   console.error("Error importing file:", error);
+    //   alert("Error importing file");
     }
 };
 
@@ -63,82 +106,65 @@ const UserList = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
-  const fetchUsers = async () => {
+
+  // Xử lý export dữ liệu người dùng ra file
+  const handleExport = async () => {
     try {
-      const response = await axiosConfig.get(
-        "http://localhost:8080/api/user",
-        {
-          params: {
-            pageNumber: 0,
-            pageSize: 10,
-            sortOrder: "asc",
-            sortBy: "userName",
-          },
-        }
-      );
+        const response = await axiosConfig.get("/api/user/export", {
+            responseType: "blob", // Nhận dữ liệu dưới dạng blob
+        });
 
-      if (response.data.content) {
-        setUsers(response.data.content);
-      } else {
-        setUsers([]);
-      }
+        // Tạo URL từ blob nhận được
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+
+        // Tạo liên kết tải file
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "users.xlsx"); // Đặt tên file là "users.xlsx"
+        document.body.appendChild(link);
+
+        // Kích hoạt sự kiện click để tải file
+        link.click();
+
+        // Xóa liên kết tạm thời
+        link.remove();
     } catch (error) {
-      setError("Failed to load users");
-      console.error("Error fetching users:", error);
-    } finally {
-      setLoading(false);
+        console.error("Error exporting file:", error);
+        alert("Failed to export file");
     }
-  };
+};
 
+  
+
+  // Xử lý xóa người dùng
   const handleDelete = async (userId) => {
     try {
-      const response = await axiosConfig.delete(
-        `http://localhost:8080/api/user/${userId}`
+      await axiosConfig.delete(`http://localhost:8080/api/user/${userId}`);
+      setUsers((prevUsers) =>
+        prevUsers.filter((user) => user.userId !== userId)
       );
-      console.log("User disabled successfully", response.data);
+      alert("User deleted successfully");
     } catch (error) {
-      console.error("Error disabling user:", error);
-      alert("Failed to disable user.");
+      console.error("Error deleting user:", error);
+      alert("Failed to delete user.");
     }
   };
 
   const handleEdit = (user) => {
-    navigate(`/admin/edit`, {
-      state: { user: { ...user, password: user.password } },
-    });
-  };
-
-  const togglePasswordVisibility = (userId) => {
-    setShowPassword((prev) => ({
-      ...prev,
-      [userId]: !prev[userId],
-    }));
-  };
-
+    navigate(`/admin/user/edit/${user.userId}`, { state: { user } });
+};
   if (loading) {
-    return <p>Loading...</p>;
+    return <p className="user-loading-text">Loading...</p>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className="user-error-text">{error}</p>;
   }
 
   return (
-    <div className="body">
-      <div id="reportsPage">
-        <div id="home">
-          <div className="container">
-            <div className="row tm-content-row">
-              <div className="col-12 tm-block-col">
-                <div className="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-                  <h2 className="tm-block-title">Account List</h2>
-                  <NavLink
-                    className="btn btn-primary"
-                    to="/admin/user/create"
-                    style={{ display: "flex", width: "150px" }}
-                  >
-                    New User
-                  </NavLink>
+    <div className="user-list-body">
+      <div className="user-list-container">
+        <h2 className="user-list-title">Account List</h2>
 
                   {/* Import/Export Section */}
                   <div className="import-export-container">
@@ -165,107 +191,94 @@ const UserList = () => {
                       </div>
                     </div>
                   </div>
+        {/* Button to create a new user */}
+        <NavLink className="user-btn-create" to="/admin/user/create">
+          New User
+        </NavLink>
 
-                  {/* Users Table */}
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">User NO.</th>
-                        <th scope="col">UserName</th>
-                        <th scope="col">FullName</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Address</th>
-                        <th scope="col">Birthday</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Password</th>
-                        <th scope="col">Roles</th>
-                        <th scope="col">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {users && users.length > 0 ? (
-                        users
-                          .filter((user) => user.status)
-                          .map((user) => (
-                            <tr key={user.userId}>
-                              <th scope="row">
-                                <b>#{user.userId}</b>
-                              </th>
-                              <td>
-                                <b>{user.userName}</b>
-                              </td>
-                              <td>
-                                <b>{user.fullName}</b>
-                              </td>
-                              <td>
-                                <b>{user.email}</b>
-                              </td>
-                              <td>{user.phoneNumber}</td>
-                              <td>
-                                {new Date(user.birthday).toLocaleDateString()}
-                              </td>
-                              <td>{user.address}</td>
-                              <td>
-                                <img
-                                  src={`http://localhost:8080${user.imageUrl}`}
-                                  alt={`${user.fullName}'s avatar`}
-                                  className="user-image"
-                                />
-                              </td>
-                              <td>
-                                <b>
-                                  {showPassword[user.userId]
-                                    ? user.password
-                                    : "******"}
-                                </b>
-                                <button
-                                  onClick={() =>
-                                    togglePasswordVisibility(user.userId)
-                                  }
-                                >
-                                  {showPassword[user.userId] ? "Hide" : "Show"}
-                                </button>
-                              </td>
-                              <td>
-                                {user.roles.map((role) => role.name).join(", ")}
-                              </td>
-                              <td>
-                                <button
-                                  className="btn btn-edit"
-                                  onClick={() => handleEdit(user)}
-                                >
-                                  Edit
-                                </button>
-                                <button
-                                  className="btn btn-delete"
-                                  onClick={() => handleDelete(user.userId)}
-                                >
-                                  Disable
-                                </button>
-                                <button
-                                  className="btn btn-reset"
-                                  onClick={() => handleDelete(user.userId)}
-                                >
-                                  Reset
-                                </button>
-                              </td>
-                            </tr>
-                          ))
-                      ) : (
-                        <tr>
-                          <td colSpan="11" className="text-center">
-                            No users found.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+        {/* Import/Export Section */}
+        <div className="user-import-export-container">
+          <input
+            type="file"
+            accept=".xlsx"
+            onChange={handleFileChange}
+            className="user-file-input"
+          />
+          <div className="user-import-export-buttons">
+            <button className="user-btn-import" onClick={handleImport}>
+              Import Users
+            </button>
+            <button className="user-btn-export" onClick={handleExport}>
+              Export Users
+            </button>
           </div>
         </div>
+
+        {/* Users Table */}
+        <table className="user-table">
+          <thead>
+            <tr>
+              <th>User NO.</th>
+              <th>UserName</th>
+              <th>FullName</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th>Address</th>
+              <th>Birthday</th>
+              <th>Gender</th>
+              <th>Image</th>
+              <th>Roles</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users && users.length > 0 ? (
+              users
+                .filter((user) => user.status)
+                .map((user) => (
+                  <tr key={user.userId}>
+                    <td>{user.userId}</td>
+                    <td>{user.userName}</td>
+                    <td>{user.fullName}</td>
+                    <td>{user.email}</td>
+                    <td>{user.phoneNumber}</td>
+                    <td>{user.address}</td>
+                    <td>{new Date(user.birthday).toLocaleDateString()}</td>
+                    <td>{user.gender ? "Male" : "Female"}</td>
+                    <td>
+                      <img
+                        src={user.imageUrl} // Đảm bảo rằng `user.imageUrl` là một URL đầy đủ
+                        alt={`${user.fullName}'s avatar`}
+                        className="user-avatar"
+                      />
+                    </td>
+
+                    <td>{user.roles.map((role) => role.roleName).join(", ")}</td>
+                    <td className="user-action-buttons">
+                      <button
+                        className="user-btn user-btn-edit"
+                        onClick={() => handleEdit(user)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="user-btn user-btn-delete"
+                        onClick={() => handleDelete(user.userId)}
+                      >
+                        Disable
+                      </button>
+                    </td>
+                  </tr>
+                ))
+            ) : (
+              <tr>
+                <td colSpan="10" className="user-no-users-text">
+                  No users found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );
