@@ -1,6 +1,7 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts"; // Sử dụng vfs_fonts cho font mặc định
 import React, { useEffect, useState } from "react";
+import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -78,7 +79,7 @@ const InvoiceDownloadComponent = ({ orderId }) => {
 
   return (
     <button onClick={exportPDF} className="btn btn-primary">
-      Export PDF
+      {customTranslate("Export")} PDF
     </button>
   );
 };

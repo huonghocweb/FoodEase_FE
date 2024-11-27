@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
 import CustomAlert from "../../../Config/CustomAlert";
-import Order from "../Details/Order";
+import OrderForWL from "../Details/OrderForWL";
 import "./WishList.css";
 
 const WishList = () => {
@@ -107,7 +107,7 @@ const WishList = () => {
 
   const openModal = (food) => {
     setSelectedProduct(food);
-    console.log(food, "Dữ liệu food");
+    console.log("Dữ liệu food", food);
   };
 
   const closeModal = () => {
@@ -130,9 +130,8 @@ const WishList = () => {
           onClose={() => setAlert(null)}
         />
       )}
-      
       <div className="wishList-header">
-        <h1>Wish List</h1>
+        <h1>{customTranslate("My WishLists")}</h1>
         <button className="add-wishList-btn" onClick={openAddModal}>
           +
         </button>
@@ -146,7 +145,9 @@ const WishList = () => {
             >
               <span className="wishListName">{wishList.wishListName}</span>
               <div className="dropdown-wishlist">
-                <button className="dropdown-btn-wishlist"><i className="fa fa-ellipsis-vertical "></i></button>
+                <button className="dropdown-btn-wishlist">
+                  <i className="fa fa-ellipsis-vertical "></i>
+                </button>
                 <div className="dropdown-content-wishlist">
                   <button
                     onClick={(e) => {
@@ -156,7 +157,7 @@ const WishList = () => {
                       setRenameWishListName(wishList.wishListName);
                     }}
                   >
-                    Rename
+                    {customTranslate("Rename")}
                   </button>
                   <button
                     onClick={(e) => {
@@ -164,115 +165,120 @@ const WishList = () => {
                       deleteWishList(wishList.wishListId);
                     }}
                   >
-                    Delete
+                    {customTranslate("Delete")}
                   </button>
                 </div>
               </div>
             </li>
           ))
         ) : (
-          <li>No wishlists available.</li> // Hiển thị khi không có wishlist nào
+          <li> {customTranslate("No wishlists available")}.</li> // Hiển thị khi không có wishlist nào
         )}
       </ul>
-      {selectedWishListId && (
-        <div>
-          <h2 className="wishListName1">
-            {
-              wishLists.find(
-                (wishList) => wishList.wishListId === selectedWishListId
-              )?.wishListName
-            }
-          </h2>
-          <div className="menu-container">
-            {Array.isArray(foods) && foods.length > 0 ? (
-              foods.map((food) => {
-                // Lọc biến thể có quantityStock > 0
-                const availableVariation = food.foodVariations.find(
-                  (variation) => variation.quantityStock > 0
-                );
+      <h2 className="wishListName1">
+        {
+          wishLists.find(
+            (wishList) => wishList.wishListId === selectedWishListId
+          )?.wishListName
+        }
+      </h2>
+      <img src="https://res.cloudinary.com/dudr7ajma/image/upload/v1732095765/blog/i9j8qeh174zv2myuv1tn.png"></img>
+      <table className="wishlist-container-table">
+        <thead>
+          <tr>
+            <th>{customTranslate("Remove")}</th>
+            <th>{customTranslate("Image")}</th>
+            <th>{customTranslate("Product Name")}</th>
+            <th>{customTranslate("Unit Price")}</th>
+            <th>{customTranslate("In Stock")}</th>
+            <th>{customTranslate("Order")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Array.isArray(foods) && foods.length > 0 ? (
+            foods.map((food) => {
+              if (!food) {
+                console.warn("Food object is undefined or null:", food);
+                return null;
+              }
 
-                return (
-                  <div key={food.foodId} className="menu-item">
-                    <div className="image-discount">
-                      {availableVariation ? (
-                        <Link
-                          to={`FoodDetails/${availableVariation.foodVariationId}`}
-                        >
-                          <img
-                            src={`/assets/images/${food.imageUrl}`}
-                            alt={food.foodName}
-                            className="menu-image"
-                          />
-                        </Link>
-                      ) : (
+              const newPrice =
+                (food.basePrice || 0) -
+                (food.discount / 100) * (food.basePrice || 0);
+
+              const availableVariation = food.foodVariations?.find(
+                (variation) => variation.quantityStock > 0
+              );
+
+              return (
+                <tr key={food.foodId}>
+                  <td>
+                    <button
+                      onClick={() =>
+                        removeFoodFromWishList(selectedWishListId, food.foodId)
+                      }
+                      className="wishlist-remove-btn"
+                    >
+                      ×
+                    </button>
+                  </td>
+                  <td>
+                    {availableVariation ? (
+                      <Link
+                        to={`FoodDetails/${availableVariation.foodVariationId}`}
+                      >
                         <img
-                          src={`/assets/images/${food.imageUrl}`}
-                          alt={food.foodName}
-                          className="menu-image"
+                          src={food.imageUrl || ""}
+                          alt={food.foodName || "No Name"}
+                          className="wishlist-product-image"
                         />
+                      </Link>
+                    ) : (
+                      <img
+                        src={food.imageUrl || ""}
+                        alt={food.foodName || "No Name"}
+                        className="wishlist-product-image"
+                      />
+                    )}
+                  </td>
+                  <td>{customTranslate(`${food.foodName}`)}</td>
+                  <td>
+                    <div>
+                      <b className="wishlist-price">
+                        {newPrice.toLocaleString("vi-VN")} đ
+                      </b>
+                      <br />
+                      <span className="wishlist-price-original">
+                        {food.basePrice?.toLocaleString("vi-VN") || 0}đ
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    {availableVariation
+                      ? `${availableVariation.quantityStock}`
+                      : "Out of stock"}
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => openModal(food)}
+                      className="wishlist-add-to-cart-btn"
+                      disabled={!availableVariation}
+                    >
+                      {customTranslate(
+                        availableVariation ? "Order" : "Out of stock"
                       )}
-                      <div className="disscount1">
-                        {`Discount: ${food.discount}%`}
-                      </div>
-                    </div>
-                    <div className="menu-details">
-                      <div className="menu-header">
-                        <h3>{food.foodName}</h3>
-                        <div>
-                          <b className="price">
-                            {food.basePrice?.toLocaleString("vi-VN") -
-                              (food.discount / 100) *
-                                food.basePrice?.toLocaleString("vi-VN")}{" "}
-                            đ
-                          </b>
-                          <del className="price">
-                            {food.basePrice?.toLocaleString("vi-VN")}đ
-                          </del>
-                        </div>
-                        <h5 className="description">{food.description}</h5>
-                        <div className="menu-footer">
-                          <p>
-                            {customTranslate("sold")}:{" "}
-                            {availableVariation
-                              ? availableVariation.quantityStock
-                              : "chưa có"}
-                          </p>
-                          <p>{customTranslate("Rating")}: 5⭐</p>
-                        </div>
-                      </div>
-                      <div className="row d-flex justify-content-center">
-                        <button
-                          onClick={() => openModal(food)}
-                          className="col-sm-4 me-3"
-                          disabled={!availableVariation}
-                        >
-                          {customTranslate(
-                            availableVariation ? "Order" : "Out of stock"
-                          )}
-                        </button>
-
-                        <button
-                          onClick={() =>
-                            removeFoodFromWishList(
-                              selectedWishListId,
-                              food.foodId
-                            )
-                          }
-                          className="col-sm-4"
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <p>No foods available in this wishlist.</p> // Hiển thị khi không có món ăn nào
-            )}
-          </div>
-        </div>
-      )}
+                    </button>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan="6">{customTranslate("No products available in this wishlist")} .</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
       {(showAddModal || renameWishListId) && (
         <div className="modal">
           <form
@@ -296,7 +302,7 @@ const WishList = () => {
           </form>
         </div>
       )}
-      <Order product={selectedProduct} onClose={closeModal} />;
+      <OrderForWL product={selectedProduct} onClose={closeModal} />;
     </div>
   );
 };

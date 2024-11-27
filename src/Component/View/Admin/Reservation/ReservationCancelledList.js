@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import "./ReservationList.css";
+import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
+import "./ReservationList.css";
 
 const ReservationCancelledList = () => {
   const [reservations, setReservations] = useState([]);
@@ -66,26 +67,33 @@ const ReservationCancelledList = () => {
     .filter((reservation) => reservation.status === "Cancelled")
     .sort((a, b) => b.reservationId - a.reservationId);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return <div>{customTranslate("Loading")}...</div>;
+  if (error)
+    return (
+      <div>
+        {customTranslate("Error")}: {error}
+      </div>
+    );
 
   return (
     <div className="col-12 tm-block-col">
       <div className="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-        <h2 className="tm-block-title">Reservation Cancelled List</h2>
+        <h2 className="tm-block-title">
+          {customTranslate("Reservation Cancelled List")}
+        </h2>
         <table className="table-ReservationList">
           <thead>
             <tr>
-              <th scope="col">NO.</th>
-              <th scope="col">STATUS</th>
-              <th scope="col">NAME</th>
-              <th scope="col">EMAIL</th>
-              <th scope="col">PHONE</th>
-              <th scope="col">DATE</th>
-              <th scope="col">TIME</th>
-              <th scope="col">PERSON</th>
-              <th scope="col">TABLE</th>
-              <th scope="col">CONTROL</th>
+              <th scope="col">{customTranslate("NO.")}</th>
+              <th scope="col">{customTranslate("STATUS")}</th>
+              <th scope="col">{customTranslate("NAME")}</th>
+              <th scope="col">{customTranslate("EMAIL")}</th>
+              <th scope="col">{customTranslate("PHONE")}</th>
+              <th scope="col">{customTranslate("DATE")}</th>
+              <th scope="col">{customTranslate("TIME")}</th>
+              <th scope="col">{customTranslate("PERSON")}</th>
+              <th scope="col">{customTranslate("TABLE")}</th>
+              <th scope="col">{customTranslate("CONTROL")}</th>
             </tr>
           </thead>
           <tbody>
@@ -109,9 +117,11 @@ const ReservationCancelledList = () => {
                   <td>{reservation.reservationTime}</td>
                   <td>
                     {reservation.guests}{" "}
-                    {reservation.guests === 1 ? "Person" : "Persons"}
+                    {reservation.guests === 1
+                      ? customTranslate("Person")
+                      : customTranslate("Persons")}
                   </td>
-                  <td>{reservation.tableName || "N/A"}</td>
+                  <td> {customTranslate(`${reservation.tableName || "N/A"}`)}</td>
                   <td>
                     <button
                       onClick={() =>
@@ -121,7 +131,7 @@ const ReservationCancelledList = () => {
                         )
                       }
                     >
-                      Accept
+                      {customTranslate("Accept")}
                     </button>
                     <button
                       onClick={() =>
@@ -131,7 +141,7 @@ const ReservationCancelledList = () => {
                         )
                       }
                     >
-                      Cancel
+                      {customTranslate("Cancel")}
                     </button>
                   </td>
                 </tr>

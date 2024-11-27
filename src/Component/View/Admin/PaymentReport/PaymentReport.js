@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
-  LineChart,
-  Line,
-  YAxis,
   CartesianGrid,
   Legend,
+  Line,
+  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
+  YAxis,
 } from "recharts";
+import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
 
 const PaymentReport = () => {
@@ -27,11 +28,17 @@ const PaymentReport = () => {
     };
 
     try {
-      const response = await axiosConfig.post("/report/revenue-by-payment-method", requestData);
+      const response = await axiosConfig.post(
+        "/report/revenue-by-payment-method",
+        requestData
+      );
       setRevenueData(response.data);
     } catch (error) {
       setError(error.response ? error.response.data : error.message);
-      console.error("Error fetching data:", error.response ? error.response.data : error.message);
+      console.error(
+        "Error fetching data:",
+        error.response ? error.response.data : error.message
+      );
     } finally {
       setLoading(false);
     }
@@ -42,11 +49,15 @@ const PaymentReport = () => {
   }, [startDate, endDate]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <p>{customTranslate("Loading")}...</p>;
   }
 
   if (error) {
-    return <div>Error: {JSON.stringify(error)}</div>;
+    return (
+      <div>
+        {customTranslate("Error")}: {JSON.stringify(error)}
+      </div>
+    );
   }
 
   const formatCurrency = (amount) => {
@@ -58,10 +69,12 @@ const PaymentReport = () => {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-5">Payment Revenue Report</h1>
+      <h1 className="text-center mb-5">
+        {customTranslate("Payment Revenue Report")}
+      </h1>
       <div className="row mb-4">
         <div className="col-md-6">
-          <label className="form-label">Start Date</label>
+          <label className="form-label">{customTranslate("Start Date")}</label>
           <input
             type="date"
             className="form-control"
@@ -70,7 +83,7 @@ const PaymentReport = () => {
           />
         </div>
         <div className="col-md-6">
-          <label className="form-label">End Date</label>
+          <label className="form-label">{customTranslate("End Date")}</label>
           <input
             type="date"
             className="form-control"
@@ -83,7 +96,9 @@ const PaymentReport = () => {
       {/* Biểu đồ doanh thu */}
       <div className="row justify-content-center mb-5">
         <div className="col-md-10">
-          <h3 className="text-center">Total Revenue by Payment Method</h3>
+          <h3 className="text-center">
+            {customTranslate("Total Revenue by Payment Method")}
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -100,7 +115,9 @@ const PaymentReport = () => {
       {/* Biểu đồ số lượng người dùng */}
       <div className="row justify-content-center mb-5">
         <div className="col-md-10">
-          <h3 className="text-center">User Count by Payment Method</h3>
+          <h3 className="text-center">
+            {customTranslate("User Count by Payment Method")}
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -108,7 +125,12 @@ const PaymentReport = () => {
               <YAxis domain={[0, 10]} />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="userCount" stroke="#82ca9d" name="User Count" />
+              <Line
+                type="monotone"
+                dataKey="userCount"
+                stroke="#82ca9d"
+                name="User Count"
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -117,7 +139,9 @@ const PaymentReport = () => {
       {/* Biểu đồ số lượng đơn hàng */}
       <div className="row justify-content-center">
         <div className="col-md-10">
-          <h3 className="text-center">Order Count by Payment Method</h3>
+          <h3 className="text-center">
+            {customTranslate("Order Count by Payment Method")}
+          </h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -125,7 +149,12 @@ const PaymentReport = () => {
               <YAxis domain={[0, 10]} />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="orderCount" stroke="#ff7300" name="Order Count" />
+              <Line
+                type="monotone"
+                dataKey="orderCount"
+                stroke="#ff7300"
+                name="Order Count"
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -138,13 +167,13 @@ const PaymentReport = () => {
             {revenueData.map((item, index) => (
               <li key={index} className="list-group-item">
                 {item.paymentMethodName}: {formatCurrency(item.totalRevenue)} -{" "}
-                <strong>Users:</strong> {item.userCount} - <strong>Orders:</strong>{" "}
-                {item.orderCount}
+                <strong>{customTranslate("Users")}:</strong> {item.userCount} -{" "}
+                <strong>{customTranslate("Orders")}:</strong> {item.orderCount}
               </li>
             ))}
           </ul>
         ) : (
-          <p>No revenue data available.</p>
+          <p>{customTranslate("No revenue data available")}.</p>
         )}
       </div>
     </div>

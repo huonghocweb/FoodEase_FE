@@ -1,5 +1,6 @@
-import React from 'react';
-import './UserInfoPanel.css';
+import React from "react";
+import { customTranslate } from "../../../i18n";
+import "./UserInfoPanel.css";
 
 const UserInfoPanel = ({ user, isOpen, onClose }) => {
   if (!isOpen || !user) return null;
@@ -7,35 +8,50 @@ const UserInfoPanel = ({ user, isOpen, onClose }) => {
   return (
     <div className="user-info-panel show">
       <div className="user-info-header">
-        <h3>User Information</h3>
-        <button onClick={onClose} className="close-btn">✖</button>
+        <h3>{customTranslate("User Information")}</h3>
+        <button onClick={onClose} className="close-btn">
+          ✖
+        </button>
       </div>
       <div className="user-info-content">
-        <img src={user.imageUrl} alt="User Avatar" className="user-avatar"/>
-        
+        <img src={user.imageUrl} alt="User Avatar" className="user-avatar" />
+
         <div className="info-item">
-          <strong>Account Name:</strong> <span>{user.userName}</span>
+          <strong>{customTranslate("Account Name")}:</strong>{" "}
+          <span>{user.userName}</span>
         </div>
         <div className="info-item">
-          <strong>Full Name:</strong> <span>{user.fullName}</span>
+          <strong>{customTranslate("Full Name")}:</strong>{" "}
+          <span>{user.fullName}</span>
         </div>
         <div className="info-item">
           <strong>Email:</strong> <span>{user.email}</span>
         </div>
         <div className="info-item">
-          <strong>Phone:</strong> <span>{user.phoneNumber}</span>
+          <strong>{customTranslate("Phone")}:</strong>{" "}
+          <span>{user.phoneNumber}</span>
         </div>
         <div className="info-item">
-          <strong>Address:</strong> <span>{user.address}</span>
+          <strong>{customTranslate("Address")}:</strong>{" "}
+          <span>{user.address}</span>
         </div>
         <div className="info-item">
-          <strong>Birthday:</strong> <span>{user.birthday}</span>
+          <strong>{customTranslate("Birthday")}:</strong>{" "}
+          <span>{user.birthday}</span>
         </div>
         <div className="info-item">
-          <strong>Gender:</strong> <span>{user.gender ? 'Male' : 'Female'}</span>
+          <strong>{customTranslate("Gender")}:</strong>{" "}
+          <span>
+            {user.gender ? customTranslate("Male") : customTranslate("Female")}
+          </span>
         </div>
         <div className="info-item">
-          <strong>Role:</strong> <span>{user.roles.map(role => role.roleName).join(', ')}</span>
+          <strong>{customTranslate("Role")}:</strong>{" "}
+          <span>
+            {user.roles
+              .map((role) => customTranslate(role.roleName))
+              .join(", ")}
+          </span>
         </div>
       </div>
     </div>

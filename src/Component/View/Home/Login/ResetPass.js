@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import axios from 'axios';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CustomAlert from '../../../Config/CustomAlert';
 import { customTranslate } from "../../../../i18n";
+import CustomAlert from '../../../Config/CustomAlert';
 // import './ResetPass.css'; 
 
 const ResetPass = () => {
@@ -90,7 +90,7 @@ const ResetPass = () => {
                             <div className="form-text text-center mb-5 text-dark">
                                 {customTranslate("Remember your password?")} 
                                 <a 
-                                    href="/" 
+                                    href="/login" 
                                     className="text-dark fw-bold">
                                     {customTranslate("Back to Login")}
                                 </a>

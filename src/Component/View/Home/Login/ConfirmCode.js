@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { customTranslate } from "../../../../i18n";
 import './ConfirmCode.css';
 
 const ConfirmCode = () => {
@@ -54,8 +55,8 @@ const ConfirmCode = () => {
     return (
         <div className="confirm-code-container">
             <div className="confirm-code-box">
-                <h2 className="confirm-code-title">Verify Your Code</h2>
-                <p className="confirm-code-subtitle">Enter the 5-digit code sent to {email}</p>
+                <h2 className="confirm-code-title">{customTranslate("Verification code")}</h2>
+                <p className="confirm-code-subtitle">{customTranslate("Enter the 5-digit code sent to")} {email}</p>
 
                 <div className="confirm-code-inputs">
                     {code.map((digit, index) => (
@@ -70,14 +71,14 @@ const ConfirmCode = () => {
                         />
                     ))}
                 </div>
-                {!isCodeValid && <p className="error-message">Please enter a valid 5-digit code.</p>}
+                {!isCodeValid && <p className="error-message">{customTranslate("Please enter a valid 5-digit code")}.</p>}
 
                 <button
                     className="confirm-code-button"
                     onClick={handleConfirm}
                     disabled={!isCodeValid}
                 >
-                    Confirm
+                    {customTranslate("Confirm")}
                 </button>
             </div>
         </div>

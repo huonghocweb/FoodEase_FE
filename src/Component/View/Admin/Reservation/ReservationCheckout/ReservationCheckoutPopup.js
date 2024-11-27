@@ -1,4 +1,5 @@
 import React from 'react';
+import { customTranslate } from "../../../../../i18n";
 
 const ReservationCheckoutPopup = ({isOpentCheckoutPopup , paymentMethod , reservationOrder , handleCheckoutReservationOrder , handleOpenCheckoutPopup}) => {
     return (
@@ -15,38 +16,38 @@ const ReservationCheckoutPopup = ({isOpentCheckoutPopup , paymentMethod , reserv
                                                 <div className="col-md-2 d-md-block d-none p-0 box">
                                                 </div>
                                                 <div className="col-md-8 col-sm-12 p-0 box">
-                                                <h1 style={{fontWeight : 'bolder'}}>CHECK OUT </h1>
+                                                <h1 style={{fontWeight : 'bolder'}}>{customTranslate("CHECK OUT")} </h1>
                                                     <div className="card rounded-0 border-0 card2" id="paypage">
                                                         <div className="form-card">
-                                                            <label className="pay">Your Name</label>
+                                                            <label className="pay">{customTranslate("Your Name")}</label>
                                                             <div className="row">
                                                                 <div className="col-8 col-md-6">
-                                                                    <label className="pay">FullName </label>
+                                                                    <label className="pay">{customTranslate("Full Name")} </label>
                                                                     <input  type="text" name="holdername" value={reservationOrder.reservation.user.fullName} />
                                                                 </div>
                                                                 <div className="col-4 col-md-6">
-                                                                    <label className="pay">Table</label>
+                                                                    <label className="pay">{customTranslate("Table")}</label>
                                                                     <input  className="placeicon" value={reservationOrder.reservation.resTable.tableCategory.tableCategoryName}  readOnly/>
                                                                 </div>
                                                             </div>
                                                             <div className="row">
                                                                 <div className="col-8 col-md-6">
-                                                                    <label className="pay">CheckIn Time </label>
+                                                                    <label className="pay">{customTranslate("CheckIn Time")} </label>
                                                                     <input type="text" name="cardno" value={new Date(reservationOrder.reservation.checkinTime).toLocaleString('vi-Vn')} />
                                                                 </div>
                                                                 <div className="col-8 col-md-6">
-                                                                    <label className="pay">CheckIn Time  </label>
+                                                                    <label className="pay">{customTranslate("CheckOut Time")}  </label>
                                                                     <input type="text" name="cardno" value={new Date(reservationOrder.reservation.checkoutTime).toLocaleString('vi-Vn')} />
                                                                 </div>
                                                               
                                                             </div>
                                                             <div className="row">
                                                             <div className="col-4 col-md-6">
-                                                                    <label className="pay">Total Deposit(VNĐ)</label>
+                                                                    <label className="pay">{customTranslate("Total Deposit")}(VNĐ)</label>
                                                                     <input  className="placeicon" value={reservationOrder.reservation.totalDeposit.toLocaleString('vi-Vn')}  readOnly/>
                                                                 </div>
                                                                 <div className="col-4 col-md-6">
-                                                                    <label className="pay">Total Price Food Order (VNĐ)</label>
+                                                                    <label className="pay">{customTranslate("Total Price Food Order")} (VNĐ)</label>
                                                                     <input
                                                                     className="placeicon"
                                                                     value={(reservationOrder.totalPrice).toLocaleString('vi-VN')}
@@ -63,7 +64,7 @@ const ReservationCheckoutPopup = ({isOpentCheckoutPopup , paymentMethod , reserv
                                                                     fontSize : '18px'           
                                                                 }}
                                                                 >
-                                                                ToTalPrice Payment: {(reservationOrder.totalPrice - reservationOrder.reservation.totalDeposit).toLocaleString('vi-VN')}đ
+                                                                {customTranslate("Total Price Payment")}: {(reservationOrder.totalPrice - reservationOrder.reservation.totalDeposit).toLocaleString('vi-VN')}đ
                                                                 </div>
 
                                                             {/* <div className="row">
@@ -74,7 +75,7 @@ const ReservationCheckoutPopup = ({isOpentCheckoutPopup , paymentMethod , reserv
                                                                     <input type="text" value={1}/>
                                                                 </div>
                                                             </div> */}
-                                                            <label  className="pay">Payment Method</label>
+                                                            <label  className="pay">{customTranslate("Payment Method")}</label>
                                                             <div className="radio-group">
                                                             {
                                                                 paymentMethod.map((item,index) => (
@@ -90,7 +91,7 @@ const ReservationCheckoutPopup = ({isOpentCheckoutPopup , paymentMethod , reserv
                                                             </div> 
                                                             <div className="row">
                                                                 <div className="col-md-6">
-                                                                    <button className="btn btn-primary" onClick={handleOpenCheckoutPopup} >Close</button>
+                                                                    <button className="btn btn-primary" onClick={handleOpenCheckoutPopup} >{customTranslate("Close")}</button>
                                                                 </div>
                                                             </div>
                                                         </div>

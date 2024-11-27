@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import CustomAlert from '../../../Config/CustomAlert';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { customTranslate } from "../../../../i18n";
+import CustomAlert from '../../../Config/CustomAlert';
 // import './ResetPass.css';
 
 const SetNewPassword = () => {

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
 import "./Blog.css";
 Quill.register("modules/imageResize", ImageResize);
@@ -162,17 +163,19 @@ const BlogForm = () => {
                 className="tm-signup-form row"
               >
                 <h2 className="tm-block-title">
-                  {blogId ? "Edit Blog" : "Create Blog"}
+                  {blogId
+                    ? customTranslate("Edit Blog")
+                    : customTranslate("Create Blog")}
                 </h2>
 
                 {/* Blog Title */}
                 <div className="form-group col-lg-12">
-                  <label>Title</label>
+                  <label>{customTranslate("Title")}</label>
                   <input
                     type="text"
                     className="form-control validate"
                     {...register("title", {
-                      required: "Title cannot be blank!",
+                      required: customTranslate("Title cannot be blank!"),
                     })}
                   />
                   {errors.title && (
@@ -184,11 +187,11 @@ const BlogForm = () => {
 
                 {/* Blog Content */}
                 <div className="form-group col-lg-12">
-                  <label>Content</label>
+                  <label>{customTranslate("Content")}</label>
                   <ReactQuill
                     value={content}
                     onChange={setContent}
-                    placeholder="Enter blog content..."
+                    placeholder={customTranslate("Enter blog content")}
                     modules={modules}
                     formats={formats}
                     theme="snow"
@@ -197,21 +200,25 @@ const BlogForm = () => {
 
                 {/* Blog Category */}
                 <div className="form-group col-lg-6">
-                  <label className="text-white">Blog Category</label>
+                  <label className="text-white">
+                    {customTranslate("Blog Category")}
+                  </label>
                   <select
                     className="restable-form-input"
                     {...register("blogCategoryId", {
-                      required: "Please select Blog Category",
+                      required: customTranslate("Please select Blog Category"),
                     })}
                   >
-                    <option value="">Select blog category</option>
+                    <option value="">
+                      {customTranslate("Select blog category")}
+                    </option>
                     {blogCategories.map((category) => (
                       <option
                         key={category.blogCategoryId}
                         value={category.blogCategoryId}
                         selected={blogCategoryId === category.blogCategoryId}
                       >
-                        {category.blogCategoryName}
+                        {customTranslate(`${category.blogCategoryName}`)}
                       </option>
                     ))}
                   </select>
@@ -224,14 +231,16 @@ const BlogForm = () => {
 
                 {/* Blog Author */}
                 <div className="form-group col-lg-6">
-                  <label className="text-white">Author</label>
+                  <label className="text-white">
+                    {customTranslate("Author")}
+                  </label>
                   <select
                     className="restable-form-input"
                     {...register("blogAuthorId", {
-                      required: "Please select Author",
+                      required: customTranslate("Please select Author"),
                     })}
                   >
-                    <option value="">Select Author</option>
+                    <option value="">{customTranslate("Select Author")}</option>
                     {blogAuthor.map((author) => (
                       <option
                         key={author.blogAuthorId}
@@ -249,7 +258,7 @@ const BlogForm = () => {
                   )}
                 </div>
                 <div className="form-group col-lg-6">
-                  <label>HashTag</label>
+                  <label>{customTranslate("Hashtag")}</label>
                   <input
                     type="text"
                     className="form-control validate"
@@ -278,7 +287,9 @@ const BlogForm = () => {
                     type="submit"
                     className="btn btn-primary btn-block text-uppercase"
                   >
-                    {blogId ? "Update" : "Create"}
+                    {blogId
+                      ? customTranslate("Update")
+                      : customTranslate("Create")}
                   </button>
                 </div>
               </form>
@@ -288,7 +299,7 @@ const BlogForm = () => {
           {/* Blog Image */}
           <div className="tm-block-col tm-col-avatar">
             <div className="tm-bg-primary-dark tm-block tm-block-avatar">
-              <h2 className="tm-block-title">URL Image</h2>
+              <h2 className="tm-block-title">{customTranslate("URL Image")}</h2>
               <div className="tm-avatar-container">
                 <img
                   src={selectedImage || imageBlog}
@@ -307,7 +318,9 @@ const BlogForm = () => {
                 htmlFor="fileImgBlog"
                 className="btn btn-primary btn-block text-uppercase"
               >
-                {blogId ? "Edit Image" : "Add Image"}
+                {blogId
+                  ? customTranslate("Edit Image")
+                  : customTranslate("Add Image")}
               </label>
             </div>
           </div>

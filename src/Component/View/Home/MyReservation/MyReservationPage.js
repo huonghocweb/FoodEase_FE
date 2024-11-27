@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import MyReservationList from './MyReservationList';
 import { useParams } from 'react-router-dom';
 import axiosConfig from './../../../Config/AxiosConfig';
 import CustomAlert from './../../../Config/CustomAlert';
+import MyReservationList from './MyReservationList';
 import ReservationOrderPaymentPopup from './ReservationOrderPaymentPopup';
 
 const MyReservationPage = () => {

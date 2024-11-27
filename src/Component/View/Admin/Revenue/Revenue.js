@@ -1,7 +1,6 @@
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
-import React, { useState, useEffect } from "react";
-import Header from './../../../Include/Admin/Header';
 import './Revenue.css';
 const Revenue = () => {
     const [daily, setDaily] = useState([]);
@@ -77,26 +76,26 @@ const Revenue = () => {
         <div  className="revenue-container">
             
             <div className="revenue-button-container">
-                <button onClick={handleShowDaily}>Daily Revenue</button>
-                <button onClick={handleShowMonthly}>Monthly Revenue</button>
-                <button onClick={handleShowYearly}>Yearly Revenue</button>
+                <button onClick={handleShowDaily}>{customTranslate("Daily Revenue")}</button>
+                <button onClick={handleShowMonthly}>{customTranslate("Monthly Revenue")}</button>
+                <button onClick={handleShowYearly}>{customTranslate("Yearly Revenue")}</button>
             </div>
            
             {activeTable === 'daily' && (
                 <div>
                  <div className='orderlist-find'>
                  <input type='date' value={inputFind}onChange={handleinputFind}/>
-                 <button onClick={findDate}>find</button>
+                 <button onClick={findDate}>{customTranslate("find")}</button>
                </div>
                 <table className="revenue-table">
                     
                     <thead>
                         <tr>
-                            <th className="revenue-th">STT</th>
-                            <th className="revenue-th">Order date</th>
-                            <th className="revenue-th">Order time</th>
-                            <th className="revenue-th">Total price</th>
-                            <th className="revenue-th">Quantity</th>
+                            <th className="revenue-th">{customTranslate("No.")}</th>
+                            <th className="revenue-th">{customTranslate("Order date")}</th>
+                            <th className="revenue-th">{customTranslate("Order time")}</th>
+                            <th className="revenue-th">{customTranslate("Total price")}</th>
+                            <th className="revenue-th">{customTranslate("Quantity")}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -118,11 +117,11 @@ const Revenue = () => {
                 <table  className="revenue-table">
                     <thead>
                         <tr>
-                            <th className="revenue-th">STT</th>
-                            <th className="revenue-th">Year</th>
-                            <th className="revenue-th">Month</th>
-                            <th className="revenue-th">totalPrice</th>
-                            <th className="revenue-th">totalQuantity</th>
+                            <th className="revenue-th">{customTranslate("No.")}</th>
+                            <th className="revenue-th">{customTranslate("Year")}</th>
+                            <th className="revenue-th">{customTranslate("Month")}</th>
+                            <th className="revenue-th">{customTranslate("total Price")}</th>
+                            <th className="revenue-th">{customTranslate("total Quantity")}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -143,10 +142,10 @@ const Revenue = () => {
                 <table  className="revenue-table">
                     <thead>
                         <tr>
-                            <th className="revenue-th">STT</th>
-                            <th className="revenue-th">Year</th>
-                            <th className="revenue-th">Total price</th>
-                            <th  className="revenue-th">Quantity</th>
+                            <th className="revenue-th">{customTranslate("No.")}</th>
+                            <th className="revenue-th">{customTranslate("Year")}</th>
+                            <th className="revenue-th">{customTranslate("Total price")}</th>
+                            <th  className="revenue-th">{customTranslate("Quantity")}</th>
                         </tr>
                     </thead>
                     <tbody>

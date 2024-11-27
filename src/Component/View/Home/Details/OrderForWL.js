@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
-
 import CustomAlert from "../../../Config/CustomAlert";
+
 import "./Order.css";
 
-const Order = ({ product, onClose }) => {
+const OrderForWL = ({ product, onClose }) => {
   //  dử liệu size Name
   const [selectedSize, setSelectedSize] = useState(null);
   // dử liệu tổng tiền
@@ -32,7 +32,7 @@ const Order = ({ product, onClose }) => {
 
   const fetchFoodVariationTopping = async () => {
     axiosConfig
-      .get(`/user/topping/findVariationTopping/${product.foodVariationId}`)
+      .get(`/user/topping/findVariationTopping/${product.foodId}`)
       .then((response) => {
         setFoodVariationTopping(response.data);
         console.log("dử liệu của foodVariationTopping", response.data);
@@ -72,9 +72,7 @@ const Order = ({ product, onClose }) => {
   // số tiền sau khi giảm giá
   let newPrice = 0;
   if (product) {
-    newPrice =
-      product.food.basePrice -
-      (product.food.basePrice * product.food.discount) / 100;
+    newPrice = product.basePrice - (product.basePrice * product.discount) / 100;
   }
   // tiến hành cập nhật số tiền total
   const fetchToTal = async () => {
@@ -185,34 +183,30 @@ const Order = ({ product, onClose }) => {
           </span>
           <h2>{customTranslate("Order")}</h2>
           <div className="image-container">
-            <img
-              src={`${product.food.imageUrl}`}
-              alt=""
-              className="product-image"
-            />
+            <img src={`${product.imageUrl}`} alt="" className="product-image" />
             <div className="disscount2">
-              {" "}
-              {customTranslate("Discount")}:{product.food.discount}%
+              {customTranslate("Discount")}:{product.discount}%
             </div>
           </div>
           {/* nếu số lượng = 0 thì sẻ hiển thị  */}
 
           {foodVariation && foodVariation.quantityStock === 0 && (
             <span className="out-of-stock1">
+              {" "}
               {customTranslate("Out of stock")}
             </span>
           )}
-          <h4>{customTranslate(`${product.food.foodName}`)} </h4>
+          <h4>{customTranslate(`${product.foodName}`)} </h4>
           <div>
             <b className="price"> {newPrice.toLocaleString("vi-VN")}đ</b>
             <del className="price">
-              {product.food.basePrice.toLocaleString("vi-VN")}đ
+              {product.basePrice.toLocaleString("vi-VN")}đ
             </del>
           </div>
 
           <div className="options">
             <div className="size-options">
-              <h4>{customTranslate("Size")}</h4>
+              <h4> {customTranslate("Size")}</h4>
               {TableFoodSize.map((foodSize) => (
                 <div key={foodSize.foodSizeId}>
                   <input
@@ -271,4 +265,4 @@ const Order = ({ product, onClose }) => {
   );
 };
 
-export default Order;
+export default OrderForWL;

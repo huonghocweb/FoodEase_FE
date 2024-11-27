@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom"; // Để lấy params và điều hướng
+import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
 import "./ResTable.css";
 
@@ -104,15 +105,17 @@ const ResTableForm = () => {
                 className="tm-signup-form row"
               >
                 <h2 className="tm-block-title">
-                  {tableId ? "Edit ResTable" : "Create Table"}
+                  {tableId
+                    ? customTranslate("Edit ResTable")
+                    : customTranslate("Create Table")}
                 </h2>
                 <div className="form-group col-lg-6">
-                  <label>Table Name</label>
+                  <label>{customTranslate("Table Name")}</label>
                   <input
                     type="text"
                     className="form-control validate"
                     {...register("tableName", {
-                      required: "Table Name cannot be blank !",
+                      required: customTranslate("Table Name cannot be blank!"),
                     })}
                   />
                   {errors?.tableName && (
@@ -122,19 +125,23 @@ const ResTableForm = () => {
                   )}
                 </div>
                 <div className="form-group col-lg-6">
-                  <label>Capacity </label>
+                  <label>{customTranslate("Capacity")} </label>
                   <input
                     className="form-control validate"
                     type="number"
                     {...register("capacity", {
-                      required: "Capacity cannot be blank !",
+                      required: customTranslate("Capacity cannot be blank!"),
                       min: {
                         min: 1,
-                        message: "Capacity must be at least 1 !",
+                        message: customTranslate(
+                          "Capacity must be at least 1!"
+                        ),
                       },
                       max: {
                         min: 14,
-                        message: "Capacity must be less than or equal to 14 !",
+                        message: customTranslate(
+                          "Capacity must be less than or equal to 14!"
+                        ),
                       },
                     })}
                   />
@@ -145,15 +152,15 @@ const ResTableForm = () => {
                   )}
                 </div>
                 <div className="form-group col-lg-6">
-                  <label>Price</label>
+                  <label>{customTranslate("Price")}</label>
                   <input
                     type="number"
                     className="form-control validate"
                     {...register("price", {
-                      required: "Price cannot be blank !",
+                      required: customTranslate("Price cannot be blank!"),
                       min: {
                         value: 0,
-                        message: "Price must be at least 0",
+                        message: customTranslate("Price must be at least 0!"),
                       },
                     })}
                   />
@@ -165,15 +172,15 @@ const ResTableForm = () => {
                 </div>
 
                 <div className="form-group col-lg-6">
-                  <label>Deposit</label>
+                  <label>{customTranslate("Deposit")}</label>
                   <input
                     type="number"
                     className="form-control validate"
                     {...register("deposit", {
-                      required: "Deposit cannot be blank !",
+                      required: customTranslate("Deposit cannot be blank!"),
                       min: {
                         value: 0,
-                        message: "Deposit must be at least 0",
+                        message: customTranslate("Deposit must be at least 0!"),
                       },
                     })}
                   />
@@ -184,7 +191,9 @@ const ResTableForm = () => {
                   )}
                 </div>
                 <div className="form-group col-lg-12">
-                  <label className="text-white">Available</label>
+                  <label className="text-white">
+                    {customTranslate("Available")}
+                  </label>
                   <input
                     className="form-control validate"
                     type="checkbox"
@@ -194,14 +203,20 @@ const ResTableForm = () => {
                 </div>
                 <div className="form-group col-lg-12">
                   <div>
-                    <label className="text-white">Table Category</label>
+                    <label className="text-white">
+                      {customTranslate("Table Category")}
+                    </label>
                     <select
                       className="restable-form-input"
                       {...register("tableCategoryId", {
-                        required: "Please select Table Category",
+                        required: customTranslate(
+                          "Please select Table Category"
+                        ),
                       })}
                     >
-                      <option value="">Select table category</option>
+                      <option value="">
+                        {customTranslate("Select table category")}
+                      </option>
                       {tableCategories.map((category) => (
                         <option
                           selected={
@@ -210,7 +225,7 @@ const ResTableForm = () => {
                           key={category.tableCategoryId}
                           value={category.tableCategoryId}
                         >
-                          {category.tableCategoryName}
+                          {customTranslate(`${category.tableCategoryName}`)}
                         </option>
                       ))}
                     </select>
@@ -226,7 +241,9 @@ const ResTableForm = () => {
                     type="submit"
                     className="btn btn-primary btn-block text-uppercase"
                   >
-                    {tableId ? "Update" : "Create"}
+                    {tableId
+                      ? customTranslate("Update")
+                      : customTranslate("Create")}
                   </button>
                 </div>
               </form>
@@ -234,7 +251,7 @@ const ResTableForm = () => {
           </div>
           <div className="tm-block-col tm-col-avatar">
             <div className="tm-bg-primary-dark tm-block tm-block-avatar">
-              <h2 className="tm-block-title">URL Image</h2>
+              <h2 className="tm-block-title">{customTranslate("Image")}</h2>
               <div className="tm-avatar-container">
                 <img
                   src={selectedImage ? selectedImage : imageResTable}
@@ -253,7 +270,9 @@ const ResTableForm = () => {
                 for="fileImgRestable"
                 class="btn btn-primary btn-block text-uppercase "
               >
-                {tableId ? "Edit Image" : "Add Image"}
+                {tableId
+                  ? customTranslate("Edit Image")
+                  : customTranslate("Add Image")}
               </label>
             </div>
           </div>

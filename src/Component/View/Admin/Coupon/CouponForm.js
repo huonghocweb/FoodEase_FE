@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { customTranslate } from '../../../../i18n';
 
 const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , submitCoupon ,couponId , errors , imageCoupon }) => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -18,14 +19,14 @@ const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , 
         <div className="row tm-content-row">
           <div className="col-10 tm-block-col">
             <div className="tm-bg-primary-dark tm-block tm-block-h-auto">
-              <h2 className="tm-block-title">List of Accounts</h2>
-              <p className="text-white">Accounts</p>
+              <h2 className="tm-block-title">{customTranslate("List of Accounts")}</h2>
+              <p className="text-white">{customTranslate("Accounts")}</p>
               <select className="custom-select">
-                <option value="0">Select account</option>
-                <option value="1">Admin</option>
-                <option value="2">Editor</option>
-                <option value="3">Merchant</option>
-                <option value="4">Customer</option>
+                <option value="0">{customTranslate("Select account")}</option>
+                <option value="1">{customTranslate("Admin")}</option>
+                <option value="2">{customTranslate("Editor")}</option>
+                <option value="3">{customTranslate("Merchant")}</option>
+                <option value="4">{customTranslate("Customer")}</option>
               </select>
             </div>
           </div>
@@ -33,7 +34,7 @@ const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , 
         <div className="row tm-content-row">
           <div className="tm-block-col tm-col-avatar">
             <div className="tm-bg-primary-dark tm-block tm-block-avatar">
-              <h2 className="tm-block-title">Change Image</h2>
+              <h2 className="tm-block-title">{customTranslate("Change Image")}</h2>
               <div className="tm-avatar-container">
                 <img
                   src={selectedImage ? selectedImage : imageCoupon}
@@ -46,32 +47,32 @@ const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , 
           </div>
           <div className="tm-block-col tm-col-account-settings">
             <div className="tm-bg-primary-dark tm-block tm-block-settings">
-              <h2 className="tm-block-title">Coupon Settings</h2>
+              <h2 className="tm-block-title">{customTranslate("Coupon Settings")}</h2>
               <form onSubmit={handleSubmit(submitCoupon)} className="tm-signup-form row">
                 <div className="form-group col-lg-6">
-                  <label >Description</label>
+                  <label >{customTranslate("Description")}</label>
                   <input
                     type="text"
                     className="form-control validate"
-                    {...register('description',{required :'Description is required'})}
+                    {...register('description',{required :customTranslate('Description is required')})}
                   />
                 </div>
                 <div className="form-group col-lg-6">
-                  <label >Code </label>
+                  <label >{customTranslate("Code")} </label>
                   <input
                     className="form-control validate"
                     {...register('code',{required :true})}
                   />
                 </div>
                 <div className="form-group col-lg-6">
-                    <label>Discount Percent</label>
+                    <label>{customTranslate("Discount Percent")}</label>
                     <input
                       type="number"
                       className="form-control validate"
                       {...register('discountPercent', {
-                        required: 'Discount Percent is required',
-                        min: { value: 0, message: 'Discount Percent must be at least 0' }, 
-                        max: { value: 100, message: 'Discount Percent must be less than 100' }
+                        required: customTranslate('Discount Percent is required'),
+                        min: { value: 0, message: customTranslate('Discount Percent must be at least 0') }, 
+                        max: { value: 100, message: customTranslate('Discount Percent must be less than 100') }
                       })}
                     />
                   {errors?.discountPercent && (
@@ -80,12 +81,12 @@ const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , 
                   </div>
 
                 <div className="form-group col-lg-6">
-                  <label >Max Discount Amount (VNĐ)</label>
+                  <label >{customTranslate("Max Discount Amount")} (VNĐ)</label>
                   <input
                   type='number'
                     className="form-control validate"
                     {...register('maxDiscountAmount',{
-                      required :'MaxDiscountAmount is required',
+                      required :customTranslate('Max Discount Amount is required'),
                       min : {value : 0 , message : 'Min discount amount must be at least 0'}
                       })}
                   />
@@ -94,7 +95,7 @@ const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , 
                   )}
                 </div>
                 <div className="form-group col-lg-6">
-                  <label >Start Date</label>
+                  <label >{customTranslate("Start Date")}</label>
                   <input
                     type='date'
                     className="form-control validate"
@@ -102,7 +103,7 @@ const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , 
                   />
                 </div>
                 <div className="form-group col-lg-6">
-                  <label >End Date</label>
+                  <label >{customTranslate("End Date")}</label>
                   <input
                     type="date"
                     className="form-control validate"
@@ -110,13 +111,13 @@ const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , 
                   />
                 </div>
                 <div className="form-group col-lg-6">
-                  <label >Use Limit</label>
+                  <label >{customTranslate("Use Limit")}</label>
                   <input
                     type='number'
                     className="form-control validate"
                     {...register('useLimit',{
-                      required :'Use Limit is required',
-                      min : {value : 0 , message : 'Use Limit must be least 0'}
+                      required :customTranslate('Use Limit is required'),
+                      min : {value : 0 , message : customTranslate('Use Limit must be least 0')}
                       })}
                   />
                   {
@@ -126,10 +127,10 @@ const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , 
                   }
                 </div>
                 <div className="form-group col-lg-6">
-                  <label >UsedCount</label>
+                  <label >{customTranslate("Used Count")}</label>
                   <input
                     className="form-control validate"
-                    {...register('usedCount',{required :'Used Count is required'})}
+                    {...register('usedCount',{required :customTranslate('Used Count is required')})}
                   />
                 </div>
                 <div className="form-group col-lg-6">
@@ -138,7 +139,7 @@ const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , 
                     type="submit"
                     className="btn btn-primary btn-block text-uppercase"
                   >
-                    {couponId ? 'Update' : 'Create'} 
+                    {couponId ? customTranslate('Update') : customTranslate('Create')} 
                   </button>
                 </div>
               </form>

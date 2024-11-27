@@ -56,7 +56,7 @@ const FoodMenu = () => {
   useEffect(() => {
     fetchMaindDishes();
     fetchWishLists();
-    console.log(mainDishes)
+    console.log(mainDishes);
   }, [page, wishLists]);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -87,7 +87,13 @@ const FoodMenu = () => {
       console.log(foodId);
       return response.data;
     } catch (error) {
-      console.error("Error adding food to wishlist:", error);
+      setAlert({
+        type: "error",
+        message: "Error adding food to wishlist!",
+      });
+      setTimeout(() => {
+        setAlert(null);
+      }, 2000);
       throw error;
     }
   };
@@ -154,12 +160,14 @@ const FoodMenu = () => {
                   className="menu-image"
                 />
               </Link>
-              <div className="disscount1">Discount:{item.food.discount}%</div>
+              <div className="disscount1">
+                {customTranslate("Discount")}:{item.food.discount}%
+              </div>
             </div>
 
             <div className="menu-details">
               <div className="menu-header">
-                <h3>{item.food.foodName}</h3>
+                <h3>{customTranslate(`${item.food.foodName}`)}</h3>
                 <div>
                   <b className="price">
                     {" "}
@@ -173,10 +181,14 @@ const FoodMenu = () => {
                     {item.food.basePrice.toLocaleString("vi-VN")}đ
                   </del>
                 </div>
-                <h5 className="description">{item.food.description}</h5>
+                <h5 className="description">
+                  {customTranslate(`${item.food.description}`)}
+                </h5>
                 <div className="menu-footer">
-                  <p>sold:{item.quantityStock}</p>
-                  <p>Rating: 5⭐</p>
+                  <p>
+                    {customTranslate("Sold")}:{item.quantityStock}
+                  </p>
+                  <p>{customTranslate("Rating")}: 5⭐</p>
                 </div>
               </div>
               <div className="row d-flex justify-content-center ">
@@ -185,7 +197,9 @@ const FoodMenu = () => {
                   className="col-sm-4 me-3"
                   disabled={!item.quantityStock}
                 >
-                  {item.quantityStock ? "Order" : "Out of stock"}
+                  {item.quantityStock
+                    ? customTranslate("Order")
+                    : customTranslate("Out of stock")}
                 </button>
                 <button
                   className="col-sm-4"
@@ -206,7 +220,7 @@ const FoodMenu = () => {
       {showWishlistModal && (
         <div className="modal">
           <div className="modal-content">
-            <h2>Select a Wishlist</h2>
+            <h2>{customTranslate("Select a Wishlist")}</h2>
             <ul>
               {wishLists.map((wishList) => (
                 <li key={wishList.wishListId}>
@@ -218,8 +232,12 @@ const FoodMenu = () => {
                 </li>
               ))}
             </ul>
-            <button onClick={handleAddToWishlist}>Add to Wishlist</button>
-            <button onClick={closeWishlistModal}>Cancel</button>
+            <button onClick={handleAddToWishlist}>
+              {customTranslate("Add to Wishlist")}
+            </button>
+            <button onClick={closeWishlistModal}>
+              {customTranslate("Cancel")}
+            </button>
           </div>
         </div>
       )}
@@ -228,10 +246,10 @@ const FoodMenu = () => {
         {page + 1}/{TotalPage}
       </h6>
       <button className="Button-Previous" onClick={Previous}>
-        Previous
+        {customTranslate("Previous")}
       </button>
       <button className="Button-next" onClick={Next}>
-        Next
+        {customTranslate("Next")}
       </button>
     </div>
   );

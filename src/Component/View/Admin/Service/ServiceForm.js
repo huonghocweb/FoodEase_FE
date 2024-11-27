@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom"; // Để lấy params và điều hướng
+import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
 import "./Service.css";
 
@@ -98,15 +99,19 @@ const ServiceForm = () => {
                 className="tm-signup-form row"
               >
                 <h2 className="tm-block-title">
-                  {serviceId ? "Edit Service" : "Create Service"}
+                  {serviceId
+                    ? customTranslate("Edit Service")
+                    : customTranslate("Create Service")}
                 </h2>
                 <div className="form-group col-lg-6">
-                  <label>Service Name</label>
+                  <label>{customTranslate("Service Name")}</label>
                   <input
                     type="text"
                     className="form-control validate"
                     {...register("serviceName", {
-                      required: "Service Name cannot be blank !",
+                      required: customTranslate(
+                        "Service Name cannot be blank !"
+                      ),
                     })}
                   />
                   {errors?.serviceName && (
@@ -116,15 +121,15 @@ const ServiceForm = () => {
                   )}
                 </div>
                 <div className="form-group col-lg-6">
-                  <label>Price </label>
+                  <label>{customTranslate("Price")}:</label>
                   <input
                     className="form-control validate"
                     type="number"
                     {...register("servicePrice", {
-                      required: "Price cannot be blank !",
+                      required: customTranslate("Price cannot be blank !"),
                       min: {
                         min: 0,
-                        message: "Capacity must be at least 0 !",
+                        message: customTranslate("Price must be at least 0 !"),
                       },
                     })}
                   />
@@ -135,13 +140,13 @@ const ServiceForm = () => {
                   )}
                 </div>
                 <div className="form-group col-lg-12">
-                  <label>Description</label>
+                  <label>{customTranslate("Description")}</label>
                   <textarea
                     className="service-form-input"
                     rows="3"
                     cols="30"
                     {...register("description", {
-                      required: "Description cannot be blank!",
+                      required: customTranslate("Description cannot be blank!"),
                     })}
                   />
                   {errors?.description && (
@@ -155,7 +160,9 @@ const ServiceForm = () => {
                     type="submit"
                     className="btn btn-primary btn-block text-uppercase"
                   >
-                    {serviceId ? "Update" : "Create"}
+                    {serviceId
+                      ? customTranslate("Update")
+                      : customTranslate("Create")}
                   </button>
                 </div>
               </form>
@@ -163,7 +170,7 @@ const ServiceForm = () => {
           </div>
           <div className="tm-block-col tm-col-avatar">
             <div className="tm-bg-primary-dark tm-block tm-block-avatar">
-              <h2 className="tm-block-title">URL Image</h2>
+              <h2 className="tm-block-title">{customTranslate("Image")}</h2>
               <div className="tm-avatar-container">
                 <img
                   src={selectedImage ? selectedImage : imageService}
@@ -182,7 +189,9 @@ const ServiceForm = () => {
                 for="fileImgService"
                 class="btn btn-primary btn-block text-uppercase "
               >
-                {serviceId ? "Edit Image" : "Add Image"}
+                {serviceId
+                  ? customTranslate("Edit Image")
+                  : customTranslate("Add Image")}
               </label>
             </div>
           </div>

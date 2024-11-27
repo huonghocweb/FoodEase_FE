@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './main.css'
+import React, { useEffect, useState } from 'react';
+import { customTranslate } from "../../../../i18n";
+import './main.css';
 
 const FoodReviewTable = () => {
   const [reviews, setReviews] = useState([]);
@@ -32,12 +33,12 @@ const FoodReviewTable = () => {
 
   return (
     <div className="food-review-table">
-      <h1>Food Review Table</h1>
+      <h1>{customTranslate("Food Review Table")}</h1>
 
       {/* Bộ lọc */}
       <div className="filters">
         {/* Filter rating */}
-        <label>Rating: </label>
+        <label>{customTranslate("Rating")}: </label>
         <select value={rating} onChange={(e) => setRating(e.target.value)}>
           <option value="">All Ratings</option>
           {[1, 2, 3, 4, 5].map((r) => (
@@ -46,7 +47,7 @@ const FoodReviewTable = () => {
         </select>
 
         {/* Filter month */}
-        <label>Month: </label>
+        <label>{customTranslate("Month")}: </label>
         <select value={month} onChange={(e) => setMonth(Number(e.target.value))}>
           {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
             <option key={m} value={m}>{m}</option>
@@ -54,7 +55,7 @@ const FoodReviewTable = () => {
         </select>
 
         {/* Filter year */}
-        <label>Year: </label>
+        <label>{customTranslate("Year")}: </label>
         <select value={year} onChange={(e) => setYear(Number(e.target.value))}>
           {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i).map((y) => (
             <option key={y} value={y}>{y}</option>
@@ -66,12 +67,12 @@ const FoodReviewTable = () => {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Rating</th>
-            <th>Review</th>
-            <th>Review Date</th>
-            <th>User name</th>
-            <th>Food Name</th>
+            <th>{customTranslate("ID")}</th>
+            <th>{customTranslate("Rating")}</th>
+            <th>{customTranslate("Review")}</th>
+            <th>{customTranslate("Review Date")}</th>
+            <th>{customTranslate("User name")}</th>
+            <th>{customTranslate("Food Name")}</th>
           </tr>
         </thead>
         <tbody>
@@ -83,12 +84,12 @@ const FoodReviewTable = () => {
                 <td>{review.review}</td>
                 <td>{review.reviewDate}</td>
                 <td>{review.user.fullname}</td>
-                <td>{review.food.foodName}</td>
+                <td>{customTranslate("")}{review.food.foodName}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="6">No reviews found</td>
+              <td colSpan="6">{customTranslate("No reviews found")}</td>
             </tr>
           )}
         </tbody>

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import './Header.css';
-import { useTranslation } from "react-i18next"; 
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import axiosConfig from '../../Config/AxiosConfig';
-import i18n, { customTranslate } from "../../../i18n";
-import UserInfoPanel from '../Home/UserInfoPanel';
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { customTranslate } from "../../../i18n";
+import axiosConfig from "../../Config/AxiosConfig";
+import UserInfoPanel from "../Home/UserInfoPanel";
+import "./Header.css";
 const Header = () => {
   const [user, setUser] = useState(null); // Khởi tạo user là null khi chưa đăng nhập
-  const { t } = useTranslation(); 
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false); // Quản lý trạng thái mở/đóng dropdown ngôn ngữ
   const [showUserInfo, setShowUserInfo] = useState(false);
   const navigate = useNavigate();
@@ -19,34 +19,36 @@ const Header = () => {
 
   useEffect(() => {
     fetchData();
-    
   }, []);
 
   const fetchData = async () => {
-    const userName = localStorage.getItem('userNameLogin');
-    if (userName) { // Kiểm tra nếu có tên người dùng trong localStorage
+    const userName = localStorage.getItem("userNameLogin");
+    if (userName) {
+      // Kiểm tra nếu có tên người dùng trong localStorage
       try {
-        const resUser = await axiosConfig.get(`/user/getByUserName/${userName}`);
+        const resUser = await axiosConfig.get(
+          `/user/getByUserName/${userName}`
+        );
         setUser(resUser.data.data); // Cập nhật thông tin người dùng vào state
       } catch (error) {
-        console.error('error in fetch Data', error);
+        console.error("error in fetch Data", error);
       }
     }
   };
 
   const handleLogout = () => {
     // Xóa thông tin đăng nhập khi đăng xuất
-    localStorage.removeItem('jwtToken');
-    localStorage.removeItem('userIdLogin');
-    localStorage.removeItem('userNameLogin');
-    localStorage.removeItem('rolesLogin');
-    sessionStorage.removeItem('jwtToken');
-    sessionStorage.removeItem('userIdLogin');
-    sessionStorage.removeItem('userNameLogin');
-    sessionStorage.removeItem('rolesLogin');
-     
+    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("userIdLogin");
+    localStorage.removeItem("userNameLogin");
+    localStorage.removeItem("rolesLogin");
+    sessionStorage.removeItem("jwtToken");
+    sessionStorage.removeItem("userIdLogin");
+    sessionStorage.removeItem("userNameLogin");
+    sessionStorage.removeItem("rolesLogin");
+
     setUser(null); // Cập nhật user thành null khi đăng xuất
-    navigate('/login'); // Điều hướng đến trang đăng nhập
+    navigate("/login"); // Điều hướng đến trang đăng nhập
   };
   const toggleUserInfo = () => {
     setShowUserInfo(!showUserInfo);
@@ -60,10 +62,7 @@ const Header = () => {
             <NavLink to="/">{customTranslate("Home")}</NavLink>
           </li>
           <li>
-            <NavLink to="/menu">{customTranslate("Our Menus")}</NavLink>
-          </li>
-          <li>
-            <NavLink to="/myOrder">My Order</NavLink>
+            <NavLink to="/myOrder">{customTranslate("My Order")}</NavLink>
           </li>
           <li>
             <NavLink to="/blog">{customTranslate("Blog Us")}</NavLink>
@@ -81,7 +80,7 @@ const Header = () => {
               <li>
                 <NavLink to="/WishList">
                   <i className="fa-solid fa-heart"></i>{" "}
-                  {customTranslate("Wish List")}
+                  {customTranslate("My WishLists")}
                 </NavLink>
               </li>
               {/* <li>
@@ -93,19 +92,19 @@ const Header = () => {
               <li>
                 <NavLink to={`/myOrder`}>
                   <i className="fa-solid fa-clock-rotate-left"></i>
-                  {customTranslate("My Order ")}
+                  {customTranslate("My Order")}
                 </NavLink>
               </li>
               <li>
                 <NavLink to={`/myReservation/${user?.userName}`}>
-                <i class="fa-solid fa-utensils fa-xl"></i>{" "}
+                  <i class="fa-solid fa-utensils fa-xl"></i>{" "}
                   {customTranslate("My Reservation")}
                 </NavLink>
               </li>
               <li>
                 <NavLink to={`/mydAddress/${user?.userName}`}>
                   <i className="fa-solid fa-heart"></i>{" "}
-                  {customTranslate("My Address ")}
+                  {customTranslate("My Address")}
                 </NavLink>
               </li>
             </ul>
@@ -125,11 +124,6 @@ const Header = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to={`/chat`}>
-              <i className="fa-solid fa-comments fa-lg"></i>
-            </NavLink>
-          </li>
-          <li>
             <NavLink to={`/notification`}>
               <i className="fa-solid fa-bell fa-lg"></i>
             </NavLink>
@@ -142,10 +136,16 @@ const Header = () => {
             ></i>
             {isOpen && (
               <ul className="language-dropdown">
-                <li onClick={() => changeLanguage("en")} style={{ cursor: "pointer" }}>
+                <li
+                  onClick={() => changeLanguage("en")}
+                  style={{ cursor: "pointer" }}
+                >
                   {customTranslate("English")}
                 </li>
-                <li onClick={() => changeLanguage("vi")} style={{ cursor: "pointer" }}>
+                <li
+                  onClick={() => changeLanguage("vi")}
+                  style={{ cursor: "pointer" }}
+                >
                   {customTranslate("Vietnamese")}
                 </li>
               </ul>
@@ -153,31 +153,40 @@ const Header = () => {
           </li>
           {/* Hiển thị tên người dùng nếu đã đăng nhập */}
           {user && (
-            <div className="user-name-display" onClick={toggleUserInfo} style={{ cursor: 'pointer' }}>
+            <div
+              className="user-name-display"
+              onClick={toggleUserInfo}
+              style={{ cursor: "pointer" }}
+            >
               {user.userName}
             </div>
           )}
           {/* Nút đăng nhập/đăng xuất */}
-          <li onClick={user ? handleLogout : () => navigate('/login')}>
+          <li onClick={user ? handleLogout : () => navigate("/login")}>
             {user ? (
               // Nếu đã đăng nhập, hiển thị biểu tượng sang phải và nút đăng xuất
               <NavLink to="#">
-                <i className="fa-solid fa-right-to-bracket fa-xl"></i>  {/* Biểu tượng chỉ sang phải */}
+                <i className="fa-solid fa-right-to-bracket fa-xl"></i>{" "}
+                {/* Biểu tượng chỉ sang phải */}
               </NavLink>
             ) : (
               // Nếu chưa đăng nhập, hiển thị biểu tượng sang trái và nút đăng nhập
               <NavLink to="/login">
-                <i class="fa-solid fa-arrow-left fa-xl"></i>  {/* Biểu tượng chỉ sang trái */}
+                <i class="fa-solid fa-arrow-left fa-xl"></i>{" "}
+                {/* Biểu tượng chỉ sang trái */}
               </NavLink>
             )}
           </li>
 
           {/* Hiển thị ngôn ngữ */}
-          
         </ul>
       </nav>
       {/* Thêm UserInfoPanel */}
-      <UserInfoPanel user={user} isOpen={showUserInfo} onClose={toggleUserInfo} />
+      <UserInfoPanel
+        user={user}
+        isOpen={showUserInfo}
+        onClose={toggleUserInfo}
+      />
     </header>
   );
 };

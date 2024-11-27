@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
 import { Stomp } from '@stomp/stompjs';
+import React, { useEffect, useState } from 'react';
 import SockJS from 'sockjs-client';
-import './OrderUpdatesMess.css'
+import { customTranslate } from '../../../i18n';
+import './OrderUpdatesMess.css';
 
 
 const OrderUpdatesMess = () => {
@@ -25,7 +26,7 @@ const OrderUpdatesMess = () => {
     
       return (
         <div>
-          <h2>Order Updates : </h2>
+          <h2>{customTranslate("Order Updates")}: </h2>
           <ul>
             {messages.map((message, index) => (
               <li key={index}>{message}</li>

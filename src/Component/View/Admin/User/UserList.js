@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
-import "./UserList.css"; // CSS với các class mới
+import { NavLink, useNavigate } from "react-router-dom";
+import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
+import "./UserList.css"; // CSS với các class mới
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -13,17 +14,14 @@ const UserList = () => {
   // Định nghĩa hàm fetchUsers để lấy dữ liệu người dùng
   const fetchUsers = async () => {
     try {
-      const response = await axiosConfig.get(
-        "http://localhost:8080/api/user",
-        {
-          params: {
-            pageNumber: 0,
-            pageSize: 100,
-            sortOrder: "asc",
-            sortBy: "userId",
-          },
-        }
-      );
+      const response = await axiosConfig.get("http://localhost:8080/api/user", {
+        params: {
+          pageNumber: 0,
+          pageSize: 100,
+          sortOrder: "asc",
+          sortBy: "userId",
+        },
+      });
 
       const sortedUsers = response.data.content.sort(
         (a, b) => a.userId - b.userId
@@ -50,59 +48,62 @@ const UserList = () => {
   // Xử lý import dữ liệu người dùng từ file
   const handleImport = async () => {
     if (!file) {
-        alert("Vui lòng chọn một tệp để tải lên.");
-        return;
+      alert("Vui lòng chọn một tệp để tải lên.");
+      return;
     }
 
     const formData = new FormData();
     formData.append("file", file);
 
     try {
-        const response = await axiosConfig.post("/user/importUser", formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-        alert(response.data); // Hiển thị thông báo thành công
-        fetchUsers();
+      const response = await axiosConfig.post("/user/importUser", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      alert(response.data); // Hiển thị thông báo thành công
+      fetchUsers();
     } catch (error) {
-        console.error("Có lỗi xảy ra khi nhập dữ liệu: ", error);
-        alert("Có lỗi xảy ra khi nhập dữ liệu.");
-    //   const response = await axiosConfig.post("/api/user/import", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   });
-    //   alert(response.data);
-    //   // Tải lại danh sách người dùng sau khi import thành công
-    //   fetchUsers();
-    // } catch (error) {
-    //   console.error("Error importing file:", error);
-    //   alert("Error importing file");
+      console.error("Có lỗi xảy ra khi nhập dữ liệu: ", error);
+      alert("Có lỗi xảy ra khi nhập dữ liệu.");
+      //   const response = await axiosConfig.post("/api/user/import", formData, {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   });
+      //   alert(response.data);
+      //   // Tải lại danh sách người dùng sau khi import thành công
+      //   fetchUsers();
+      // } catch (error) {
+      //   console.error("Error importing file:", error);
+      //   alert("Error importing file");
     }
-};
+  };
 
   const exportExcel = async () => {
     try {
-        const response = await axiosConfig.get('/user/exportUser', {
-            responseType: 'blob' // Để nhận phản hồi dưới dạng blob
-        });
+      const response = await axiosConfig.get("/user/exportUser", {
+        responseType: "blob", // Để nhận phản hồi dưới dạng blob
+      });
 
-        // Tạo một URL cho blob
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        
-        // Tạo một liên kết ảo để tải xuống tệp
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `users_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.xlsx`); // Thiết lập tên tệp
-        document.body.appendChild(link);
-        link.click(); // Nhấp vào liên kết ảo để tải tệp
-        document.body.removeChild(link); // Xóa liên kết
-        console.log("Tải tệp thành công");
+      // Tạo một URL cho blob
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+
+      // Tạo một liên kết ảo để tải xuống tệp
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `users_${new Date().toISOString().slice(0, 19).replace(/:/g, "-")}.xlsx`
+      ); // Thiết lập tên tệp
+      document.body.appendChild(link);
+      link.click(); // Nhấp vào liên kết ảo để tải tệp
+      document.body.removeChild(link); // Xóa liên kết
+      console.log("Tải tệp thành công");
     } catch (error) {
-        console.error('Tải tệp thất bại', error);
+      console.error("Tải tệp thất bại", error);
     }
-}
+  };
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -110,31 +111,29 @@ const UserList = () => {
   // Xử lý export dữ liệu người dùng ra file
   const handleExport = async () => {
     try {
-        const response = await axiosConfig.get("/api/user/export", {
-            responseType: "blob", // Nhận dữ liệu dưới dạng blob
-        });
+      const response = await axiosConfig.get("/api/user/export", {
+        responseType: "blob", // Nhận dữ liệu dưới dạng blob
+      });
 
-        // Tạo URL từ blob nhận được
-        const url = window.URL.createObjectURL(new Blob([response.data]));
+      // Tạo URL từ blob nhận được
+      const url = window.URL.createObjectURL(new Blob([response.data]));
 
-        // Tạo liên kết tải file
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "users.xlsx"); // Đặt tên file là "users.xlsx"
-        document.body.appendChild(link);
+      // Tạo liên kết tải file
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "users.xlsx"); // Đặt tên file là "users.xlsx"
+      document.body.appendChild(link);
 
-        // Kích hoạt sự kiện click để tải file
-        link.click();
+      // Kích hoạt sự kiện click để tải file
+      link.click();
 
-        // Xóa liên kết tạm thời
-        link.remove();
+      // Xóa liên kết tạm thời
+      link.remove();
     } catch (error) {
-        console.error("Error exporting file:", error);
-        alert("Failed to export file");
+      console.error("Error exporting file:", error);
+      alert("Failed to export file");
     }
-};
-
-  
+  };
 
   // Xử lý xóa người dùng
   const handleDelete = async (userId) => {
@@ -152,9 +151,9 @@ const UserList = () => {
 
   const handleEdit = (user) => {
     navigate(`/admin/user/edit/${user.userId}`, { state: { user } });
-};
+  };
   if (loading) {
-    return <p className="user-loading-text">Loading...</p>;
+    return <p className="user-loading-text">{customTranslate("Loading")}...</p>;
   }
 
   if (error) {
@@ -164,36 +163,30 @@ const UserList = () => {
   return (
     <div className="user-list-body">
       <div className="user-list-container">
-        <h2 className="user-list-title">Account List</h2>
+        <h2 className="user-list-title">{customTranslate("Account List")}</h2>
 
-                  {/* Import/Export Section */}
-                  <div className="import-export-container">
-                    <h2>Import/Export Users</h2>
-                    <div>
-                      <input
-                        type="file"
-                       accept=".xlsx, .xls"
-                        onChange={handleFileChange}
-                      />
-                      <div className="import-export-buttons">
-                        <button
-                          className="btn-import-export"
-                          onClick={handleImport}
-                        >
-                          Import Users
-                        </button>
-                        <button
-                          className="btn-import-export"
-                          onClick={exportExcel}
-                        >
-                          Export Users
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+        {/* Import/Export Section */}
+        <div className="import-export-container">
+          <h2>{customTranslate("Import/Export Users")}</h2>
+          <div>
+            <input
+              type="file"
+              accept=".xlsx, .xls"
+              onChange={handleFileChange}
+            />
+            <div className="import-export-buttons">
+              <button className="btn-import-export" onClick={handleImport}>
+                {customTranslate("Import Users")}
+              </button>
+              <button className="btn-import-export" onClick={exportExcel}>
+                {customTranslate("Export Users")}
+              </button>
+            </div>
+          </div>
+        </div>
         {/* Button to create a new user */}
         <NavLink className="user-btn-create" to="/admin/user/create">
-          New User
+          {customTranslate("New User")}
         </NavLink>
 
         {/* Import/Export Section */}
@@ -206,10 +199,10 @@ const UserList = () => {
           />
           <div className="user-import-export-buttons">
             <button className="user-btn-import" onClick={handleImport}>
-              Import Users
+              {customTranslate("Import Users")}
             </button>
             <button className="user-btn-export" onClick={handleExport}>
-              Export Users
+              {customTranslate("Export Users")}
             </button>
           </div>
         </div>
@@ -218,17 +211,17 @@ const UserList = () => {
         <table className="user-table">
           <thead>
             <tr>
-              <th>User NO.</th>
-              <th>UserName</th>
-              <th>FullName</th>
-              <th>Email</th>
-              <th>Phone Number</th>
-              <th>Address</th>
-              <th>Birthday</th>
-              <th>Gender</th>
-              <th>Image</th>
-              <th>Roles</th>
-              <th>Actions</th>
+              <th>{customTranslate("User NO.")}</th>
+              <th>{customTranslate("UserName")}</th>
+              <th>{customTranslate("FullName")}</th>
+              <th>{customTranslate("Email")}</th>
+              <th>{customTranslate("Phone Number")}</th>
+              <th>{customTranslate("Address")}</th>
+              <th>{customTranslate("Birthday")}</th>
+              <th>{customTranslate("Gender")}</th>
+              <th>{customTranslate("Image")}</th>
+              <th>{customTranslate("Role")}</th>
+              <th>{customTranslate("Action")}</th>
             </tr>
           </thead>
           <tbody>
@@ -244,7 +237,11 @@ const UserList = () => {
                     <td>{user.phoneNumber}</td>
                     <td>{user.address}</td>
                     <td>{new Date(user.birthday).toLocaleDateString()}</td>
-                    <td>{user.gender ? "Male" : "Female"}</td>
+                    <td>
+                      {user.gender
+                        ? customTranslate("Male")
+                        : customTranslate("Female")}
+                    </td>
                     <td>
                       <img
                         src={user.imageUrl} // Đảm bảo rằng `user.imageUrl` là một URL đầy đủ
@@ -253,19 +250,23 @@ const UserList = () => {
                       />
                     </td>
 
-                    <td>{user.roles.map((role) => role.roleName).join(", ")}</td>
+                    <td>
+                      {user.roles
+                        .map((role) => customTranslate(role.roleName))
+                        .join(", ")}
+                    </td>
                     <td className="user-action-buttons">
                       <button
                         className="user-btn user-btn-edit"
                         onClick={() => handleEdit(user)}
                       >
-                        Edit
+                        {customTranslate("Edit")}
                       </button>
                       <button
                         className="user-btn user-btn-delete"
                         onClick={() => handleDelete(user.userId)}
                       >
-                        Disable
+                        {customTranslate("Disable")}
                       </button>
                     </td>
                   </tr>
@@ -273,7 +274,7 @@ const UserList = () => {
             ) : (
               <tr>
                 <td colSpan="10" className="user-no-users-text">
-                  No users found.
+                  {customTranslate("No users found")}.
                 </td>
               </tr>
             )}

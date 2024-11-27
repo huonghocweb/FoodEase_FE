@@ -18,6 +18,7 @@ const BlogDetail = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [gifSearch, setGifSearch] = useState("");
   const [gifs, setGifs] = useState([]);
+  const userName = localStorage.getItem("userNameLogin");
   const userId = localStorage.getItem("userIdLogin");
   const [user, setUser] = useState(null);
   const [showImageModal, setShowImageModal] = useState(false);
@@ -89,33 +90,33 @@ const BlogDetail = () => {
     setSelectedImage(null);
   };
 
-  const handleSaveEdit = async (comment) => {
-    const formData = new FormData();
-    const payload = {
-      ...comment,
-      blogId: blogId,
-      userId: localStorage.getItem("userIdLogin"),
-    };
-    console.log(payload);
-    if (selectedImageEdit) {
-      formData.append("ImgBlogComment", fileImgBlogComment.current.files[0]);
-    }
+  // const handleSaveEdit = async (comment) => {
+  //   const formData = new FormData();
+  //   const payload = {
+  //     ...comment,
+  //     blogId: blogId,
+  //     userId: localStorage.getItem("userIdLogin"),
+  //   };
+  //   console.log(payload);
+  //   if (selectedImageEdit) {
+  //     formData.append("ImgBlogComment", fileImgBlogComment.current.files[0]);
+  //   }
 
-    const files = await handleImage();
-    files.forEach((file) => formData.append("ImgBlogComment", file));
+  //   const files = await handleImage();
+  //   files.forEach((file) => formData.append("ImgBlogComment", file));
 
-    try {
-      await axiosConfig.put(
-        `/blogcomments/blogcomments/${commentId}`,
-        formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
-      fetchBlogData();
-      setIsEditing(null); // Thoát chế độ chỉnh sửa
-    } catch (error) {
-      console.error("Error saving comment edit: ", error);
-    }
-  };
+  //   try {
+  //     await axiosConfig.put(
+  //       `/blogcomments/blogcomments/${commentId}`,
+  //       formData,
+  //       { headers: { "Content-Type": "multipart/form-data" } }
+  //     );
+  //     fetchBlogData();
+  //     setIsEditing(null); // Thoát chế độ chỉnh sửa
+  //   } catch (error) {
+  //     console.error("Error saving comment edit: ", error);
+  //   }
+  // };
 
   const handleCancelEdit = () => {
     setIsEditing(null);
@@ -123,10 +124,13 @@ const BlogDetail = () => {
   };
 
   const fetchUserData = async () => {
-    if (userId) {
+    if (userName) {
       try {
-        const response = await axiosConfig.get(`/user/${userId}`);
-        setUser(response.data); // Lưu thông tin user vào state
+        const response = await axiosConfig.get(
+          `/user/getByUserName/${userName}`
+        );
+        setUser(response.data.data); // Lưu thông tin user vào state
+        console.log("User", response.data.data);
       } catch (error) {
         console.error("Lỗi khi lấy thông tin người dùng: ", error);
       }
@@ -175,14 +179,17 @@ const BlogDetail = () => {
       setDislikeCount(blogLike.filter((like) => !like.isLike).length);
 
       // Giả sử bạn có `userId` từ đâu đó trong mã của mình
-      const userLike = blogLike.find((like) => like.userId === userId);
+      // const userLike = blogLike.find((like) =>
+      //   console.log(like.user?.userId == userId)
+      // );
+      const userLike = blogLike.find(
+        (like) => String(like.user?.userId) === String(userId)
+      );
       if (userLike) {
         setLikeId(userLike.likeId); // Lưu `likeId` để sử dụng khi xóa like/dislike
         setLiked(userLike.isLike); // Cập nhật trạng thái liked nếu là like
         setDisliked(!userLike.isLike); // Cập nhật trạng thái disliked nếu là dislike
       }
-
-      console.log(blogLike);
     } catch (error) {
       console.error("Error fetching blog data:", error);
     }
@@ -337,10 +344,16 @@ const BlogDetail = () => {
               ))}
             </div>
             <div className="blog-like">
-              <button onClick={handleLike} className={`like-button ${liked ? "active" : ""}`} >
+              <button
+                onClick={handleLike}
+                className={`like-button ${liked ? "active" : ""}`}
+              >
                 <i className="fa-solid fa-thumbs-up"></i> {liked} ({likeCount})
               </button>
-              <button onClick={handleDislike} className={`dislike-button ${disliked ? "active" : ""}`} >
+              <button
+                onClick={handleDislike}
+                className={`dislike-button ${disliked ? "active" : ""}`}
+              >
                 <i className="fa-solid fa-thumbs-down"></i> {disliked}(
                 {dislikeCount})
               </button>
@@ -350,7 +363,7 @@ const BlogDetail = () => {
       )}
 
       <div className="comments-section">
-        <h3>Comments</h3>
+        <h3>{customTranslate("Comments")}</h3>
         <form onSubmit={handleSubmit(onSubmit)} className="comment-blog-form">
           <div className="comment-input-container">
             {user && user.imageUrl && (
@@ -450,14 +463,14 @@ const BlogDetail = () => {
                           onClick={() => handleImageClick(selectedImageEdit)}
                         />
                         <button
-                          id="delete-img"
+                          id="delete-img-edit"
                           style={{ display: "none" }}
                           onClick={handleRemoveImageEdit}
                         >
                           Xóa ảnh
                         </button>
                         <label
-                          htmlFor="delete-img"
+                          htmlFor="delete-img-edit"
                           className="fa fa-times fa-2x"
                           style={{ cursor: "pointer", marginTop: "-10px" }}
                         ></label>
@@ -513,11 +526,15 @@ const BlogDetail = () => {
             </div>
           ))
         ) : (
-          <p>No comments yet.</p>
+          <p style={{ textAlign: "center" }}>
+            {customTranslate("No comments yet")}.
+          </p>
         )}
       </div>
 
-      <h3 style={{ textAlign: "center" }}>Related blogs</h3>
+      <h3 style={{ textAlign: "center" }}>
+        {customTranslate("Related blogs")}
+      </h3>
       <div className="related-blogs">
         {Array.isArray(relatedBlogs) && relatedBlogs.length > 0 ? (
           relatedBlogs
@@ -530,14 +547,20 @@ const BlogDetail = () => {
                 key={related.id}
                 className="related-blog-item"
               >
-                <img src={related.imageURL} alt={related.title} />
+                <img
+                  className="related-blog-img"
+                  src={related.imageURL}
+                  alt={related.title}
+                />
                 <div className="related-blog-title">
                   <h4>{related.title}</h4>
                 </div>
               </Link>
             ))
         ) : (
-          <p>No related blogs.</p>
+          <p style={{ textAlign: "center" }}>
+            {customTranslate("No related blogs")}.
+          </p>
         )}
       </div>
 

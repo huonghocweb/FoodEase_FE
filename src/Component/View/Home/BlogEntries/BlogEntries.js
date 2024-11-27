@@ -1,18 +1,19 @@
 // BlogEntries.js
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
 import "./BlogEntries.css"; // Import CSS
 
 const BlogEntries = () => {
   const [blogs, setBlogs] = useState([]);
-
   useEffect(() => {
     axiosConfig
       .get("/blog")
       .then((response) => {
         const sortedBlogs = response.data.sort((a, b) => b.blogId - a.blogId); // Sắp xếp blog mới nhất trước
         setBlogs(sortedBlogs);
+        console.log(sortedBlogs);
       })
       .catch((error) => console.error(error));
   }, []);
@@ -35,7 +36,7 @@ const BlogEntries = () => {
   return (
     <section className="blog-section">
       <div className="blog-container">
-        <h2 className="section-title">Blog Us</h2>
+        <h2 className="section-title">{customTranslate("Blog Us")}</h2>
         {blogs.map((blog, index) => {
           const textContent = getTextContent(blog.content);
           const limitedContent = limitText(textContent, 300); // Giới hạn ở 200 ký tự

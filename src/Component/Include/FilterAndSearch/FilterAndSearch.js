@@ -1,4 +1,5 @@
 import React from 'react';
+import { customTranslate } from "../../../i18n";
 import './FilterAndSearch.css';
 
 const FilterAndSearchControls = ({
@@ -7,23 +8,23 @@ const FilterAndSearchControls = ({
     return (
         <div className="filter-controls">
             <div className="search-box">
-                <label>Search:</label>
+                <label>{customTranslate("Search")}:</label>
                 <input 
                     type="text"
                     value={paginationState.keyWord}
                     onChange={(e) => handlePaginationChange('keyWord', e.target.value)}
-                    placeholder="Enter keyword..."
+                    placeholder={customTranslate("Enter keyword...")}
                 />
             </div>
 
             <div className="date-filter">
-                <label>Start Date:</label>
+                <label>{customTranslate("Start Date")}:</label>
                 <input 
                     type="date" 
                     value={paginationState.startDate}
                     onChange={(e) => handlePaginationChange('startDate', e.target.value)} 
                 />
-                <label>End Date:</label>
+                <label>{customTranslate("End Date")}:</label>
                 <input 
                     type="date" 
                     value={paginationState.endDate}
