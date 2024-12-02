@@ -11,7 +11,7 @@ const CouponFormPage = () => {
     const [couponById,setCouponById] = useState();
     const [imageCoupon,setImageCoupon] = useState([]);
     const navigate = useNavigate();
-    const fileInputRef = useRef(null);
+    const fileInputRef = useRef(null); 
 
     useEffect (() => {
         if(couponId ){
