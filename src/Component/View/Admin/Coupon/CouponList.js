@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { customTranslate } from "../../../../i18n";
 import Pagination from "../Common/Pagination/Pagination";
 
 const CouponList = ({
@@ -23,15 +24,27 @@ const CouponList = ({
                     <div className="sort-pagination-container">
                       <h5> SortBy</h5>
                       <select onChange={(e) => handleSortBy(e.target.value)}>
-                        <option value="couponId">Coupon Id</option>
-                        <option value="startDate">Start Date</option>
-                        <option value="endDate">End Date</option>
-                        <option value="discountPercent">DiscountPercent</option>
+                        <option value="couponId">
+                          {customTranslate("Coupon Id")}
+                        </option>
+                        <option value="startDate">
+                          {customTranslate("Start Date")}
+                        </option>
+                        <option value="endDate">
+                          {customTranslate("End Date")}
+                        </option>
+                        <option value="discountPercent">
+                          {customTranslate("Discount Percent")}
+                        </option>
                       </select>
-                      <h5>Sort Order</h5>
+                      <h5>{customTranslate("Sort Order")}</h5>
                       <select onChange={(e) => handleSortOrder(e.target.value)}>
-                        <option value="asc">Ascending</option>
-                        <option value="desc">Descending</option>
+                        <option value="asc">
+                          {customTranslate("Ascending")}
+                        </option>
+                        <option value="desc">
+                          {customTranslate("Descending")}
+                        </option>
                       </select>
                     </div>
                     <div className="pagination-container">
@@ -42,28 +55,34 @@ const CouponList = ({
                         totalPage={totalPage}
                       />
                     </div>
-                    <h2 className="tm-block-title">Coupon List</h2>
+                    <h2 className="tm-block-title">
+                      {customTranslate("Coupon List")}
+                    </h2>
                     <NavLink
                       className="btn btn-primary "
                       to="/admin/coupon/create"
                       style={{ display: "flex", width: "150px" }}
                     >
-                      New Coupon
+                      {customTranslate("New Coupon")}
                     </NavLink>
-                    <table className="table"> 
+                    <table className="table">
                       <thead>
                         <tr>
-                          <th scope="col">Coupon NO.</th>
-                          <th scope="col">Code</th>
-                          <th>Image</th>
-                          <th scope="col">Description</th>
-                          <th scope="col">DiscountPercent</th>
-                          <th scope="col">Max Discount Amount</th>
-                          <th scope="col">Start Date</th>
-                          <th scope="col">End Date</th>
-                          <th scope="col">UsedCount</th>
-                          <th scope="col">UseLimit</th>
-                          <th colSpan={2}>Function</th>
+                          <th scope="col">{customTranslate("Coupon No.")}</th>
+                          <th scope="col">{customTranslate("Code")}</th>
+                          <th>{customTranslate("Image")}</th>
+                          <th scope="col">{customTranslate("Description")}</th>
+                          <th scope="col">
+                            {customTranslate("Discount Percent")}
+                          </th>
+                          <th scope="col">
+                            {customTranslate("Max Discount Amount")}
+                          </th>
+                          <th scope="col">{customTranslate("Start Date")}</th>
+                          <th scope="col">{customTranslate("End Date")}</th>
+                          <th scope="col">{customTranslate("Used Count")}</th>
+                          <th scope="col">{customTranslate("Use Limit")}</th>
+                          <th colSpan={2}>{customTranslate("Function")}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -84,7 +103,7 @@ const CouponList = ({
                                 />
                               </td>
                               <td>
-                                <b>{item.description}</b>
+                                <b>{customTranslate(`${item.description}`)}</b>
                               </td>
                               <td>
                                 <b>{item.discountPercent * 100}%</b>

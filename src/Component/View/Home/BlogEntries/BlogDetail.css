@@ -11,6 +11,7 @@
 .blog-detail-title {
   font-size: 2em; /* Kích thước chữ cho tiêu đề */
   margin-bottom: 10px; /* Khoảng cách dưới tiêu đề */
+  text-align: center;
 }
 
 .blog-detail-publish {
@@ -130,21 +131,10 @@
   margin-bottom: 30px;
 }
 
-.gif-results {
-  position: absolute; /* Để đặt modal GIF bên dưới ô tìm kiếm */
-  background-color: white; /* Nền trắng cho modal */
-  border: 1px solid #ccc; /* Đường viền nhẹ */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng cho modal */
-  z-index: 1000; /* Đảm bảo modal nằm trên các phần tử khác */
-  max-height: 240px; /* Đặt chiều cao tối đa cho modal */
-  overflow-y: auto; /* Cuộn dọc nếu nội dung quá lớn */
-  max-width: 120px;
-}
-
-.gif-results img {
-  width: 100px; /* Đặt chiều rộng hình GIF */
-  margin: 5px; /* Thêm khoảng cách giữa các hình GIF */
-  cursor: pointer; /* Thay đổi con trỏ khi di chuột */
+.related-blog-img{
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 
 .user-imgUrl {
@@ -299,12 +289,14 @@
   align-items: center; /* Căn giữa theo chiều dọc */
 }
 
-.like-button, .dislike-button {
+.like-button,
+.dislike-button {
   color: white;
 }
 
 /* Trạng thái khi đã nhấn */
-.like-button.active, .dislike-button.active {
+.like-button.active,
+.dislike-button.active {
   color: rgba(4, 85, 235, 0.767);
 }
 

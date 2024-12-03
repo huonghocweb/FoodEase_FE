@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom"; // Để điều hướng sang trang mới
+import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
 import "./Service.css";
 
@@ -19,7 +20,7 @@ const ServiceList = () => {
           (a, b) => b.serviceId - a.serviceId
         );
         setTableServices(sortedServices);
-        console.log(response.data)
+        console.log(response.data);
       })
       .catch((error) => console.error(error));
   };
@@ -51,7 +52,9 @@ const ServiceList = () => {
             <div className="row tm-content-row">
               <div className="col-12 tm-block-col">
                 <div className="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-                  <h1 className="restable-list-title">Service List</h1>
+                  <h1 className="restable-list-title">
+                    {customTranslate("Service List")}
+                  </h1>
                   <NavLink
                     className="btn btn-primary"
                     to="/admin/tableService/new"
@@ -61,17 +64,17 @@ const ServiceList = () => {
                       float: "right",
                     }}
                   >
-                    Create Service
+                    {customTranslate("Create Service")}
                   </NavLink>
                   <table className="table">
                     <thead>
                       <tr>
-                        <th scope="col">No.</th>
-                        <th>URL Image</th>
-                        <th scope="col">Service Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Description</th>
-                        <th colSpan={2}>Action</th>
+                        <th scope="col">{customTranslate("No.")}</th>
+                        <th>{customTranslate("Image")}</th>
+                        <th scope="col">{customTranslate("Service Name")}</th>
+                        <th scope="col">{customTranslate("Price")}</th>
+                        <th scope="col">{customTranslate("Description")}</th>
+                        <th colSpan={2}>{customTranslate("Action")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -80,17 +83,22 @@ const ServiceList = () => {
                           <td>{tableServices.length - index}</td>{" "}
                           {/* Số thứ tự ngược từ lớn đến nhỏ */}
                           <td>
-                            <img style={{width : '80px'}} src={tableService.imageUrl}></img>
+                            <img
+                              style={{ width: "80px" }}
+                              src={tableService.imageUrl}
+                            ></img>
                           </td>
-                          <td>{tableService.serviceName}</td>
+                          <td>
+                            {customTranslate(`${tableService.serviceName}`)}
+                          </td>
                           <td>{tableService.servicePrice}</td>
-                          <td>{tableService.description}</td>
+                          <td>
+                            {customTranslate(`${tableService.description}`)}
+                          </td>
                           <td>
                             <NavLink
                               to={`/admin/tableService/edit/${tableService.serviceId}`}
-                              onClick={() =>
-                                handleEdit(tableService.serviceId)
-                              }
+                              onClick={() => handleEdit(tableService.serviceId)}
                             >
                               <i class="fa-solid fa-gear fa-lg"></i>
                             </NavLink>

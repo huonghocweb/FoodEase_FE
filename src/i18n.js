@@ -1,4 +1,5 @@
 import i18n from "i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 import en from "./locales/en.json";
 import vi from "./locales/vi.json";
@@ -8,14 +9,21 @@ const resources = {
   vi: { translation: vi },
 };
 
-i18n.use(initReactI18next).init({
-  resources,
-  lng: "en", // Ngôn ngữ mặc định
-  fallbackLng: "en",
-  interpolation: {
-    escapeValue: false, // không cần phải thoát giá trị
-  },
-});
+i18n
+  .use(LanguageDetector) // Sử dụng trình phát hiện ngôn ngữ
+  .use(initReactI18next) // Tích hợp với React
+  .init({
+    resources,
+    fallbackLng: "en", // Ngôn ngữ mặc định nếu không phát hiện được
+    detection: {
+      // Cấu hình phát hiện ngôn ngữ
+      order: ["querystring", "cookie", "localStorage", "navigator", "htmlTag"], // Thứ tự phát hiện
+      caches: ["cookie", "localStorage"], // Lưu ngôn ngữ vào cookie hoặc localStorage
+    },
+    interpolation: {
+      escapeValue: false, // Không cần thoát giá trị
+    },
+  });
 
 // Hàm tùy chỉnh để không phân biệt chữ hoa chữ thường
 const customTranslate = (key) => {

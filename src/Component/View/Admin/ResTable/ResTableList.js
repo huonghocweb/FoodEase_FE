@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom"; // Để điều hướng sang trang mới
+import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
 import "./ResTable.css";
 
@@ -50,7 +51,9 @@ const ResTableList = () => {
             <div className="row tm-content-row">
               <div className="col-12 tm-block-col">
                 <div className="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-                  <h1 className="restable-list-title">ResTable List</h1>
+                  <h1 className="restable-list-title">
+                    {customTranslate("ResTable List")}
+                  </h1>
                   <NavLink
                     className="btn btn-primary"
                     to="/admin/tables/new"
@@ -60,20 +63,20 @@ const ResTableList = () => {
                       float: "right",
                     }}
                   >
-                    Create ResTable
+                    {customTranslate("Create ResTable")}
                   </NavLink>
                   <table className="table">
                     <thead>
                       <tr>
-                        <th scope="col">No.</th>
-                        <th scope="col">Table name</th>
-                        <th scope="col">Capacity</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Deposit</th>
-                        <th scope="col">Available</th>
-                        <th>URL Image</th>
-                        <th scope="col">Table category</th>
-                        <th colSpan={2}>Action</th>
+                        <th scope="col">{customTranslate("No.")}</th>
+                        <th scope="col">{customTranslate("Table name")}</th>
+                        <th scope="col">{customTranslate("Capacity")}</th>
+                        <th scope="col">{customTranslate("Price")}</th>
+                        <th scope="col">{customTranslate("Deposit")}</th>
+                        <th scope="col">{customTranslate("Available")}</th>
+                        <th>{customTranslate("Image")}</th>
+                        <th scope="col">{customTranslate("Table category")}</th>
+                        <th colSpan={2}>{customTranslate("Action")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -81,15 +84,26 @@ const ResTableList = () => {
                         <tr key={table.tableId}>
                           <td>{resTables.length - index}</td>{" "}
                           {/* Số thứ tự ngược từ lớn đến nhỏ */}
-                          <td>{table.tableName}</td>
+                          <td>{customTranslate(`${table.tableName}`)}</td>
                           <td>{table.capacity}</td>
                           <td>{table.price}</td>
                           <td>{table.deposit}</td>
-                          <td>{table.isAvailable ? "Có" : "Không"}</td>
                           <td>
-                            <img style={{width : '80px'}} src={table.imageUrl}></img>
+                            {table.isAvailable
+                              ? customTranslate("Available")
+                              : customTranslate("Not available")}
                           </td>
-                          <td>{table.tableCategory.tableCategoryName}</td>
+                          <td>
+                            <img
+                              style={{ width: "80px" }}
+                              src={table.imageUrl}
+                            ></img>
+                          </td>
+                          <td>
+                            {customTranslate(
+                              `${table.tableCategory.tableCategoryName}`
+                            )}
+                          </td>
                           <td>
                             <NavLink
                               to={`/admin/tables/edit/${table.tableId}`}

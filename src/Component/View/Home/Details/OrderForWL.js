@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import axiosConfig from '../../../Config/AxiosConfig';
-import './Order.css';
-import CustomAlert from '../../../Config/CustomAlert';
-import { customTranslate } from '../../../../i18n';
+import React, { useEffect, useState } from "react";
+import { customTranslate } from "../../../../i18n";
+import axiosConfig from "../../../Config/AxiosConfig";
+import CustomAlert from "../../../Config/CustomAlert";
 
-const Order = ({ product, onClose }) => {
+import "./Order.css";
+
+const OrderForWL = ({ product, onClose }) => {
   //  dử liệu size Name
   const [selectedSize, setSelectedSize] = useState(null);
   // dử liệu tổng tiền
@@ -18,14 +19,10 @@ const Order = ({ product, onClose }) => {
   // dử liệu được lấy từ từ quá trình chọn topping
   const [SelectedTopping, setSelectedToppings] = useState([]);
   // dử liệu chứa tổng tiền của topping
-  const [totalToppingPrice,setTotalToppingPrice] = useState(0);
-  const [FoodVariationgTopping,setFoodVariationTopping]  = useState([]);
-
-
+  const [totalToppingPrice, setTotalToppingPrice] = useState(0);
+  const [FoodVariationgTopping, setFoodVariationTopping] = useState([]);
   const [alert, setAlert] = useState(null);
 
-
-  const cartId =localStorage.getItem('userIdLogin');
   // lấy dử liệu từ bảng topping
   const fetchToppings = async () => {
     axiosConfig.get("/user/topping/findAllTopping").then((response) => {
@@ -35,7 +32,7 @@ const Order = ({ product, onClose }) => {
 
   const fetchFoodVariationTopping = async () => {
     axiosConfig
-      .get(`/user/topping/findVariationTopping/${product.foodVariationId}`)
+      .get(`/user/topping/findVariationTopping/${product.foodId}`)
       .then((response) => {
         setFoodVariationTopping(response.data);
         console.log("dử liệu của foodVariationTopping", response.data);
@@ -75,9 +72,7 @@ const Order = ({ product, onClose }) => {
   // số tiền sau khi giảm giá
   let newPrice = 0;
   if (product) {
-    newPrice =
-      product.food.basePrice -
-      (product.food.basePrice * product.food.discount) / 100;
+    newPrice = product.basePrice - (product.basePrice * product.discount) / 100;
   }
   // tiến hành cập nhật số tiền total
   const fetchToTal = async () => {
@@ -145,39 +140,36 @@ const Order = ({ product, onClose }) => {
 
   const handleAddToCart = async (foodVaId) => {
     console.log(foodVaId);
-    const quantity =1;
+    const quantity = 1;
+    const cartId = 1;
+    try {
+      const resCart = await axiosConfig.post(
+        `/cart/addCartItem/${cartId}/${foodVaId}/${quantity}`
+      );
+      setAlert({
+        type: "success",
+        message: "Add Food To Cart Success",
+      });
+      setTimeout(() => {
+        setAlert(null);
+        onClose();
+      }, 2000);
+      console.log(resCart.data);
+    } catch (error) {
+      console.error("error in handle add to Cart", error);
+    }
+  };
 
-      try {
-        const resCart = await axiosConfig.post(`/cart/addCartItem/${cartId}/${foodVaId}/${quantity}`);
-       
-        if(resCart.data.data !== null){
-          setAlert({ type: 'success', message: 'Add Food To Cart '});
-        }else {
-          setAlert({type : 'error', message : 'Add Food To Cart Failed!'});
-        }
-        console.log(resCart.data);
-        setTimeout(() => {
-           onClose();
-      }, 3000);
-       
-      } catch (error) {
-        console.error('error in handle add to Cart',error);
-      }
-  }
-
- 
-    return (
-      <>
-            {alert && (
-          <CustomAlert
-            type={alert.type}
-            message={alert.message}
-            onClose={() => setAlert(null)}
-          />
-        )}
-
+  return (
+    <div>
+      {alert && (
+        <CustomAlert
+          type={alert.type}
+          message={alert.message}
+          onClose={() => setAlert(null)}
+        />
+      )}
       <div className="modal">
-
         <div className="modal-content">
           <span
             className="close"
@@ -191,34 +183,30 @@ const Order = ({ product, onClose }) => {
           </span>
           <h2>{customTranslate("Order")}</h2>
           <div className="image-container">
-            <img
-              src={`${product.food.imageUrl}`}
-              alt=""
-              className="product-image"
-            />
+            <img src={`${product.imageUrl}`} alt="" className="product-image" />
             <div className="disscount2">
-              {" "}
-              {customTranslate("Discount")}:{product.food.discount}%
+              {customTranslate("Discount")}:{product.discount}%
             </div>
           </div>
           {/* nếu số lượng = 0 thì sẻ hiển thị  */}
 
           {foodVariation && foodVariation.quantityStock === 0 && (
             <span className="out-of-stock1">
+              {" "}
               {customTranslate("Out of stock")}
             </span>
           )}
-          <h4>{customTranslate(`${product.food.foodName}`)} </h4>
+          <h4>{customTranslate(`${product.foodName}`)} </h4>
           <div>
             <b className="price"> {newPrice.toLocaleString("vi-VN")}đ</b>
             <del className="price">
-              {product.food.basePrice.toLocaleString("vi-VN")}đ
+              {product.basePrice.toLocaleString("vi-VN")}đ
             </del>
           </div>
 
           <div className="options">
             <div className="size-options">
-              <h4>{customTranslate("Size")}</h4>
+              <h4> {customTranslate("Size")}</h4>
               {TableFoodSize.map((foodSize) => (
                 <div key={foodSize.foodSizeId}>
                   <input
@@ -273,8 +261,8 @@ const Order = ({ product, onClose }) => {
           )}
         </div>
       </div>
-      </>
-    );
-  };
+    </div>
+  );
+};
 
-export default Order;
+export default OrderForWL;

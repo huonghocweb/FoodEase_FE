@@ -17,33 +17,35 @@ import AddFood from './Component/View/Admin/Product/AddFood.js';
 import FoodPage from "./Component/View/Admin/Product/FoodPage";
 import ReservationOccupiedPage from "./Component/View/Admin/Reservation/ReservationChecked/ReservationOccupiedPage.js";
 import ReservationPage from "./Component/View/Admin/Reservation/ReservationPage.js";
+import ReservationOrderPaymentPage from './Component/View/Admin/ReservationOrderPayment/ReservationOrderPaymentPage.js';
 import ResTableForm from "./Component/View/Admin/ResTable/ResTableForm.js";
 import ResTableList from "./Component/View/Admin/ResTable/ResTableList.js";
 import Revenue from "./Component/View/Admin/Revenue/Revenue";
 import FoodReviewTable from './Component/View/Admin/Review/FoodReviewTable';
 import ServiceForm from "./Component/View/Admin/Service/ServiceForm.js";
 import ServiceList from "./Component/View/Admin/Service/ServiceList.js";
+import UserEdit from "./Component/View/Admin/User/UserEdit"; // Đảm bảo đường dẫn đúng
 import UserFormPage from "./Component/View/Admin/User/UserFormPage.js";
 import UserPage from "./Component/View/Admin/User/UserPage";
 import UserOrder from "./Component/View/Admin/UserBuy/UserOrder.js";
 import BlogDetail from "./Component/View/Home/BlogEntries/BlogDetail.js";
 import BlogEntries from "./Component/View/Home/BlogEntries/BlogEntries.js";
 import BookTablePage from "./Component/View/Home/BookingTable/BookTablePage.js";
-import UserEdit from "./Component/View/Admin/User/UserEdit";  // Đảm bảo đường dẫn đúng
 import CartPage from "./Component/View/Home/Cart/CartPage";
-import BoxChatPage from "./Component/View/Home/Chat/BoxChatPage";
 import ClaimCouponPage from "./Component/View/Home/CouponStorage/ClaimCouponPage";
 import CouponStoragePage from "./Component/View/Home/CouponStorage/CouponStoragePage";
 import FoodDetails from "./Component/View/Home/Details/FoodDetails";
 import Order from "./Component/View/Home/Details/Order";
 import HomeLayOut from "./Component/View/Home/HomeLayOut";
 import FoodIndex from "./Component/View/Home/Index/FoodIndex";
+import ConfirmCode from './Component/View/Home/Login/ConfirmCode';
+import CreateAccount from './Component/View/Home/Login/CreateAccount';
+import CreateUser from './Component/View/Home/Login/CreateUser';
 import Login from "./Component/View/Home/Login/Login";
+import OAuthRedirect from './Component/View/Home/Login/OAuthRedirect.js';
 import ResetPass from './Component/View/Home/Login/ResetPass';
 import SetNewPassword from './Component/View/Home/Login/SetNewPassword';
-import CreateAccount from './Component/View/Home/Login/CreateAccount';
-import ConfirmCode from './Component/View/Home/Login/ConfirmCode';
-import CreateUser from './Component/View/Home/Login/CreateUser';
+import MyDeliveryAddressPage from "./Component/View/Home/MyDeliveryAddrress/MyDeliveryAddressPage.js";
 import OrderStatus from "./Component/View/Home/MyOrder/OrderStatus";
 import MyReservationPage from "./Component/View/Home/MyReservation/MyReservationPage.js";
 import OrderHistoryPage from "./Component/View/Home/OrderHistory/OrderHistoryPage";
@@ -51,9 +53,7 @@ import Thanks from "./Component/View/Home/Thank/Thanks";
 import WishList from "./Component/View/Home/WishList/WishList.js";
 import FoodBuyMost from './Component/View/Admin/FoodBuyMost/foodBuyMost.js';
 import FoodRating from './Component/View/Admin/FoodRating/FoodRating.js';
-import OAuthRedirect from './Component/View/Home/Login/OAuthRedirect.js';
-import MyDeliveryAddressPage from './Component/View/Home/MyDeliveryAddrress/MyDeliveryAddressPage.js';
-import ReservationOrderPaymentPage from './Component/View/Admin/ReservationOrderPayment/ReservationOrderPaymentPage.js';
+import "./i18n";
 function App() {
 
   useEffect(() => {
@@ -85,7 +85,6 @@ function App() {
             <Route path="WishList/foodDetails/:id" element={<FoodDetails />} />
             <Route path="cart/:cartId" element={<CartPage />} />
             <Route path="/thanks/:paymentmethod" element={<Thanks />} />
-            <Route path="chat" element={<BoxChatPage />} />
             <Route path="couponStorage" element={<CouponStoragePage />} />
             <Route path="WishList" element={<WishList />} />
             <Route path='claimCoupon' element={<ClaimCouponPage />} />
@@ -155,7 +154,7 @@ function App() {
       </BrowserRouter>
 
       {/* Dialogflow Messenger Chatbot */}
-      <h1>FoodEase - Chatbot</h1>
+      {/* <h1>FoodEase - Chatbot</h1> */}
       <df-messenger
 	        intent="WELCOME"
 	        chat-title="Hỗ_trợ_khách_hàng"	

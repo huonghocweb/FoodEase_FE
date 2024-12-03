@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom"; // Để điều hướng sang trang mới
+import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
 import "./Blog.css";
 
@@ -49,7 +50,9 @@ const BlogList = () => {
             <div className="row tm-content-row">
               <div className="col-12 tm-block-col">
                 <div className="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-                  <h1 className="restable-list-title">Blog List</h1>
+                  <h1 className="restable-list-title">
+                    {customTranslate("Blog List")}
+                  </h1>
                   <NavLink
                     className="btn btn-primary"
                     to="/admin/blog/new"
@@ -59,18 +62,18 @@ const BlogList = () => {
                       float: "right",
                     }}
                   >
-                    Create Blog
+                    {customTranslate("Create Blog")}
                   </NavLink>
                   <table className="table">
                     <thead>
                       <tr>
-                        <th scope="col">No.</th>
-                        <th colSpan={2}>Title</th>
-                        <th scope="col">Hashtags</th>
-                        <th scope="col">Blog category</th>
-                        <th scope="col">Author</th>
-                        <th scope="col">Date</th>
-                        <th colSpan={2}>Action</th>
+                        <th scope="col">{customTranslate("No.")}</th>
+                        <th colSpan={2}>{customTranslate("Title")}</th>
+                        <th scope="col">{customTranslate("Hashtag")}</th>
+                        <th scope="col">{customTranslate("Blog Category")}</th>
+                        <th scope="col">{customTranslate("Author")}</th>
+                        <th scope="col">{customTranslate("Released")}</th>
+                        <th colSpan={2}>{customTranslate("Function")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -90,7 +93,11 @@ const BlogList = () => {
                               .map((hashtag) => `${hashtag.hashtagName}`)
                               .join(", ")}
                           </td>
-                          <td>{blog.blogCategory.blogCategoryName}</td>
+                          <td>
+                            {customTranslate(
+                              `${blog.blogCategory.blogCategoryName}`
+                            )}
+                          </td>
                           <td>{blog.blogAuthor.blogAuthorName}</td>
                           <td>
                             {new Date(blog.createAt).toLocaleDateString(

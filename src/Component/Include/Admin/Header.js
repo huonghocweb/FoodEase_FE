@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { customTranslate } from "../../../i18n";
 
 const Header = () => {
   return (
@@ -19,19 +20,19 @@ const Header = () => {
                 >
                   <i className="fas fa-tachometer-alt"></i>
                   <span>
-                    Order <i className="fas fa-angle-down"></i>
+                   {customTranslate("Orders")}  <i className="fas fa-angle-down"></i>
                   </span>
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
                     <NavLink className="nav-link active" to="/admin">
-                      Orders
+                    {customTranslate("Orders")}
                       <span className="sr-only">(current)</span>
                     </NavLink>
                   </li>
                   <li>
                     <NavLink className="dropdown-item" to="/admin/UserOrder">
-                      User buy
+                    {customTranslate("User buy")}
                     </NavLink>
                   </li>
                   <li>
@@ -48,6 +49,7 @@ const Header = () => {
                       to="/admin/foodRating"
                     >
                      fOOD RATING MOST
+                      {customTranslate("Reservation Cancelled List")}
                     </NavLink>
                   </li>
                 </ul>
@@ -64,7 +66,7 @@ const Header = () => {
                 >
                   <i className="far fa-file-alt"></i>
                   <span>
-                    Reservation <i className="fas fa-angle-down"></i>
+                  {customTranslate("Reservations")} <i className="fas fa-angle-down"></i>
                   </span>
                 </a>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -73,7 +75,7 @@ const Header = () => {
                       className="dropdown-item"
                       to="/admin/reservation"
                     >
-                      Reservation List
+                      {customTranslate("Reservation List")}
                     </NavLink>
                   </li>
                   <li>
@@ -81,7 +83,7 @@ const Header = () => {
                       className="dropdown-item"
                       to="/admin/reservationOrderPayment"
                     >
-                      Reservation OrderPayment List
+                      {customTranslate("Reservation Order Payment List")}
                     </NavLink>
                   </li>
                   <li>
@@ -89,7 +91,7 @@ const Header = () => {
                       className="dropdown-item"
                       to="/admin/reservation-cancelled-list"
                     >
-                      Reservation Cancelled List
+                      {customTranslate("Reservation Cancelled List")}
                     </NavLink>
                   </li>
                 </ul>
@@ -97,44 +99,44 @@ const Header = () => {
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/admin/foods">
                             <i class="fa-solid fa-pizza-slice"></i>
-                            Foods
+                            {customTranslate("Foods")}
                         </NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/admin/resTableList">
                             <i class="fa-solid fa-chair "></i>
-                            ResTable
+                            {customTranslate("ResTable")}
                         </NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/admin/services">
                             <i class="fa-solid fa-concierge-bell"></i>
-                            Services
+                            {customTranslate("Services")}
                         </NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/admin/BlogList">
                             <i class="fa-solid fa-pencil"></i>
-                            Blog
+                            {customTranslate("Blog")}
                         </NavLink>
                     </li>
 
               <li className="nav-item">
                 <Link className="nav-link" to="/admin/users">
                   <i className="far fa-user"></i>
-                  Accounts
+                  {customTranslate("Accounts")}
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/admin/inventory">
                   <i class="fa-solid fa-warehouse"></i>
-                  Inventory
+                  {customTranslate("Inventory")}
                 </Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/admin/coupons">
                   <i class="fa-solid fa-ticket-simple"></i>
-                  Coupon
+                  {customTranslate("Coupon")}
                 </Link>
               </li>
               <li className="nav-item dropdown">
@@ -143,13 +145,13 @@ const Header = () => {
                   className="nav-link dropdown-toggle"
                 >
                   <i className="far fa-file-alt"></i>
-                  <span>Reports Revenue</span>
+                  <span>{customTranslate("Reports Revenue")}</span>
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/admin/reportpayment">
                   <i class="far fa-file-alt"></i>
-                  Payment Report
+                  {customTranslate("Payment Report")}
                 </NavLink>
               </li>
             </ul>

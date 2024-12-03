@@ -1,4 +1,6 @@
 import React from 'react';
+import { customTranslate } from "../../../../i18n";
+
 
 const CouponPopup = ({isOpenCoupon,handleCouponPopUp,coupons,handleUseCoupon}) => {
     return (
@@ -8,19 +10,19 @@ const CouponPopup = ({isOpenCoupon,handleCouponPopUp,coupons,handleUseCoupon}) =
                 <div className="popup">
                                                 <div className="col-12 tm-block-col">
                                                     <div className="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-                                                        <h2 className="tm-block-title">Coupon List</h2>
+                                                        <h2 className="tm-block-title">{customTranslate("Coupon List")}</h2>
                                                         <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
                                                         </div>
                                                         <table className="table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>STT</th>
-                                                                    <th>CODE</th>
-                                                                    <th>DISCOUNT PERCENT</th>
-                                                                    <th>MAX DISCOUNT AMOUNT</th>
-                                                                    <th>START DATE </th>
-                                                                    <th>END DATE </th>
-                                                                    <th>USE LIMIT</th>
+                                                                    <th>{customTranslate("No.")}</th>
+                                                                    <th>{customTranslate("Code")}</th>
+                                                                    <th>{customTranslate("Discount Percent")}</th>
+                                                                    <th>{customTranslate("Max Discount Amount")}</th>
+                                                                    <th>{customTranslate("Start Date")} </th>
+                                                                    <th>{customTranslate("End Date")} </th>
+                                                                    <th>{customTranslate("Use Limit")}</th>
                                                                     <th></th>
                                                                 </tr>
                                                             </thead>
@@ -34,14 +36,14 @@ const CouponPopup = ({isOpenCoupon,handleCouponPopUp,coupons,handleUseCoupon}) =
                                                                         <td>{item.coupon.startDate}</td>
                                                                         <td>{item.coupon.endDate}</td>
                                                                         <td>{item.coupon.useLimit}</td>
-                                                                        <td><button className="btn btn-primary" onClick={() =>handleUseCoupon(item.coupon.code)}>Use</button></td> 
+                                                                        <td><button className="btn btn-primary" onClick={() =>handleUseCoupon(item.coupon.code)}>{customTranslate("Use")}</button></td> 
                                                                     </tr>
                                                                 ))} 
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
-                    <button className="btn btn-primary" onClick={handleCouponPopUp}>Close Popup</button>
+                    <button className="btn btn-primary" onClick={handleCouponPopUp}>{customTranslate("Close")}</button>
                     </div>
                 </div>
            )} 

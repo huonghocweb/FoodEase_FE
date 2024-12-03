@@ -1,0 +1,120 @@
+/* Nền mờ khi popup hiện */
+.details-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Làm mờ nền */
+    z-index: 1000; /* Đảm bảo luôn hiển thị trên cùng */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Container của popup */
+  .details-popup-container {
+    background-color: #333333;
+    border-radius: 10px;
+    width: 80%; /* Chiều rộng responsive */
+    width: 700px; /* Chiều rộng tối đa */
+    max-height: 90%; /* Giới hạn chiều cao tối đa */
+    overflow-y: auto; /* Thêm thanh cuộn dọc nếu nội dung quá dài */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    padding: 20px; /* Khoảng cách giữa nội dung và viền */
+  }
+  
+  
+  /* Nút đóng popup */
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  /* Đường timeline ngang */
+  .horizontal-timeline .items {
+    border-top: 2px solid #666666;
+    margin: 15px 0;
+  }
+  
+  .horizontal-timeline .items .items-list {
+    text-align: center;
+  }
+  
+  .horizontal-timeline .items .items-list p {
+    margin-top: 10px;
+    font-size: 14px;
+    color: white;
+  }
+  
+  /* Các điểm trên timeline */
+  .horizontal-timeline .items .items-list:before {
+    content: "";
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background-color: #f37a27;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  /* Toàn bộ chữ mặc định là trắng */
+  .text-white,
+  .card-body p,
+  .card-body .small,
+  .card-body a {
+    color: #ffffff !important; /* Màu trắng */
+  }
+  
+  /* Màu chữ các tiêu đề nhỏ như Date, Order No. */
+  .card-body .small {
+    color: #f0f0f0 !important; /* Màu hơi sáng hơn để phân biệt */
+    font-weight: 500; /* Tăng độ đậm để rõ hơn */
+  }
+  
+  /* Đổi màu liên kết */
+  .card-body a {
+    text-decoration: none;
+    color: #f37a27 !important; /* Màu cam nổi bật */
+    font-weight: bold;
+  }
+  
+  .card-body a:hover {
+    text-decoration: underline; /* Thêm gạch chân khi hover */
+  }
+  
+  /* Màu nền và chữ trong vùng tổng tiền */
+  .mx-n4 {
+    background-color: #444444;
+  }
+  
+  .mx-n4 p {
+    color: #ffffff !important; /* Đảm bảo chữ màu trắng */
+  }
+  
+  /* Nút tracking màu trắng, cam nổi bật */
+  .horizontal-timeline .items-list p {
+    color: #ffffff !important; /* Màu chữ trắng */
+    background-color: #f37a27; /* Màu cam */
+    font-weight: bold;
+    border-radius: 5px;
+  }
+  
+  .horizontal-timeline .items-list:last-child p {
+    color: #777777 !important; /* Màu xám cho trạng thái "Delivered" chưa đạt */
+  }
+  
+  .horizontal-timeline .items {
+    margin: 15px 0;
+    padding: 0 10px; /* Giữ khoảng cách hai bên */
+  }
+  

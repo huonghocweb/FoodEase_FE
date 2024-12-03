@@ -1,5 +1,5 @@
 import React from 'react';
-import './PaginationControls.css'
+import './PaginationControls.css';
 
 const PaginationControls = ({
    paginationState, handlePaginationChange , sortOptions
@@ -10,25 +10,25 @@ const PaginationControls = ({
             <button
                     onClick={() => handlePaginationChange('pageCurrent',0)}
                 >
-                    <i class="fa-solid fa-backward-step fa-xl"></i>
+                    <i className="fa-solid fa-backward-step fa-xl"></i>
                 </button>
                 <button
                     onClick={() => handlePaginationChange('pageCurrent',paginationState.pageCurrent - 1)}
                     disabled={paginationState.pageCurrent === 0}
                 >
-                    <i class="fa-solid fa-backward fa-lg"></i>
+                    <i className="fa-solid fa-backward fa-lg"></i>
                 </button>
                 <span>Page {paginationState.pageCurrent + 1} / {paginationState.totalPage}</span>
                 <button
                     onClick={() => handlePaginationChange('pageCurrent',paginationState.pageCurrent + 1)}
                     disabled={paginationState.pageCurrent === paginationState.totalPage - 1}
                 >
-                    <i class="fa-solid fa-forward fa-lg"></i>
+                    <i className="fa-solid fa-forward fa-lg"></i>
                 </button>
                 <button
                     onClick={() => handlePaginationChange('pageCurrent',paginationState.totalPage-1)}
                 >
-                    <i class="fa-solid fa-forward-step fa-xl"></i>
+                    <i className="fa-solid fa-forward-step fa-xl"></i>
                 </button>
             </div>
 

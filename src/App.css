@@ -1,7 +1,9 @@
 .App {
   text-align: center;
 }
-
+.blog-detail-container {
+  text-align: left !important;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

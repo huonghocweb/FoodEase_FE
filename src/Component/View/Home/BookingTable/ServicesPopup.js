@@ -1,36 +1,52 @@
-import React from 'react';
-import './Services.css';
+import React from "react";
+import { customTranslate } from "../../../../i18n";
+import "./Services.css";
 
-const ServicesPopup = ({ isOpenServicesPopup, handleServicesPopup, tableServices, serPageCurrent ,serTotalPages , handleSerPageCurrent , 
-  selectedServiceIds,handleSelectServices }) => {
+const ServicesPopup = ({
+  isOpenServicesPopup,
+  handleServicesPopup,
+  tableServices,
+  serPageCurrent,
+  serTotalPages,
+  handleSerPageCurrent,
+  selectedServiceIds,
+  handleSelectServices,
+}) => {
   return (
     <>
       {isOpenServicesPopup && (
         <div className="service-popup-overlay show">
           <div className="service-popup-content">
-            <button className="service-close-button" onClick={handleServicesPopup}>
+            <button
+              className="service-close-button"
+              onClick={handleServicesPopup}
+            >
               &times;
             </button>
-            <h2 className="service-popup-title">Table Services</h2>
+            <h2 className="service-popup-title">
+              {customTranslate("Table Services")}
+            </h2>
             <div className="pagination">
-              <button 
-                onClick={() => handleSerPageCurrent(serPageCurrent - 1)} 
+              <button
+                onClick={() => handleSerPageCurrent(serPageCurrent - 1)}
                 disabled={serPageCurrent === 0}
               >
-                Prev
+                {customTranslate("Prev")}
               </button>
-              <span>Page {serPageCurrent + 1} / {serTotalPages}</span>
-              <button 
-                onClick={() => handleSerPageCurrent(serPageCurrent + 1)} 
-                 disabled={serPageCurrent === serTotalPages -1 }
+              <span>
+                {customTranslate("Page")} {serPageCurrent + 1} / {serTotalPages}
+              </span>
+              <button
+                onClick={() => handleSerPageCurrent(serPageCurrent + 1)}
+                disabled={serPageCurrent === serTotalPages - 1}
               >
-                Next
+                {customTranslate("Next")}
               </button>
             </div>
             <div className="service-table-list">
-              {tableServices.map((item,index) => (
+              {tableServices.map((item, index) => (
                 <div key={index} className="service-table-item">
-                <input
+                  <input
                     type="checkbox"
                     id={`service-${item.serviceId}`}
                     checked={selectedServiceIds.includes(item)}
@@ -43,14 +59,23 @@ const ServicesPopup = ({ isOpenServicesPopup, handleServicesPopup, tableServices
                     className="service-table-image"
                   />
                   <div className="service-table-info">
-                    <h3 className="service-table-title">{item.serviceName}</h3>
-                    <p className="service-table-detail"> {item.description}</p>
-                    <p className="service-table-detail">Fee : <span>{item.servicePrice?.toLocaleString('vi-VN')}đ</span></p>
+                    <h3 className="service-table-title">
+                      {customTranslate(`${item.serviceName}`)}
+                    </h3>
+                    <p className="service-table-detail">
+                      {customTranslate(`${item.description}`)}{" "}
+                    </p>
+                    <p className="service-table-detail">
+                      {customTranslate("Fee")} :{" "}
+                      <span>{item.servicePrice?.toLocaleString("vi-VN")}đ</span>
+                    </p>
                   </div>
                 </div>
               ))}
             </div>
-            <button onClick={handleServicesPopup}>Choose Service</button>
+            <button onClick={handleServicesPopup}>
+              {customTranslate("Choose Service")}
+            </button>
           </div>
         </div>
       )}
