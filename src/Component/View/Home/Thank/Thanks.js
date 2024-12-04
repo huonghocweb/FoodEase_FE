@@ -3,10 +3,30 @@ import { NavLink, useParams } from "react-router-dom";
 import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
 import "./Thanks.css";
+import OrderDetailsPopup from "../MyOrder/OrderDetailsPopup";
 
 const Thanks = () => {
   const [paymentInfo, setPaymentInfo] = useState({});
   const { paymentmethod } = useParams();
+  const [orderById, setOrderById] = useState();
+  const [isOpenDetails,setIsOpenDetails] = useState(null);
+
+  const handleGetOrderById = async (orderId) => {
+    console.log(orderId);
+    try {
+      const response = await axiosConfig.get(`/order/byId/${orderId}`);
+      console.log(response.data.data);
+      setOrderById(response.data.data);
+      handleOpenDetails();
+    } catch (error) {
+      console.error('error in get Order By Id',error);
+    }
+  }
+
+  const handleOpenDetails = () => {
+    setIsOpenDetails(!isOpenDetails);
+  }
+
   useEffect(() => {
     const controller = new AbortController(); // Tạo một AbortController
     // Lấy toàn bộ đường dẫn được trả về từ trang thanh toán
@@ -71,6 +91,11 @@ const Thanks = () => {
 
   return (
     <>
+    <OrderDetailsPopup 
+      handleOpenOrderDetailsPopup={handleOpenDetails}
+      isOpenOrderDetails={isOpenDetails}
+      orderByOrderId={orderById}
+    />
       <div id="thanksPage">
         <div className="row" style={{ marginTop: "250px" }}>
           <div class="bg-gray-100 h-screen">
@@ -132,12 +157,13 @@ const Thanks = () => {
                     : "Loadding..."}
                 </h3>
                 <div>
-                  <NavLink
+                  <button
+                    onClick={() => handleGetOrderById(paymentInfo?.orderInfo)}
                     className="btn btn-success"
                     style={{ borderRadius: "15px" }}
                   >
                     See Order
-                  </NavLink>
+                  </button>
                 </div>
               </div>
             )}

@@ -52,8 +52,8 @@
   }
   
   .order-status-product-img {
-    width: 180px; /* Increased from 100px to 180px */
-    height: 180px; /* Added a height for consistent aspect ratio */
+    width: 120px; /* Increased from 100px to 180px */
+    height: 120px; /* Added a height for consistent aspect ratio */
     margin-right: 15px;
   }
   

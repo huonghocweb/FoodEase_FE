@@ -34,24 +34,60 @@ const OrderDetailsPopup = ({ isOpenOrderDetails ,handleOpenOrderDetailsPopup , o
                           &times;
                         </button>
                         <p className="lead fw-bold mb-4" style={{ color: "#f37a27" }}>
-                          Purchase Receipt
+                        Order ID : #{orderByOrderId.orderId}
                         </p>
-
-                        {/* Date and Order No */}
-                        <div className="row mb-3">
-                          <div className="col-md-6">
-                            <p className="small text-muted mb-1">Date</p>
-                            <p className="text-white">
-                            {new Date(orderByOrderId.paymentDateTime).toLocaleTimeString('vi')} -
-                            {new Date(orderByOrderId.paymentDateTime).toLocaleDateString('vi')} 
-                            </p>
-                          </div>
-                          <div className="col-md-6">
-                            <p className="small text-muted mb-1">Order No.</p>
-                            <p className="text-white">#{orderByOrderId.orderId}</p>
+                                {/* Date and Order No */}
+                          <div className="row mb-2">
+                          <div className="col-md-12">
+                            <p className="text-muted mb-4" style={{fontSize : '20px'}}> </p>
                           </div>
                         </div>
+                    {/* Grouped Order Information */}
+                    <div className="order-info-section">
+                      <p className="order-info-title">Details</p>
 
+                      <div className="order-info-item">
+                        <span className="order-info-icon">🤵</span>
+                        <span className="order-info-label">User Name :</span>
+                        <span className="order-info-value order-info-long-text">
+                          {orderByOrderId.user.fullName}
+                        </span>
+                      </div>
+
+                      <div className="order-info-item">
+                        <span className="order-info-icon">📅</span>
+                        <span className="order-info-label">Order Date:</span>
+                        <span className="order-info-value">
+                          {new Date(orderByOrderId.paymentDateTime).toLocaleString('vi')}
+                        </span>
+                      </div>
+
+                      <div className="order-info-item">
+                        <span className="order-info-icon">💳</span>
+                        <span className="order-info-label">Payment Method:</span>
+                        <span className="order-info-value order-info-payment-icon">
+                          <img src={orderByOrderId.paymentMethod.imageUrl} alt="Payment Method" />
+                        </span>
+                      </div>
+
+                      <div className="order-info-item">
+                        <span className="order-info-icon">📍</span>
+                        <span className="order-info-label">Delivery Address:</span>
+                        <span className="order-info-value order-info-long-text">
+                          {orderByOrderId.deliveryAddress}
+                        </span>
+                      </div>
+                      
+
+                      {orderByOrderId.coupon && (
+                        <div className="order-info-item">
+                          <span className="order-info-icon">🎟️</span>
+                          <span className="order-info-label">Coupon:</span>
+                          <span className="order-info-value">{orderByOrderId.coupon.couponCode}</span>
+                        </div>
+                      )}
+                    </div>
+                
                         {/* Order details */}
                         <div
                           className="mx-n4 px-4 py-3"
@@ -67,7 +103,7 @@ const OrderDetailsPopup = ({ isOpenOrderDetails ,handleOpenOrderDetailsPopup , o
                               <p className="text-white">Product Name</p>
                             </div>
                             <div className="col-md-8 col-lg-2">
-                              <p className="text-white">Price</p>
+                              <p className="text-white">Size</p>
                             </div>
                             <div className="col-md-8 col-lg-2">
                               <p className="text-white">Quantity</p>
@@ -84,15 +120,16 @@ const OrderDetailsPopup = ({ isOpenOrderDetails ,handleOpenOrderDetailsPopup , o
                             key={index}>
                              <div className="col-md-4 col-lg-2">
                             <img 
-                            className="avatar-50" 
+                            className="avatar-40" 
                             src={item.foodVariations.food.imageUrl}
+                            style={{borderRadius : '10px'}}
                              />
                             </div>
                             <div className="col-md-8 col-lg-4">
                               <p className="text-white">{item.foodVariations.food.foodName}</p>
                             </div>
                             <div className="col-md-8 col-lg-2">
-                              <p className="text-white">{item.foodVariations.food.basePrice.toLocaleString('vi')} đ</p>
+                              <p className="text-white">{item.foodVariations.foodSize.foodSizeName}</p>
                             </div>
                             <div className="col-md-8 col-lg-2">
                               <p  className="text-white">  {item.quantity}</p>
@@ -104,24 +141,30 @@ const OrderDetailsPopup = ({ isOpenOrderDetails ,handleOpenOrderDetailsPopup , o
                           <hr style={{color : 'white'}}></hr>
                           </>
                       ))}
-                      <div className="row">
-                            <div className="col-md-8 col-lg-9">
-                              <p className="mb-0 text-white">Shipping</p>
-                            </div>
-                            <div className="col-md-4 col-lg-3">
-                              <p className="mb-0 text-white">£33.00</p>
-                            </div>
-                            <div className="col-md-8 col-lg-9">
-                              <p className="mb-0 text-white">Shipping</p>
-                            </div>
-                            <div className="col-md-4 col-lg-3">
-                              <p className="mb-0 text-white">£33.00</p>
-                            </div>
+                        <div className="row">
+                              <div className="col-md-7 col-lg-8">
+                              </div>
+                              <div className="col-md-7 col-lg-2">
+                                <p className="mb-0 text-white">ShippFee</p>
+                              </div>
+                              <div className="col-md-5 col-lg-2">
+                                <p className="mb-0 text-white">{orderByOrderId.shipFee.toLocaleString('vi')}đ</p>
+                              </div>
                           </div>
+
                       </div>
+
+                    
                         {/* Total */}
-                        <div className="row my-3">
-                          <div className="col-md-4 offset-md-8 col-lg-3 offset-lg-9">
+                        <div className="row">
+                          {/* Cột chứa nhãn "Total Price" */}
+                          <div className="col-md-6 col-lg-9 d-flex justify-content-end ">
+                            <p className="lead fw-bold mb-0" style={{ color: "#f37a27" }}>
+                              Total Price:
+                            </p>
+                          </div>
+                          {/* Cột chứa giá trị */}
+                          <div className="col-md-6 col-lg-3 d-flex justify-content-start ">
                             <p className="lead fw-bold mb-0" style={{ color: "#f37a27" }}>
                               {orderByOrderId.totalPrice.toLocaleString('vi')} đ
                             </p>

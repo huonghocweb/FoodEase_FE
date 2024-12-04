@@ -20,7 +20,7 @@ const OrderStatus = () => {
   const [paginationState,setPaginationState] = useState({
     pageCurrent : 0,
     pageSize : 8,
-    sortOrder : 'asc',
+    sortOrder : 'desc',
     sortBy : 'orderId',
     totalPage : ''
   })
@@ -39,7 +39,7 @@ const OrderStatus = () => {
   const getOrderByOrderId = async(orderId) => {
     console.log(orderId);
     try {
-      const orderByOrderId = await axiosConfig.get(`/order/getById/${orderId}`);
+      const orderByOrderId = await axiosConfig.get(`/order/byId/${orderId}`);
       console.log(orderByOrderId.data.data);
       setOrderByOrderId(orderByOrderId.data.data);
       handleOpenOrderDetailsPopup();
@@ -353,12 +353,14 @@ const OrderStatus = () => {
               </div>
 
               {order.orderDetails.map((item) => (
+                <>
                 <div key={item.orderDetailsId} className="order-status-details">
                   <img
                     // src={`/assets/images/${item.foodVariations.food.imageUrl}`}
                     src={item.foodVariations.food.imageUrl}
                     alt="Product"
                     className="order-status-product-img"
+                    style={{borderRadius : '15px'}}
                   />
                   <div className="order-status-product-info">
                     <p className="order-status-food-name">
@@ -377,7 +379,12 @@ const OrderStatus = () => {
                       ).toLocaleString("vi-VN")}
                       đ x {item.quantity} {customTranslate("items")}
                     </p>
-                    <div className="order-status-actions">
+                  </div>
+                </div>
+
+                </>
+              ))}
+                <div className="order-status-actions">
                       {getOrderActions(
                         order.orderStatus.orderStatusId,
                         order
@@ -394,10 +401,7 @@ const OrderStatus = () => {
                       onClick={() => getOrderByOrderId(order.orderId)}
                       className="order-status-return" 
                       >See Details</button>
-                    </div>
                   </div>
-                </div>
-              ))}
               <p className="price">
                 {customTranslate("Total Price")}:{" "}
                 <span>{order.totalPrice.toLocaleString()}₫</span>

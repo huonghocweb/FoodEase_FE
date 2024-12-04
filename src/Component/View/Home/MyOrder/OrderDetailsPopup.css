@@ -117,4 +117,72 @@
     margin: 15px 0;
     padding: 0 10px; /* Giữ khoảng cách hai bên */
   }
+
+
+/* Container chính */
+.order-info-section {
+  padding: 20px;
+  background-color: #333333; /* Nền tối */
+  border-radius: 8px;
+  border: 1px solid #444444;
+}
+
+/* Tiêu đề chính */
+.order-info-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #f37a27; /* Cam nổi bật */
+  margin-bottom: 15px;
+  border-bottom: 2px solid #f37a27;
+  padding-bottom: 5px;
+}
+
+/* Từng mục thông tin */
+.order-info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.order-info-item:last-child {
+  margin-bottom: 0; /* Bỏ khoảng cách cho mục cuối */
+}
+
+/* Biểu tượng */
+.order-info-icon {
+  font-size: 20px;
+  color: #f37a27;
+  margin-right: 12px;
+}
+
+/* Nhãn thông tin */
+.order-info-label {
+  font-size: 14px;
+  color: #cccccc; /* Xám nhạt */
+  margin-right: 10px;
+  min-width: 120px; /* Đảm bảo căn thẳng hàng */
+  font-weight: 500;
+}
+
+/* Giá trị thông tin */
+.order-info-value {
+  font-size: 14px;
+  color: #ffffff; /* Trắng sáng */
+  font-weight: bold;
+}
+
+/* Phương thức thanh toán */
+.order-info-payment-icon img {
+  width: 65px;
+  height: 35px;
+  border-radius: 5px;
+}
+
+/* Địa chỉ dài */
+.order-info-long-text {
+  word-wrap: break-word;
+  max-width: 80%; /* Hạn chế tràn */
+}
+
+
   
