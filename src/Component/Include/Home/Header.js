@@ -43,7 +43,7 @@ const Header = () => {
     sessionStorage.removeItem('jwtToken');
     sessionStorage.removeItem('userIdLogin');
     sessionStorage.removeItem('userNameLogin');
-    sessionStorage.removeItem('rolesLogin');
+    sessionStorage.removeItem('rolesLogin');                                                                                                                                               
      
     setUser(null); // Cập nhật user thành null khi đăng xuất
     navigate('/login'); // Điều hướng đến trang đăng nhập

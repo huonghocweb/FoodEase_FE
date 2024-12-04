@@ -48,13 +48,22 @@ const Login = () => {
 
             if (resToken) {
                 const { jwtToken, userId, roles } = resToken.data.data;
-                const storage = remember ? localStorage : sessionStorage;
-                console.log(roles);
-                storage.setItem('jwtToken', jwtToken);
-                storage.setItem('userIdLogin', userId);
-                storage.setItem('userNameLogin', username);
-                storage.setItem('rolesLogin', JSON.stringify(roles));
-                console.log(storage.getItem('jwtToken'));
+
+                // Lưu thông tin đăng nhập dựa vào lựa chọn "Remember Me"
+                if (remember) {
+                    // Lưu vào localStorage
+                    localStorage.setItem('jwtToken', jwtToken);
+                    localStorage.setItem('userIdLogin', userId);
+                    localStorage.setItem('userNameLogin', username);
+                    localStorage.setItem('rolesLogin', JSON.stringify(roles));
+                } else {
+                    // Lưu vào sessionStorage
+                    localStorage.setItem('jwtToken', jwtToken);
+                    localStorage.setItem('userIdLogin', userId);
+                    localStorage.setItem('userNameLogin', username);
+                    localStorage.setItem('rolesLogin', JSON.stringify(roles));
+                }
+
                 setAlert({ type: 'success', message: 'Login Success!' });
                 setTimeout(() => {
                     navigate("/");
