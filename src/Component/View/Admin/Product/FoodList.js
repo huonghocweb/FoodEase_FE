@@ -106,16 +106,16 @@ if(categories == null)
         <div className="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
           <div className="tm-bg-primary-dark tm-block tm-block-products col-sm-12">
             <div className="tm-product-table-container">
-              <table className="table table-hover tm-table-small tm-product-table">
+              <table className="table table-hover tm-table-small tm-product-table revenue-table">
                 <thead>
                   <tr>
-                  <th scope="col">FOOD NO.</th>
+                  <th className='food-no'>FOOD NO.</th>
                     <th scope="col">FOOD NAME</th>
                     <th scope="col">BASE PRICE</th>
                     <th scope="">IMAGE</th>
                     <th scope="col">CREATED AT</th>                  
                     <th scope="col">DISCOUNT</th>
-                    <th scope="col">CATEGORY</th>
+                    
                     <th>
                     FUNTION
                     </th>
@@ -127,10 +127,10 @@ if(categories == null)
                  {
                     Food.map((item,index)=>(
                       <tr  key={item.foodId}>
-                    <td>{index +1}</td>
+                    <td className='food-no'>{index +1}</td>
                     <td className="tm-product-name">{item.foodName}</td>
                     <td>{item.basePrice.toLocaleString("vi-VN")}đ</td>
-                    <td  onClick={() => handleRowClick(item)}><img src={`${item.imageUrl}`}/></td>
+                    <td className='tm-product-name'  onClick={() => handleRowClick(item)}><img src={`${item.imageUrl}`}/></td>
                     <td>  {(() => {
                       const orderDate = new Date(item.createdAt);
                       return `${orderDate.getFullYear()}/${String(orderDate.getMonth() + 1).padStart(2, '0')}/${String(orderDate.getDate()).padStart(2, '0')}`;
@@ -138,7 +138,7 @@ if(categories == null)
                    
                     
                     <td>{item.discount}%</td>
-                    <td>{item.category.cartegoryName}</td>
+                    
                     <td><i onClick={()=> edit (item)} style={{ cursor: 'pointer' }} className="fa-solid fa-circle-info fa-lg"></i></td>
                     
                     
@@ -156,9 +156,7 @@ if(categories == null)
                 <Link
              to="/admin/addFood"
               className="btn btn-primary btn-block text-uppercase mb-3">Add Food</Link>
-            <button className="btn btn-primary btn-block text-uppercase">
-              Delete Food
-            </button>
+            
               </table>
               {isModalOpen && (
         <Modal onClose={handleCloseModal} item={selectedItem} />
