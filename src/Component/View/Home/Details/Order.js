@@ -145,8 +145,8 @@ const Order = ({ product, onClose }) => {
 
   const handleAddToCart = async (foodVaId) => {
     console.log(foodVaId);
+    console.log(cartId);
     const quantity =1;
-
       try {
         const resCart = await axiosConfig.post(`/cart/addCartItem/${cartId}/${foodVaId}/${quantity}`);
        
