@@ -464,6 +464,7 @@ html {
   .tm-product-name {
     font-size: 0.95rem;
     font-weight: 600;
+    width: 200px;
   }
   .tm-product-delete-icon {
     font-size: 1.1rem;
