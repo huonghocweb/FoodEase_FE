@@ -74,7 +74,16 @@ html {
     margin-bottom: 30px;
   }
   .tm-block {
-    /* padding: 40px; */
+    padding: 40px;
+    -webkit-box-shadow: 1px 1px 5px 0 #455c71;
+    -moz-box-shadow: 1px 1px 5px 0 #455c71;
+    box-shadow: 1px 1px 5px 0 #455c71;
+    min-height: 350px;
+    height: 100%;
+    max-height: 850px;
+  }
+  .tm-block1 {
+  
     -webkit-box-shadow: 1px 1px 5px 0 #455c71;
     -moz-box-shadow: 1px 1px 5px 0 #455c71;
     box-shadow: 1px 1px 5px 0 #455c71;
@@ -455,10 +464,6 @@ html {
   .tm-product-name {
     font-size: 0.95rem;
     font-weight: 600;
-    width: 300px;
-  }
-  .food-no{
-    width: 10px;
   }
   .tm-product-delete-icon {
     font-size: 1.1rem;

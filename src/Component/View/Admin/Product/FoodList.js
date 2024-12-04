@@ -103,8 +103,8 @@ if(categories == null)
         <div className="body">
              <div className="container mt-5">
       <div className="row tm-content-row">
-        <div className="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
-          <div className="tm-bg-primary-dark tm-block tm-block-products col-sm-12">
+        <div className="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block1-col">
+          <div className="tm-bg-primary-dark tm-block1 tm-block1-products col-sm-12">
             <div className="tm-product-table-container">
               <table className="table table-hover tm-table-small tm-product-table revenue-table">
                 <thead>
@@ -172,8 +172,8 @@ if(categories == null)
             
           </div>
         </div>
-        <div className="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-block-col">
-          <div className="tm-bg-primary-dark tm-block tm-block-product-categories">
+        <div className="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-block1-col">
+          <div className="tm-bg-primary-dark tm-block1 tm-block-product-categories">
             <h2 className="tm-block-title">Product Categories</h2>
             <div className="tm-product-table-container">
               <table className="table tm-table-small tm-product-table">
