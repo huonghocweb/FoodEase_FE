@@ -53,6 +53,7 @@ import WishList from "./Component/View/Home/WishList/WishList.js";
 import FoodBuyMost from './Component/View/Admin/FoodBuyMost/foodBuyMost.js';
 import FoodRating from './Component/View/Admin/FoodRating/FoodRating.js';
 import "./i18n";
+import OrderPage from "./Component/View/Admin/Order/OrderPage";
 function App() {
 
   useEffect(() => {
@@ -105,8 +106,9 @@ function App() {
             <Route path="/myOrder" element={<OrderStatus />} />
           </Route>
 
-          <Route path="/admin" element={<AdminLayOut />}>
-            <Route path="review" element ={<FoodReviewTable />} />
+          <Route path="/admin"  element={<AdminLayOut />}>
+                 <Route index element={<OrderPage />} />
+            <Route path="review"  element ={<FoodReviewTable />} />
             <Route path="delivery" element ={<DeliveryTimeEstimator />} />
             <Route path="users" element={<UserPage />} />
             <Route path="user/create" element={<UserFormPage />} />
