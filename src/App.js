@@ -11,7 +11,6 @@ import CouponPage from "./Component/View/Admin/Coupon/CouponPage";
 import DeliveryTimeEstimator from './Component/View/Admin/Delivery/DeliveryTimeEstimator';
 import Inventory from "./Component/View/Admin/Inventory/Inventory.js";
 import Notification from "./Component/View/Admin/Notification/Notification";
-import OrderPage from "./Component/View/Admin/Order/OrderPage";
 import PaymentReport from "./Component/View/Admin/PaymentReport/PaymentReport.js";
 import AddFood from './Component/View/Admin/Product/AddFood.js';
 import FoodPage from "./Component/View/Admin/Product/FoodPage";
@@ -107,7 +106,6 @@ function App() {
           </Route>
 
           <Route path="/admin" element={<AdminLayOut />}>
-            <Route index element={<OrderPage />} />
             <Route path="review" element ={<FoodReviewTable />} />
             <Route path="delivery" element ={<DeliveryTimeEstimator />} />
             <Route path="users" element={<UserPage />} />
