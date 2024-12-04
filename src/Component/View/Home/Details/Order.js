@@ -20,10 +20,8 @@ const Order  = ({ product, onClose }) => {
   // dử liệu chứa tổng tiền của topping
   const [totalToppingPrice,setTotalToppingPrice] = useState(0);
   const [FoodVariationgTopping,setFoodVariationTopping]  = useState([]);
-
-
   const [alert, setAlert] = useState(null);
-
+  const [sold,setSold]= useState([]);
 
   const cartId =localStorage.getItem('userIdLogin');
   // lấy dử liệu từ bảng topping
@@ -34,26 +32,29 @@ const Order  = ({ product, onClose }) => {
       
     })
   }
-  
+  const fetchFoodSold = async (foodVariationId) => {
+    if (!foodVariationId) return; // Nếu không có ID, không làm gì cả
+
+    try {
+        const response = await axiosConfig.get(`/orderDetails/findSoldByFoodVariationId/${foodVariationId}`);
+        setSold(response.data); // Cập nhật số lượng đã bán
+        console.log(response.data);
+    } catch (error) {
+        console.error('Có lỗi xảy ra khi lấy dữ liệu bán:', error);
+    }
+};
     const fetchFoodVariationTopping = async ()=>{
       axiosConfig.get(`/user/topping/findVariationTopping/${product.foodVariationId}`)
       .then(response=>{
         setFoodVariationTopping(response.data)
         console.log('dử liệu của foodVariationTopping',response.data)
-      
+        
       })
   
     }
 
  
-  // lấy giá trị bảng foodSize theo tên size
-// const fetchFoodSize = async ()=>{
-//   axios.get('http://localhost:8080/user/findAllFoodSize')
-//   .then(response=>{
-//     setTableFoodSize(response.data)
-    
-//   })
-// }
+ 
 
 const fetchFoodSize = async ()=>{
   axiosConfig.get(`/user/foodSize/findFoodSizeByFoodId/${product.foodId}`)
@@ -106,7 +107,7 @@ const fetchToTal = async ()=>{
     fetchToppings();
     fetchToTal();
     fetchTopping();
- 
+    fetchFoodSold();
     // nếu có dử liệu product mới được gọi
     if(product)
     {
@@ -130,6 +131,9 @@ const fetchToTal = async ()=>{
     .then(response =>{    
       setFoodVariation(response.data);
       console.log(response.data,'dử liệu cảu foodSize')   
+      if (response.data && response.data.foodVariationId) {
+        fetchFoodSold(response.data.foodVariationId); // Gọi hàm với foodVariationId vừa nhận
+    }
     
     })
   };
@@ -230,8 +234,10 @@ const fetchToTal = async ()=>{
              
               <br/>
               {foodVariation && (
-                <h4>Sold:{foodVariation.quantityStock}</h4>
+                <h4>Quantity:{foodVariation.quantityStock}</h4>
+                
               )}
+              <h4>Sold:{sold.sold ? sold.sold : 0}</h4>
             </div>
 
             {
@@ -264,7 +270,7 @@ const fetchToTal = async ()=>{
           onClose 
           onClick={() => handleAddToCart(foodVariation.foodVariationId)}
           >
-         Sum: {total} đ
+         Total: {total.toLocaleString('vi-VN')} đ
      </button>
       
       )}  

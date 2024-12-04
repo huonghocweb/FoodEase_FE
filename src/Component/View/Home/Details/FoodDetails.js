@@ -30,7 +30,7 @@ const FoodDetails = () => {
               const ResponseRating =await axiosConfig.get(`/user/foodReview/AvgRating?foodId=${responseDetails.data.foodId}`);
               setRating(ResponseRating.data);
              
-             const ResponseSole = await axiosConfig.get(`/orderDetails/findSold?foodId=${responseDetails.data.foodId}`);
+             const ResponseSole = await axiosConfig.get(`/orderDetails/foodSoldByFoodId/${responseDetails.data.foodId}`);
               setSold(ResponseSole.data)
             
           } catch (error) {
@@ -102,7 +102,7 @@ const newPrice = foodDetail.food.basePrice- foodDetail.food.basePrice * foodDeta
        
       </div>
       <div className="nutrition">
-        <h3>Sold:{sold.countFood ? sold.countFood : 0}</h3>
+        <h3>Sold:{sold.sold ? sold.sold : 0}</h3>
         <p>Proteins: 2.2, Carbs: 14.4, Fats: 1.2, Total Kcal: 157.8</p>
       </div>
       <div className="">

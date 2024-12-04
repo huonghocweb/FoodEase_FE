@@ -175,8 +175,8 @@ const FoodMenu = () => {
                 </div>
                 <h5 className="description">{item.food.description}</h5>
                 <div className="menu-footer">
-                  <p>sold:{item.quantityStock}</p>
-                  <p>Rating: 5⭐</p>
+                  <p>Quantity:{item.quantityStock}</p>
+                  
                 </div>
               </div>
               <div className="row d-flex justify-content-center ">
