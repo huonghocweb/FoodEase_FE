@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axiosConfig from "../../../Config/AxiosConfig";
 import './UserFormList.css';
+import CustomAlert from '../../../Config/CustomAlert';
 
 const UserEdit = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const user = location.state?.user;
+    const [alert, setAlert] = useState(null);
 
     console.log("Initial user data from location:", user);
 
@@ -101,11 +103,11 @@ const UserEdit = () => {
                 formDataToSend
             );
             console.log('User updated:', response.data);
-            alert('User updated successfully!');
+            setAlert('User updated successfully!');
             navigate('/admin/users');
         } catch (error) {
             console.error('Error updating user:', error.response?.data || error.message);
-            alert('Failed to update user');
+            setAlert('Failed to update user');
         }
     };
 
@@ -113,6 +115,13 @@ const UserEdit = () => {
 
     return (
         <div className="user-form-container">
+            {alert && (
+                <CustomAlert
+                    type={alert.type}
+                    message={alert.message}
+                    onClose={() => setAlert(null)}
+                />
+            )}
             <h2 className="user-form-title">Edit User</h2>
 
             {/* Avatar upload */}
