@@ -234,10 +234,10 @@ const fetchToTal = async ()=>{
              
               <br/>
               {foodVariation && (
-                <h4>Quantity:{foodVariation.quantityStock}</h4>
+                <h4>Stock:{foodVariation.quantityStock}</h4>
                 
               )}
-              <h4>Sold:{sold.sold ? sold.sold : 0}</h4>
+              <h4>Solded:{sold.sold ? sold.sold : 0}</h4>
             </div>
 
             {

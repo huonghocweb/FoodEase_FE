@@ -2,13 +2,14 @@
 import React,{useState,useEffect} from 'react';
 import './Comment.css'; // Để thêm CSS cho component
 import axiosConfig from '../../../Config/AxiosConfig';
+import CustomAlert from '../../../Config/CustomAlert';
 const Comment = (foodDetail) => {
 const [comment,setComment ] =useState([]);
 const [rating, setRating] = useState(0);
 const [review, setReview] = useState('');
 const [file, setFile] = useState(null);
 const [user,setUser]=useState([]);
-
+const [alert, setAlert] = useState(null);
 const userId =localStorage.getItem('userIdLogin');
   const fetchCommnet = async ()=>{
            await axiosConfig.get(`/user/foodReview/findfoodReviewByFoodId/${foodDetail.foodDetail.foodId}`)
@@ -53,10 +54,10 @@ const userId =localStorage.getItem('userIdLogin');
             
             );
             
-            console.log('Added successfully',response);
+            setAlert({ type: 'success', message: 'Comment success! '});
             Reset();
         } catch (error) {
-          
+          setAlert({type : 'error', message : 'Comment Failed!'});
             console.log('Error in adding product');
         }
     };
@@ -82,6 +83,13 @@ const userId =localStorage.getItem('userIdLogin');
     return (
      
         <div className="review-container ">
+           {alert && (
+          <CustomAlert
+            type={alert.type}
+            message={alert.message}
+            onClose={() => setAlert(null)}
+          />
+        )}
           
            <div className="user-info">
       

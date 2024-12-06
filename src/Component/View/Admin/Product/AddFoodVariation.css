@@ -1,5 +1,5 @@
-/* Modal Overlay */
-.modal-overlay {
+
+.modalt {
   position: fixed;
   z-index: 1;
   left: 0;
@@ -9,10 +9,10 @@
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
+ 
 }
 
-/* Modal Content */
-.modal-content {
+.modal-contentt {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -21,141 +21,126 @@
   height: 95%;
 }
 
-/* Modal Header */
-.modal-header h2,
-.modal-header h3 {
+.modal-contentt h2,
+.modal-contentt h3 {
   margin: 0;
 }
 
-/* Close Button */
-.close-button {
-  position: absolute;
+.closet {
+  position: relative;
   top: 20px;
-  right: 20px;
+  left: 290px;
   font-size: 24px;
   cursor: pointer;
 }
-
-/* Input Section */
-.input-section {
-  display: flex;
-  align-items: center;
-  margin: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+.foodvariation-input {
+  display: flex; /* Sử dụng Flexbox để sắp xếp các phần tử */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  margin: 20px; /* Thêm khoảng cách xung quanh */
+  padding: 10px; /* Thêm khoảng cách bên trong */
+  border: 1px solid #ccc; /* Đường viền cho khung phần tử */
+  border-radius: 8px; /* Bo tròn góc */
+  background-color: #f9f9f9; /* Màu nền cho khung */
 }
 
-/* Input Fields */
-.input-section input[type="number"] {
-  width: 80px;
-  margin-right: 10px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+input[type="number"] {
+  width: 80px; /* Chiều rộng của input số */
+  margin-right: 10px; /* Khoảng cách giữa input và select */
+  padding: 5px; /* Khoảng cách bên trong */
+  border: 1px solid #ccc; /* Đường viền cho input */
+  border-radius: 4px; /* Bo tròn góc cho input */
 }
 
-.input-section select {
-  margin-right: 10px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
+select {
+  margin-right: 10px; /* Khoảng cách giữa select và button */
+  padding: 5px; /* Khoảng cách bên trong */
+  border: 1px solid #ccc; /* Đường viền cho select */
+  border-radius: 4px; /* Bo tròn góc cho select */
+  background-color: #fff; /* Màu nền cho select */
 }
 
-/* Submit Button */
-.input-section button {
-  border: none;
-  border-radius: 4px;
-  background-color: #3574c1;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
+.foodvariation-input button {
+  
+  border: none; /* Bỏ đường viền */
+  border-radius: 4px; /* Bo tròn góc cho button */
+  background-color: #3574c1; /* Màu nền cho button */
+  color: rgb(255, 255, 255); /* Màu chữ */
+  cursor: pointer; /* Biểu tượng chuột khi di chuột qua button */
+  transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
   margin: 10px;
+  
 }
 
-.input-section button:hover {
-  background-color: #0056b3;
+button:hover {
+  background-color: #0056b3; /* Màu nền khi hover */
 }
 
-/* Table Styles */
-.table {
+
+table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.table th {
+th {
   background-color: #f2f2f2;
   font-weight: bold;
   text-align: center;
   padding: 8px;
 }
 
-.table td {
+td {
   text-align: center;
   padding: 8px;
 }
 
-/* Modal Body */
-.modal-body {
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  width: 700px;
+.custom-modal-bodyt {
+display: flex;
+
+align-items: center; /* Căn giữa nội dung */
+padding-left: 20px;
+background-color: #f8f9fa; /* Màu nền nhẹ */
+border-radius: 10px; /* Bo góc cho modal */
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+
+width: 700px;
 }
 
-/* Image in Modal */
-.order-image {
-  width: 70%;
-  max-width: 200px;
-  border-radius: 8px;
-  margin-bottom: 15px;
+.order-imaget {
+width: 70%; /* Ảnh phản hồi */
+max-width: 200px; /* Đặt chiều rộng tối đa cho ảnh */
+border-radius: 8px; /* Bo góc cho hình ảnh */
+margin-bottom: 15px; /* Khoảng cách dưới ảnh */
 }
-
-/* Order Details */
-.order-details {
-  width: 270px;
+.order-detailst{
+width: 270px;
 }
-
-/* Button Styles */
-.button-edit,
-.button-delete {
-  margin-left: 20px;
+.button-edit,.button-delete{
+margin-left: 20px;
 }
-
-/* Quantity Input */
 .input-quantity {
-  width: 100%;
-  max-width: 300px;
-  padding: 10px;
-  box-sizing: border-box;
+width: 100%; /* hoặc chiều rộng mà bạn muốn */
+max-width: 300px; /* chiều rộng tối đa để ngăn nó trở nên quá rộng */
+padding: 10px; /* padding để tạo khoảng cách bên trong */
+box-sizing: border-box; /* đảm bảo padding không làm tăng chiều rộng */
+}
+.form-Topping{
+width: 300px;
+height: 300px;
+background-color: #f7f7f7;
+margin-left: 10px;
+}
+.toppings {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+margin-left: 10px;
 }
 
-/* Toppings Section */
-.topping-container {
-  width: 300px;
-  height: 300px;
-  background-color: #f7f7f7;
-  margin-left: 10px;
+.toppings div {
+display: flex;
+align-items: center;
 }
 
-/* Toppings Grid */
-.toppings-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-left: 10px;
-}
-
-.toppings-grid div {
-  display: flex;
-  align-items: center;
-}
-
-.toppings-grid input[type="checkbox"] {
-  margin-right: 10px;
+.toppings input[type="checkbox"] {
+margin-right: 10px;
 }
