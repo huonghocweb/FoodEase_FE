@@ -1,138 +1,91 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { customTranslate } from "../../../../i18n";
-import Pagination from "../../Admin/Common/Pagination/Pagination";
 
-const CouponStorage = ({
-  coupons,
-  handleSortBy,
-  handleSortOrder,
-  handlePageCurrent,
-  handlePageSize,
-  pageCurrent,
-  totalPage,
-  removeCoupon,
-}) => {
+const CouponStorage = ({ couponStorageByUserId , handleAddCouponToStorage , codeInputRef ,handelCheckCoupon }) => {
   return (
     <>
-      <div className="body">
-        <div id="reportsPage">
-          <div id="home">
-            <div className="container">
-              <div className="row tm-content-row">
-                <div className="col-12 tm-block-col">
-                  <div className="tm-bg-primary-dark tm-block tm-block-taller tm-block-scroll">
-                    <div className="sort-pagination-container">
-                      <h5> {customTranslate("Sort By")}</h5>
-                      <select onChange={(e) => handleSortBy(e.target.value)}>
-                        <option value="couponId">
-                          {customTranslate("Coupon Id")}
-                        </option>
-                        <option value="startDate">
-                          {customTranslate("Start Date")}
-                        </option>
-                        <option value="endDate">
-                          {customTranslate("End Date")}
-                        </option>
-                        <option value="discountPercent">
-                          {customTranslate("Discount Percent")}
-                        </option>
-                      </select>
-                      <h5>{customTranslate("Sort Order")}</h5>
-                      <select onChange={(e) => handleSortOrder(e.target.value)}>
-                        <option value="asc">
-                          {customTranslate("Ascending")}
-                        </option>
-                        <option value="desc">
-                          {customTranslate("Descending")}
-                        </option>
-                      </select>
+     <div className="my-coupon-list-wrapper">
+      <div className="voucher-container">
+        {/* Header Section */}
+        <div className="voucher-header">
+          <input
+            type="text"
+            placeholder="Enter code here"
+            className="voucher-input"
+            ref={codeInputRef}
+          />
+          <button onClick={handleAddCouponToStorage} className="voucher-save-btn">Save</button>
+        </div>
+
+        {/* Tabs */}
+        {/* <div className="voucher-tabs">
+          <div className="tab active">Tất Cả (983)</div>
+          <div className="tab">Shopee (962)</div>
+          <div className="tab">Shop (17)</div>
+          <div className="tab">Nạp thẻ & Dịch vụ (0)</div>
+          <div className="tab">Scan & Pay (0)</div>
+          <div className="tab">Dịch vụ Tài chính (4)</div>
+          <div className="tab">Từ Đối Tác (0)</div>
+        </div> */}
+
+        {/* Coupon List */}
+        <div className="voucher-list">
+          {couponStorageByUserId.map((item, index) => (
+            <div className="voucher-item" key={index}>
+              <div className="voucher-left">
+                {/* Coupon Image */}
+                <img
+                  src={item.coupon.imageUrl}
+                  alt={item.logo}
+                  className="voucher-image"
+                />
+
+                {/* Coupon Info */}
+                <div className="voucher-info">
+                  <div className="voucher-logo">{item?.logo}</div>
+                  <p>{item.coupon.description}</p>
+                  <p>
+                    Discount: {item.coupon.discountPercent}% - Max Discount:{" "}
+                    {item.coupon.maxDiscountAmount.toLocaleString("vi")}đ
+                  </p>
+
+                  {/* Progress Bar */}
+                  <div className="voucher-progress-container">
+                  <span className="voucher-progress-text">
+                    Used: {Math.round((item.coupon.usedCount / item.coupon.useLimit) * 100)}%
+                  </span>
+                    <div className="voucher-progress-bar">
+                      <div
+                        className="voucher-progress-fill"
+                        title={`${(
+                          (item.coupon.usedCount / item.coupon.useLimit) *
+                          100
+                        ).toFixed(1)}%`}
+                        style={{
+                          width: item.coupon.useLimit
+                            ? `${
+                                (item.coupon.usedCount /
+                                  item.coupon.useLimit) *
+                                100
+                              }%`
+                            : "0%",
+                        }}
+                      ></div>
                     </div>
-                    <div className="pagination-container">
-                      <Pagination
-                        handlePageCurrent={handlePageCurrent}
-                        handlePageSize={handlePageSize}
-                        pageCurrent={pageCurrent}
-                        totalPage={totalPage}
-                      />
-                    </div>
-                    <h2 className="tm-block-title">
-                      {customTranslate("Coupon List")}
-                    </h2>
-                    <NavLink
-                      className="btn btn-primary "
-                      to="/claimCoupon"
-                      style={{ display: "flex", width: "150px" }}
-                    >
-                      {customTranslate("Claim Coupon")}
-                    </NavLink>
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">{customTranslate("No.")}</th>
-                          <th scope="col">{customTranslate("Code")}</th>
-                          <th scope="col">{customTranslate("Description")}</th>
-                          <th scope="col">
-                            {customTranslate("Discount Percent")}
-                          </th>
-                          <th scope="col">
-                            {customTranslate("Max Discount Amount")}
-                          </th>
-                          <th scope="col">{customTranslate("Start Date")}</th>
-                          <th scope="col">{customTranslate("End Date")}</th>
-                          <th scope="col">{customTranslate("Used Count")}</th>
-                          <th scope="col">{customTranslate("Use Limit")}</th>
-                          <th colSpan={2}> {customTranslate("Function")}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {coupons.map((item, index) => (
-                          <>
-                            <tr>
-                              <th key={index} scope="row">
-                                <b>#{item.coupon.couponId}</b>
-                              </th>
-                              <td>
-                                <b>{item.coupon.code}</b>
-                              </td>
-                              <td>
-                                <b>{item.coupon.description}</b>
-                              </td>
-                              <td>
-                                <b>{item.coupon.discountPercent * 100}%</b>
-                              </td>
-                              <td>
-                                {item.coupon.maxDiscountAmount?.toLocaleString(
-                                  "vi-VN"
-                                )}{" "}
-                                VNĐ
-                              </td>
-                              <td>{item.coupon.startDate}</td>
-                              <td>{item.coupon.endDate}</td>
-                              <td>{item.coupon.usedCount}</td>
-                              <td>{item.coupon.useLimit}</td>
-                              <td>
-                                <button
-                                  className="btn btn-primary"
-                                  onClick={() =>
-                                    removeCoupon(item.couponStorageId)
-                                  }
-                                >
-                                  <i class="fa-solid fa-trash fa-lg"></i>
-                                </button>
-                              </td>
-                            </tr>
-                          </>
-                        ))}
-                      </tbody>
-                    </table>
+                  
                   </div>
                 </div>
               </div>
+
+              {/* Right Side */}
+              <div className="voucher-right">
+                <p>Start Date: {item.coupon.startDate}</p>
+                <button onClick={() => handelCheckCoupon(item.coupon.code)} className="voucher-btn">Use</button>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
+    </div>
     </>
   );
 };

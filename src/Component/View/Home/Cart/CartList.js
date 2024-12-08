@@ -4,19 +4,21 @@ import { customTranslate } from "../../../../i18n";
 
 const CartList = ({
   handlePaymentPopup,
-  handleCouponPopup,
+  handleOpenCouponStorage,
   cartItem,
   totalQuantity,
   totalPrice,
   handleAddCartItem,
-  checkCoupon,
-  discountAmount,
-  handleDeliveryAddress,
+  handleOpenDelivery,
   shipFee,
   points,
   handleUsePoint,
   isUsePoint,
+  addressState, 
+  couponByCode, 
+  handleRemoveCoupon
 }) => {
+  console.log(addressState);
   return (
     <div>
       <section
@@ -142,12 +144,8 @@ const CartList = ({
                           {customTranslate("Shipping")}
                         </h5>
                         <div className="mb-4 pb-2">
-                          <select>
-                            <option value="1">Standard-Delivery- đ5.00</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                          </select>
-                          <button onClick={handleDeliveryAddress}>
+                         <textarea value={addressState.fullAddress} disabled rows={2} cols={35}></textarea>
+                          <button onClick={handleOpenDelivery}>
                             {" "}
                             {customTranslate("Choose Delivery Address")}
                           </button>
@@ -186,26 +184,27 @@ const CartList = ({
                                 className="form-control-lg"
                                 placeholder={customTranslate("Enter your code")}
                                 name="codeCoupon"
-                                value={checkCoupon?.data?.code}
+                                value={couponByCode?.code}
                               />{" "}
                               <br></br>
-                              <button
-                                className="btn btn-primary"
-                                style={{ marginRight: "15px" }}
-                              >
-                                {customTranslate("Apply")}
-                              </button>
+                              {couponByCode && (
+                                  <div className="coupon-container">
+                                    <div className="coupon-content">
+                                      <img src={couponByCode.imageUrl} className="coupon-avatar" alt="Coupon" />
+                                      <span className="coupon-discount">Discount: {couponByCode.discountPercent}%</span>
+                                    </div>
+                                    <button onClick={handleRemoveCoupon} className="btn btn-primary coupon-delete-btn">Delete</button>
+                                  </div>
+                                )}
                             </form>
                             <button
                               className="btn btn-primary"
-                              onClick={handleCouponPopup}
+                              onClick={handleOpenCouponStorage}
                             >
                               {customTranslate("Coupon Storage")}
                             </button>
                           </div>
-                          <div style={{ fontWeight: "bolder", color: "red" }}>
-                            {checkCoupon?.message}
-                          </div>
+                          
                         </div>
                         <hr className="my-4" />
                         <div className="d-flex justify-content-between mb-5">
@@ -257,7 +256,7 @@ const CartList = ({
                                 </span>
                               </div>
                             )}
-                            {checkCoupon === null ? (
+                            {addressState.couponId === null ? (
                               <>
                                 <div
                                   style={{
@@ -286,7 +285,7 @@ const CartList = ({
                                   <span>{customTranslate("Discount")} :</span>
                                   <span style={{ fontWeight: "bold" }}>
                                     {" "}
-                                    - {discountAmount.toLocaleString("vi-VN")} đ
+                                    - {addressState.discountAmount.toLocaleString("vi-VN")} đ
                                   </span>
                                 </div>
                                 <div
@@ -299,7 +298,7 @@ const CartList = ({
                                   <span style={{ fontWeight: "bold" }}>
                                     {(
                                       totalPrice -
-                                      discountAmount +
+                                      addressState.discountAmount +
                                       shipFee
                                     )?.toLocaleString("vi-VN")}{" "}
                                     đ

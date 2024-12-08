@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import CartList from './CartList';
 import PaymentPopup from './PaymentPopup';
 import './Payment.css';
@@ -8,6 +8,9 @@ import { useParams } from 'react-router-dom';
 import axiosConfig from '../../../Config/AxiosConfig';
 import { useForm } from 'react-hook-form';
 import DeliveryAddressPopup from './DeliveryAddressPopup';
+import CouponStoragePopup from './CouponStoragePopup';
+import axios from 'axios';
+import CustomAlert from '../../../Config/CustomAlert';
 const CartPage = () => {
     const {cartId} = useParams();
     const [isOpenPayment,setIsOpentPayment] = useState(false);
@@ -24,25 +27,45 @@ const CartPage = () => {
     const [finalToTalPrice,setFinalToTalPrice] = useState(0);
     const [discountAmount,setDiscountAmount] = useState(0);
     const [isOpenDelivery,setIsOpentDelivery] = useState(false);
-    const [provinceData,setProvinceData] = useState([]);
-    const [districtData,setDistrictData] = useState([]);
-    const [wardData,setWardData] = useState([]);
-    const [services,setServices] = useState([]);
-    const [serviceId,setServiceId] = useState([]);
-    const [districtChoose,setDistrictChoose] = useState([]);
-    const [shipFee,setShipFee] = useState(0);
-    const [wardChoose,setWardChoose] = useState([]);
-    const [leadTime,setLeadTime] = useState();
     const [user,setUser] = useState();
-    const [deliveryAddress,setDeliveryAdress] = useState("");
-    const [provinceChoose,setProvinceChoose] = useState([]);
     const [points,setPoints] = useState([]);
     const [isUsePoint,setIsUsePoint] = useState(false);
-    const [deliveryAddressByUserName,setDeliveryAdressByUserName] = useState();
 
     const baseReturnUrl = window.location.origin;
 
-  
+
+    const [deliveryByUserId,setDeliveryByUserId] = useState([]);
+
+    const [alert,setAlert] = useState(null);
+    const userName = localStorage.getItem('userNameLogin');
+    const codeInputRef = useRef();
+    const [couponByCode,setCouponByCode] = useState(null);
+    const [isOpentCouponStorage,setIsOpentCouponStorage] = useState(false);
+    const [couponStorageByUserId,setCouponStorageByUserId] = useState([]);
+    const [paginationCouponState, setPaginationCouponState] = useState({
+        pageCurrent : 0,
+        pageSize : 4,
+        sortOrder : 'asc',
+        sortBy : 'couponStorageId', 
+        totalPage : ''
+    })
+
+    const [addressState,setAddressState] = useState({
+        provinceData : [], 
+        districtData : [], 
+        wardData : [],  
+        shipServiceData : [],
+        provinceChoosed : [], 
+        districtChoosed : [], 
+        wardChoosed : [],
+        shipServiceChoosed : '',
+        houseNumber : '',
+        shipFee : '', 
+        leadTime : '',
+        fullAddress : '', 
+        couponId : '',
+        discountAmount : ''
+    })
 
     const fecthGetCartByCartId = async () => {
       try {
@@ -83,11 +106,145 @@ const CartPage = () => {
                 }
             )
             console.log(resDeliveryAddressByUserName.data.data);
-            setDeliveryAdressByUserName(resDeliveryAddressByUserName.data.data.content);
+            setDeliveryByUserId(resDeliveryAddressByUserName.data.data.content);
         } catch (error) {
             console.error('error in fetchDeliveryAddressByUserName',error);
         }
     }
+
+
+    const handleChangeAddressDataState = (name, value) => {
+        setAddressState((prev) => (
+            {
+                ...prev ,
+                [name] : value
+            }
+        )
+    )
+    }
+
+    const handleOpenDelivery = () => {
+        fetchProvinces();
+        setIsOpentDelivery(!isOpenDelivery);
+    }
+    const fetchProvinces = async () => {
+        try {
+            const resProvinces = await axiosConfig.post(`/ship/getProvince`);      
+            const parsedData = JSON.parse(resProvinces.data.data);
+            handleChangeAddressDataState('provinceData',parsedData.data);
+        } catch (error) {
+            console.error('error in fetch Provinces',error);
+        }
+    }
+
+    const hanldeDistrictByProvinceId = async (provinceId) => {
+        console.log(provinceId);
+        handleChangeAddressDataState('provinceChoosed',addressState.provinceData.find(item => item.ProvinceID === Number(provinceId)));
+        try {
+            const resDistricts = await axiosConfig.post(`/ship/getDistrict/${provinceId}`);
+            const parseDitricts = JSON.parse(resDistricts.data.data);
+            console.log(parseDitricts.data);
+            handleChangeAddressDataState('districtData',parseDitricts.data);
+        } catch (error) {
+            console.error('erorr in getDistrictByProvinceId',error);
+        }
+    }
+    const hanldeWardByDistrictId = async (districtId) => {
+        console.log(districtId);
+        console.log(addressState.districtData);
+        handleChangeAddressDataState('districtChoosed',addressState.districtData.find(item => item.DistrictID === Number(districtId)));
+        try {
+            const resWards =  await axiosConfig.post(`/ship/getWard/${districtId}`);
+            const parseWards = JSON.parse(resWards.data.data);
+            console.log(parseWards.data);
+            handleChangeAddressDataState('wardData',parseWards.data);
+            handleGetShipService(districtId);
+        } catch (error) {
+            console.error('error in getWardByDistrictId',error);
+        }
+    }
+
+    const handleGetShipService = async (districtId) => {
+        console.log(addressState.districtChoosed);
+        try {
+            const resShipService = await axiosConfig.post(`/ship/getShipService/${districtId}`);
+            const parseShipService = JSON.parse(resShipService.data.data);
+            handleChangeAddressDataState('shipServiceData',parseShipService.data);
+        } catch (error) {
+            console.error('error in handle Get Ship Service',error);
+        }
+    }
+
+    const handleGetFee = async(service_type_id) => {
+        console.log(addressState);
+        handleChangeAddressDataState('shipServiceChoosed',addressState.shipServiceData.find(item => item.service_type_id === Number(service_type_id)));
+        try {
+            const resFee =  await axiosConfig.post(`/ship/getFee/${addressState.districtChoosed.DistrictID}/${service_type_id}/${addressState.wardChoosed.WardCode}`);
+            console.log(resFee.data.data.leadTimeData);
+            const parseFee = JSON.parse(resFee.data.data.feeData);
+            console.log(parseFee.data);
+            handleChangeAddressDataState('leadTime',resFee.data.data.leadTimeData);
+            handleChangeAddressDataState('shipFee' , parseFee.data.service_fee);
+        } catch (error) {
+            console.error('error in handle Get Fee',error);
+        }
+    }
+
+    const handleGetDeliveryById = async (deliveryAddressId) => {
+        console.log(deliveryAddressId);
+        try {
+            const resDeliveryById = await axiosConfig.get(`/deliveryAddress/getById/${deliveryAddressId}`);
+            const deliveryData = resDeliveryById.data.data;
+            console.log(deliveryData);
+            if (deliveryData) {
+                const provinces = JSON.parse( (await axiosConfig.post(`/ship/getProvince`)).data.data).data;
+                console.log(provinces);
+                const provincesChoosed = provinces.find(item => item.ProvinceID === Number(deliveryData.provinceId));
+
+                const districts = JSON.parse( (await axiosConfig.post(`/ship/getDistrict/${deliveryData.provinceId}`)).data.data).data;
+                const districtChoosed = districts.find(item => item.DistrictID === Number(deliveryData.districtId))
+                console.log(districts);
+                
+                
+                const wards = JSON.parse((await axiosConfig.post(`/ship/getWard/${deliveryData.districtId}`)).data.data).data;
+                const wardChoosed = wards.find(item => item.WardCode === deliveryData.wardCode);
+                console.log(wards);
+
+                const shipServices = JSON.parse((await axiosConfig.post(`/ship/getShipService/${deliveryData.districtId}`)).data.data).data;
+                setAddressState((prev) => ({
+                    ...prev,
+                    provinceData : provinces,
+                    districtData : districts,
+                    wardData : wards,
+                    provinceChoosed : provincesChoosed,
+                    districtChoosed : districtChoosed,
+                    wardChoosed : wardChoosed,
+                    shipServiceData : shipServices,
+                    houseNumber: deliveryData.houseNumber,
+                    fullAddress: deliveryData.fullAddress,
+                    shipFee :'',
+                    leadTime : ''
+                }));
+            }
+        } catch (error) {
+            console.error('Error in handleGetDeliveryById:', error);
+        }
+    };
+    
+
+    const handleAddressData = async() => {
+        try {
+            const fullAddress = addressState.houseNumber + ' ' + addressState.wardChoosed.WardName + ' ' +
+               addressState.districtChoosed.DistrictName + ' - ' +addressState.provinceChoosed.ProvinceName;
+               console.log(fullAddress);
+               console.log(addressState.shipFee);
+               console.log(addressState.leadTime);
+               handleOpenDelivery();
+        } catch (error) {
+            console.error('error in handle address Data',error);
+        }
+    }
+
 
     const handleAddCartItem = async (delta, foodVaId) => {
         try {
@@ -109,18 +266,18 @@ const CartPage = () => {
         try {
             let resPaymentUrl;
             console.log(totalPrice);
-            console.log(leadTime);
+            console.log(addressState.leadTime);
             console.log(deliveryAddress);
-            console.log(shipFee);
+            console.log(addressState.shipFee);
             if(paymethod === "vnpay"){
                  resPaymentUrl= await axiosConfig.post(`/payment/byVnpay/${totalPrice}/${cartId}`,null,
                     {
                         params : 
                         { 
                             baseReturnUrl : baseReturnUrl,
-                            couponId : couponId,
-                            leadTime :leadTime,
-                            shipFee : shipFee,
+                            couponId : addressState.couponId,
+                            leadTime :addressState.leadTime,
+                            shipFee : addressState.shipFee,
                             deliveryAddress : deliveryAddress
                         }
                     }
@@ -132,9 +289,9 @@ const CartPage = () => {
                         params : 
                         {
                             baseReturnUrl : baseReturnUrl,
-                            couponId : couponId,
-                            leadTime :leadTime,
-                            shipFee : shipFee,
+                            couponId : addressState.couponId,
+                            leadTime :addressState.leadTime,
+                            shipFee : addressState.shipFee,
                             deliveryAddress : deliveryAddress
                         }
                     }
@@ -153,9 +310,9 @@ const CartPage = () => {
                     params : 
                     {
                         baseReturnUrl : baseReturnUrl ,
-                        couponId : couponId,
-                        leadTime :leadTime,
-                        shipFee : shipFee,
+                        couponId : addressState.couponId,
+                        leadTime :addressState.leadTime,
+                        shipFee : addressState.shipFee,
                         deliveryAddress : deliveryAddress         
                     }
                 }
@@ -170,9 +327,9 @@ const CartPage = () => {
                     params : 
                     {
                         baseReturnUrl : baseReturnUrl ,
-                        couponId : couponId,
-                        leadTime :leadTime,
-                        shipFee : shipFee,
+                        couponId : addressState.couponId,
+                        leadTime :addressState.leadTime,
+                        shipFee : addressState.shipFee,
                         deliveryAddress : deliveryAddress
                     }
                 }
@@ -194,177 +351,115 @@ const CartPage = () => {
     const handlePaymentPopup = async () => {
         setIsOpentPayment(!isOpenPayment);
     }
-    const handleCouponPopup = async () => {
-        setIsOpentCoupon(!isOpenCoupon);
-        const username = 'huongpham';
-        try {
-            const resCouponsByUserName = await axiosConfig.get(`/couponStorage/${username}/yourCoupon`);
-            console.log(resCouponsByUserName.data);
-            setCoupons(resCouponsByUserName.data.data);
-        } catch (error) {
-            console.error('error in fetch handleCouponPopup', error);
-        }
-    }
 
-    const handleUseCoupon = async (code) => {
+    
+    const handelCheckCoupon = async (code) => {
         console.log(code);
         try {
-            const resCheckCouponByCode = await axiosConfig.get(`/coupon/checkCoupon/${code}`);
-            console.log(resCheckCouponByCode.data.data.data.couponId);
-            setIsOpentCoupon(!isOpenCoupon);
-            setCheckCoupon(resCheckCouponByCode.data.data);
-            setCouponId(resCheckCouponByCode.data.data.data.couponId);
-            let discountAmount = resCheckCouponByCode?.data.data.data.discountPercent * totalPrice;
-            if(discountAmount > resCheckCouponByCode?.data.data.data.maxDiscountAmount){
-                discountAmount = resCheckCouponByCode?.data.data.data.maxDiscountAmount;
+            const resCheckCoupon = await axiosConfig.get(`/coupon/checkCoupon/${code}`);
+            console.log(resCheckCoupon.data.data.data);
+            if(resCheckCoupon.data.data.accept){
+                setAlert({type : 'success',message : 'Use Coupon Success !'});
+                codeInputRef.current= code;
+                console.log(resCheckCoupon.data.data.data);
+                setCouponByCode(resCheckCoupon.data.data.data);
+                handleChangeAddressDataState('couponId',resCheckCoupon.data.data.data.couponId);
+               // fetchCartByUserId();
+               let discountAmount = resCheckCoupon?.data.data.data.discountPercent * totalPrice;
+               console.log(discountAmount);
+               if(discountAmount > resCheckCoupon?.data.data.data.maxDiscountAmount){
+                   discountAmount = resCheckCoupon?.data.data.data.maxDiscountAmount;
+               }
+               handleChangeAddressDataState('discountAmount',discountAmount);
+                handleOpenCouponStorage();
+            }else {
+                setAlert({type : 'error', message: `${resCheckCoupon.data.data.message}` })
             }
-            setDiscountAmount(discountAmount);
-            setFinalToTalPrice(totalPrice - discountAmount);
-            console.log(totalPrice - discountAmount);
         } catch (error) {
-            console.error('error in handleUseCoupon',error);
+            console.error('error in handleCheck Coupon',error);
         }
     }
 
-    // Mở form chọn địa chỉ, lấy sẵn list provinceData 
-    const handleDeliveryAddress = async () => {
-        setIsOpentDelivery(!isOpenDelivery);
+    const fetchGetCouponStorageByUserName = async () => {
         try {
-            const resProvince = await axiosConfig.post(`/ship/getProvince`);
-            // In ra toàn bộ phản hồi
-            console.log("Dữ liệu nhận được từ server:", resProvince.data);
-            // Phân tích cú pháp chuỗi JSON trong thuộc tính data
-            const parsedData = JSON.parse(resProvince.data.data);
-            // Kiểm tra và lấy mảng data
-            if (parsedData && parsedData.data && Array.isArray(parsedData.data)) {
-                // Lưu dữ liệu vào một mảng
-                const provinces = parsedData.data.map(province => ({
-                    provinceId: province.ProvinceID,
-                    provinceName: province.ProvinceName
-                }));
-                // provinces.forEach(province => {
-                //     console.log(`Province ID: ${province.id}, Province Name: ${province.name}`);
-                // });
-                setProvinceData(provinces); // Lưu mảng provinces vào state
-            } else {
-                console.error('Dữ liệu không phải là mảng hoặc không đúng định dạng:', parsedData);
-            }
+            const resCouponsByUserName = await axiosConfig.get(`/couponStorage/${userName}/yourCoupon`);
+            setCouponStorageByUserId(resCouponsByUserName.data.data);
         } catch (error) {
-            console.error('Có lỗi xảy ra trong handleDeliveryAddress:', error.message);
-        }
-    };
-
-    const handleChooseDistrictByProvinceId= async(provinceId) => {
-        const provinceSelectd = provinceData.find(item => item.provinceId === Number(provinceId));
-        setProvinceChoose(provinceSelectd);
-        try {
-            const resDistrictByProvince= await axiosConfig.post(`/ship/getDistrict/${provinceId}`);
-            const districtsData = JSON.parse(resDistrictByProvince.data.data);
-            if (districtsData && districtsData.data && Array.isArray(districtsData.data)) {
-                // Lưu dữ liệu vào một mảng
-                const districts = districtsData.data.map(district => ({
-                    districtId: district.DistrictID,
-                    districtName: district.DistrictName
-                }));
-            setDistrictData(districts);
-            }
-        } catch (error) {
-            console.error('error in handle Choose District By ProvinceId',error);            
+            console.error('error in fetchGetCouponStorageByUserId',error);
         }
     }
 
-    const handleChooseWardByDistrictId = async(districtId) => {
-        try {
-            const selectedDistrict = districtData.find(item => item.districtId === Number(districtId));
-            setDistrictChoose(selectedDistrict);
-            const resWardByDistrictId = await axiosConfig.post(`/ship/getWard/${districtId}`);
-            const wardData = JSON.parse(resWardByDistrictId.data.data);
-            if(wardData && Array.isArray(wardData.data)){
-                const wards = wardData.data.map(ward => ({
-                    wardId : ward.WardCode,
-                    wardName : ward.WardName
-                }))
-                setWardData(wards);
-                if(wards !== null ){
-                    handleShipService(districtId);
-                }
-            }
-        } catch (error) {
-            console.error('error in handle Choose Province',error);            
-        }
+    const handleOpenCouponStorage = () => {
+        fetchGetCouponStorageByUserName()  ;
+        setIsOpentCouponStorage(!isOpentCouponStorage);
     }
+
+    const handleRemoveCoupon = () => {
+        setCouponByCode(null);
+        handleChangeAddressDataState('discountAmount',0);
+        fecthGetCartByCartId();
+    }
+    // const handleCouponPopup = async () => {
+    //     setIsOpentCoupon(!isOpenCoupon);
+    //     const username = 'huongpham';
+    //     try {
+    //         const resCouponsByUserName = await axiosConfig.get(`/couponStorage/${username}/yourCoupon`);
+    //         console.log(resCouponsByUserName.data);
+    //         setCoupons(resCouponsByUserName.data.data);
+    //     } catch (error) {
+    //         console.error('error in fetch handleCouponPopup', error);
+    //     }
+    // }
+
+    // const handleAddCouponToCart = async () => {
+    //     try {
+    //         const resCart = await addCouponToCart(userId,codeInputRef.current);
+    //         console.log(resCart.data);
+    //         if(resCart.data.data){
+    //             setAlert({type : 'success', message : 'Add Coupon To Cart Success !'})
+    //             fetchCartByUserId();
+    //         }
+    //     } catch (error) {
+    //         console.error('error in handle Add Coupon To Cart',error);
+    //     }
+    // }
+
+    // const handleRemoveCoupon = async() => {
+    //     try {
+    //         const resCart = await removeCouponToCart(userId,couponByCode.code);
+    //         if(resCart.data.data ){
+    //             setAlert({type : 'success', message : 'Remove Coupon To Cart Success !'})
+    //             setCouponByCode(null);
+    //             fetchCartByUserId();
+    //         }
+    //         console.log(resCart.data);
+    //     } catch (error) {
+    //         console.error('error in remove Coupon To Cart',error);
+    //     }
+    // }
+
     
-    // Lấy về list dịch vụ có thể chọn dựa trên districtId
-    const handleShipService = async (districtId) => {
-        try {
-            const resShipService = await axiosConfig.post(`/ship/getShipService/${districtId}`);
-            const shipServiceData = JSON.parse(resShipService.data.data);
-            if(shipServiceData && Array.isArray(shipServiceData.data)){
-                const services = shipServiceData.data.map(service => ({
-                    serviceId : service.service_type_id,
-                    serviceName : service.short_name,
-                    extraFeeId : service.ecom_extra_cost_id
-                }))
-                setServices(services);
-            }
-        } catch (error) {
-            console.error('error n handleShip Service',error);
-        }
-    }
+    // const handleUseCoupon = async (code) => {
+    //     console.log(code);
+    //     try {
+    //         const resCheckCouponByCode = await axiosConfig.get(`/coupon/checkCoupon/${code}`);
+    //         console.log(resCheckCouponByCode.data.data.data.couponId);
+    //         setIsOpentCoupon(!isOpenCoupon);
+    //         setCheckCoupon(resCheckCouponByCode.data.data);
+    //         setCouponId(resCheckCouponByCode.data.data.data.couponId);
+            // let discountAmount = resCheckCouponByCode?.data.data.data.discountPercent * totalPrice;
+            // if(discountAmount > resCheckCouponByCode?.data.data.data.maxDiscountAmount){
+            //     discountAmount = resCheckCouponByCode?.data.data.data.maxDiscountAmount;
+            // }
+    //         setDiscountAmount(discountAmount);
+    //         setFinalToTalPrice(totalPrice - discountAmount);
+    //         console.log(totalPrice - discountAmount);
+    //     } catch (error) {
+    //         console.error('error in handleUseCoupon',error);
+    //     }
+    // }
 
-
-    // const [deliveryAddressState ,setDeliveryAddressState] = useState({
-    //     provinceId : '',
-    //     districtId : '',
-    //     wardCode : '',
-    //     houseNumber : '',
-    // })
-    const hanldeAddressByDeliveryAddressId = async (mydeliveryAddressId) => {
-        try {
-            const resMyDeliveryAddressById = await axiosConfig.get(`/deliveryAddress/getById/${mydeliveryAddressId}`);
-            const mydeliveryAddressData = resMyDeliveryAddressById.data.data;
-    
-            if (mydeliveryAddressData) {
-                await handleChooseDistrictByProvinceId(mydeliveryAddressData.provinceId);
-                await handleChooseWardByDistrictId(mydeliveryAddressData.districtId);
-    
-                reset({
-                    provinceId: mydeliveryAddressData.provinceId,
-                    districtId: mydeliveryAddressData.districtId,
-                    wardCode: mydeliveryAddressData.wardCode,
-                    houseNumber: mydeliveryAddressData.houseNumber,
-                });
-            }
-        } catch (error) {
-            console.error('Error in hanldeAddressByDeliveryAddressId', error);
-        }
-    };
-    
-
-    const handleChooseWardId = async (wardId) => {
-        const wardChoosed = wardData.find(item => item.wardId === wardId);
-        console.log(wardChoosed);
-        setWardChoose(wardChoosed);
-    }
-    const handleChooseShipService = async (serviceId) => {
-        setServiceId(serviceId);
-    }
-    const handleCalculateFee = async() => {
-        try {
-            console.log('District ID:', districtChoose.districtId);
-            console.log('Ward ID:', wardChoose.wardId);
-            const resFee = await axiosConfig.post(`/ship/getFee/${districtChoose.districtId}/${serviceId}/${wardChoose.wardId}`);
-            console.log(resFee.data.data.leadTimeData);
-            setLeadTime(resFee.data.data.leadTimeData);
-            const feeData = JSON.parse(resFee.data.data.feeData);
-            alert('Choose Ship Service Success');
-            setShipFee(feeData.data.total);
-            console.log(deliveryAddress + districtChoose.districtName + wardChoose.wardName);
-            setDeliveryAdress(deliveryAddress + ' '+ wardChoose.wardName + ' ' +  districtChoose.districtName + ' - ' + provinceChoose.provinceName);
-        } catch (error) {
-            console.error('error in handleCalculateFee', error);
-        }
-    };
+  
     const handleUsePoint = (point) => {
         const pointValue = Number(point); // Chuyển đổi điểm thành số
         setIsUsePoint((prevIsUsePoint) => {
@@ -380,7 +475,6 @@ const CartPage = () => {
                     return prevTotalPrice + pointValue;
                 }
             });
-    
             return isUse;
         });
     };
@@ -388,61 +482,65 @@ const CartPage = () => {
     useEffect (() => {
         fecthGetCartByCartId();
         fetchDeliveryAddressByUserName();
-        console.log(deliveryAddress);
-    },[cartId,cart,deliveryAddress]);
+        console.log(addressState);
+    },[cartId,cart,...Object.values(addressState)]);
     
     return (
         <div>
+
+           {
+            alert && (
+                <CustomAlert
+                    type={alert.type}
+                    message={alert.message}
+                    onClose={() => setAlert(null)}
+                />
+            )
+           }
             <CartList
             handlePaymentPopup ={handlePaymentPopup}
-            handleCouponPopup = {handleCouponPopup}
+            handleOpenCouponStorage = {handleOpenCouponStorage}
             cartItem = {cartItem}
             totalQuantity = {totalQuantity}
             totalPrice = {totalPrice}
             handleAddCartItem = {handleAddCartItem}
-            checkCoupon = {checkCoupon}
-            handleUseCoupon = {handleUseCoupon}
-            discountAmount = {discountAmount}
-            handleDeliveryAddress = {handleDeliveryAddress}
-            shipFee = {shipFee}
+            handleOpenDelivery = {handleOpenDelivery}
+            shipFee = {addressState.shipFee}
             points = {points}
             handleUsePoint = {handleUsePoint}
             isUsePoint = {isUsePoint}
+            addressState = {addressState}
+            couponByCode = {couponByCode}
+            handleRemoveCoupon = {handleRemoveCoupon}
              />
 
             <PaymentPopup
             isOpenPayment={isOpenPayment}
             handlePaymentPopup={handlePaymentPopup}
-            totalPrice = {finalToTalPrice > 0 ? finalToTalPrice+shipFee : totalPrice+shipFee }
+            totalPrice = {finalToTalPrice > 0 ? finalToTalPrice+addressState.shipFee : totalPrice+addressState.shipFee }
             hanldePayment={hanldePayment}
             user = {user}
-            deliveryAddress ={deliveryAddress !== "" ? deliveryAddress : user?.address}
+            deliveryAddress ={addressState.fullAddress !== "" ? addressState.fullAddress : user?.address}
              />
-             <CouponPopup
-             isOpenCoupon = {isOpenCoupon}
-             handleCouponPopUp={handleCouponPopup}
-             coupons = {coupons}
-             handleUseCoupon = {handleUseCoupon}
-              />
-              <DeliveryAddressPopup 
-              isOpenDelivery={isOpenDelivery}
-              handleDeliveryAddress = {handleDeliveryAddress}
-              provinceData = {provinceData}
-              handleChooseDistrictByProvinceId = {handleChooseDistrictByProvinceId}
-              districtData = {districtData}
-              handleChooseWardByDistrictId = {handleChooseWardByDistrictId}
-              wardData = {wardData}
-              services = {services}
-              handleChooseShipService = {handleChooseShipService}
-              handleCalculateFee = {handleCalculateFee}
-              fee = {shipFee}
-              handleChooseWardId = {handleChooseWardId}
-              setDeliveryAdress = {setDeliveryAdress}
-              deliveryAddressByUserName = {deliveryAddressByUserName}
-              hanldeAddressByDeliveryAddressId = {hanldeAddressByDeliveryAddressId}
-              watch = {watch}
-              register = {register}
-              />
+              <CouponStoragePopup 
+                isOpenCouponStorage={isOpentCouponStorage}
+                handleOpenCouponStorage = {handleOpenCouponStorage}
+                couponStorageByUserId = {couponStorageByUserId}
+                handelCheckCoupon = {handelCheckCoupon}
+                codeInputRef = {codeInputRef}
+            />
+              <DeliveryAddressPopup
+                isOpenDelivery={isOpenDelivery}
+                handleOpenDelivery={handleOpenDelivery}
+                deliveryByUserId= {deliveryByUserId}
+                addressState = {addressState}
+                handleChangeAddressDataState = {handleChangeAddressDataState}
+                hanldeDistrictByProvinceId= {hanldeDistrictByProvinceId}
+                hanldeWardByDistrictId = {hanldeWardByDistrictId}
+                handleGetFee = {handleGetFee}
+                handleAddressData ={handleAddressData}
+                handleGetDeliveryById= {handleGetDeliveryById}
+             />
         </div>
     );
 };

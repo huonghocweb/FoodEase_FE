@@ -66,7 +66,7 @@ const MyDeliveryAddressPage = () => {
         if (resCreateDeliveryAddress.data.data !== null) {
           setAlert({
             type: "success",
-            message: "Create Delivery Address Success !",
+            message: "Update Delivery Address Success !",
           });
         } else {
           setAlert({
