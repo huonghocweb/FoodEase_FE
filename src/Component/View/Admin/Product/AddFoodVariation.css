@@ -44,7 +44,7 @@
 }
 
 input[type="number"] {
-  width: 80px; /* Chiều rộng của input số */
+  /* width: 80px;  */
   margin-right: 10px; /* Khoảng cách giữa input và select */
   padding: 5px; /* Khoảng cách bên trong */
   border: 1px solid #ccc; /* Đường viền cho input */

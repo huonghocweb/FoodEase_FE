@@ -74,6 +74,7 @@ const AddFoodVariation = ({ onClose, item }) => {
             // Optionally, you might want to refresh the food variations after adding
             setAlert({ type: 'success', message: 'Added Success!' });
             fetchFoodVariation();
+            reset();
 
         } catch (error) {
             setAlert({ type: 'error', message: 'Added Failed,Size already exists!' });
@@ -112,12 +113,17 @@ const AddFoodVariation = ({ onClose, item }) => {
         }
     }
     const edit =async (item)=>{
-        console.log(item);
+        
         setValue('quantityStock',item.quantityStock)
         setValue('FoodSizeId',item.foodSize.foodSizeId)
         setValue('foodId',item.foodId)
         setfoodVariationId(item.foodVariationId)
         setEdit(true);
+    }
+    const reset = async ()=>{
+        setValue('quantityStock',0)
+        setValue('FoodSizeId',1)
+        
     }
     const deleteFoodVariation = async (id)=>{
         try {

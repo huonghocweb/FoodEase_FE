@@ -4,6 +4,7 @@ import axiosConfig from '../../../Config/AxiosConfig';
 import axios from 'axios';
 import './FoodList.css'
 import Modal from './AddFoodVariation';
+import CustomAlert from '../../../Config/CustomAlert';
 const FoodList = () => {
 
 const [categories,setCategories]=useState([]);
@@ -12,9 +13,10 @@ const [page,setPage]= useState(0);
 const navigate = useNavigate();
 const [TotalPage,setTotalPage] = useState();
 const [inputCategory,setInputCategory]=useState();
-   
+const [alert, setAlert] = useState(null); 
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [selectedItem, setSelectedItem] = useState(null);
+
 const handleRowClick = (item) => {
   setSelectedItem(item);
   setIsModalOpen(true);
@@ -63,8 +65,10 @@ const Next = () => {
     try {
       await axiosConfig.post(`/categories/addFoodCategory?categoryName=${inputCategory}`)
       setInputCategory('')
+      setAlert({ type: 'success', message: 'Delete Success!' });
     } catch (error) {
-      console.log('thất bại',error)
+      
+      setAlert({ type: 'error', message: 'Delete error!' });
     }
     
   }
@@ -76,8 +80,10 @@ useEffect(()=>{
 const deleteFood= async (foodId)=>{
   try {
     await axiosConfig.delete(`user/food/deleteFood/${foodId}`)
+    setAlert({ type: 'success', message: 'Delete Success!' });
   } catch (error) {
     console.error("Error deleting food:", error);
+    setAlert({ type: 'error', message: 'Delete error!' });
   }
  
 }
@@ -88,11 +94,9 @@ const deleteFood= async (foodId)=>{
   const deleteCategory = async(index)=>{
     try {
       await axiosConfig.delete(`categories/${index}`)
-      console.log("delete category")
-      console.log(index)
+      setAlert({ type: 'success', message: 'Delete Success!' });
     } catch (error) {
-      console.log(error)
-      console.log(index)
+      setAlert({ type: 'error', message: 'Delete error!' });
     }
   }
 if(categories == null)
@@ -101,6 +105,13 @@ if(categories == null)
 }
     return (
         <div className="body">
+          {alert && (
+                <CustomAlert 
+                    type={alert.type} 
+                    message={alert.message} 
+                    onClose={() => setAlert(null)} 
+                />
+            )}
              <div className="container mt-5">
       <div className="row tm-content-row">
         <div className="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block1-col">
