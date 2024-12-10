@@ -191,7 +191,7 @@ const CartList = ({
                                   <div className="coupon-container">
                                     <div className="coupon-content">
                                       <img src={couponByCode.imageUrl} className="coupon-avatar" alt="Coupon" />
-                                      <span className="coupon-discount">Discount: {couponByCode.discountPercent}%</span>
+                                      <span className="coupon-discount">Discount: {(couponByCode.discountPercent * 100)}%</span>
                                     </div>
                                     <button onClick={handleRemoveCoupon} className="btn btn-primary coupon-delete-btn">Delete</button>
                                   </div>

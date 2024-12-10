@@ -44,7 +44,7 @@ const CouponStorage = ({ couponStorageByUserId , handleAddCouponToStorage , code
                   <div className="voucher-logo">{item?.logo}</div>
                   <p>{item.coupon.description}</p>
                   <p>
-                    Discount: {item.coupon.discountPercent}% - Max Discount:{" "}
+                    Discount: {(item.coupon.discountPercent * 100)}% - Max Discount:{" "}
                     {item.coupon.maxDiscountAmount.toLocaleString("vi")}đ
                   </p>
 

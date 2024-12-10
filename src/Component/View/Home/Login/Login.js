@@ -25,6 +25,15 @@ const Login = () => {
         window.location.href = 'http://localhost:8080/oauth2/authorization/facebook';
     };
 
+    
+    const handleGitLogin = () => {
+        window.location.href = 'http://localhost:8080/oauth2/authorization/github';
+    };
+
+    const handleLinkedInLogin = () => {
+        window.location.href = 'http://localhost:8080/oauth2/authorization/linkedin';
+    };
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setCredentials({
@@ -161,10 +170,23 @@ const Login = () => {
                                     {customTranslate("Remember me")}
                                 </label>
                             </div>
-                            <div className="text-center">
-                                <button type="submit" className="btn login-btn-color px-5 mb-5 w-100">
-                                    {customTranslate("Login")}
-                                </button>
+                            <div class="auth-buttons">
+                                <div class="auth-row">
+                                    <button class="auth-btn google-btn" onClick={() => handleGoogleLogin()}>
+                                        <span><i class="fa-brands fa-google"></i></span> GOOGLE
+                                    </button>
+                                    <button class="auth-btn facebook-btn" onClick={() => handleFacebookLogin()}>
+                                        <span><i class="fa-brands fa-facebook"></i></span> FACEBOOK
+                                    </button>
+                                </div>
+                                <div class="auth-row">
+                                    <button class="auth-btn github-btn" onClick={() => handleGitLogin()}>
+                                        <span><i class="fa-brands fa-github"></i></span> GITHUB
+                                    </button>
+                                    <button class="auth-btn linkedin-btn" onClick={() => handleLinkedInLogin()}>
+                                        <span><i class="fa-brands fa-linkedin"></i></span> LINKEDIN
+                                    </button>
+                                </div>
                             </div>
                             <div>
                                 <button onClick={() => handleGoogleLogin()}>GOOGLE</button>
