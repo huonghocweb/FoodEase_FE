@@ -25,23 +25,6 @@ const Login = () => {
         window.location.href = 'http://localhost:8080/oauth2/authorization/facebook';
     };
 
-    const handleGitLogin = () => {
-        window.location.href = 'http://localhost:8080/oauth2/authorization/github';
-    };
-
-    const handleLinkedInLogin = () => {
-        window.location.href = 'http://localhost:8080/oauth2/authorization/linkedin';
-    };
-    
-    const handleZaloLogin = () => {
-        const appId = '1322739976589349065';
-        const redirectUri = 'https://c204-2001-ee0-4fc1-e2f0-a186-cc5b-500b-3d10.ngrok-free.app/login/oauth2/code/zalo';
-        const state = Math.random().toString(36).substring(7); // Tạo state ngẫu nhiên
-        const url = `https://oauth.zaloapp.com/v3/auth?app_id=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}`;
-        window.location.href = url;
-    };
-    
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setCredentials({
@@ -63,24 +46,32 @@ const Login = () => {
             const { username, password, remember } = credentials;
             const resToken = await axios.post('http://localhost:8080/api/authenticate', { username, password });
 
-            if (resToken.data.data) {
+            if (resToken) {
                 const { jwtToken, userId, roles } = resToken.data.data;
-                const storage = remember ? localStorage : sessionStorage;
-                console.log(roles);
-                storage.setItem('jwtToken', jwtToken);
-                storage.setItem('userIdLogin', userId);
-                storage.setItem('userNameLogin', username);
-                storage.setItem('rolesLogin', JSON.stringify(roles));
-                console.log(storage.getItem('jwtToken'));
-                setAlert({ type: 'success', message: 'Welcome ' + username + ' !' });
+
+                // Lưu thông tin đăng nhập dựa vào lựa chọn "Remember Me"
+                if (remember) {
+                    // Lưu vào localStorage
+                    localStorage.setItem('jwtToken', jwtToken);
+                    localStorage.setItem('userIdLogin', userId);
+                    localStorage.setItem('userNameLogin', username);
+                    localStorage.setItem('rolesLogin', JSON.stringify(roles));
+                } else {
+                    // Lưu vào sessionStorage
+                    localStorage.setItem('jwtToken', jwtToken);
+                    localStorage.setItem('userIdLogin', userId);
+                    localStorage.setItem('userNameLogin', username);
+                    localStorage.setItem('rolesLogin', JSON.stringify(roles));
+                }
+
+                setAlert({ type: 'success', message: 'Login Success!' });
                 setTimeout(() => {
                     navigate("/");
                     window.location.reload();
                 }, 3000);
-            }else{
-                setAlert({ type: 'error', message: 'Login Failed!' });
             }
         } catch (error) {
+            setAlert({ type: 'error', message: 'Login Failed!' });
             console.error('Error in login', error);
         }
     };
@@ -175,26 +166,9 @@ const Login = () => {
                                     {customTranslate("Login")}
                                 </button>
                             </div>
-                            <div class="auth-buttons">
-                                <div class="auth-row">
-                                    <button class="auth-btn google-btn" onClick={() => handleGoogleLogin()}>
-                                        <span><i class="fa-brands fa-google"></i></span> GOOGLE
-                                    </button>
-                                    <button class="auth-btn facebook-btn" onClick={() => handleFacebookLogin()}>
-                                        <span><i class="fa-brands fa-facebook"></i></span> FACEBOOK
-                                    </button>
-                                </div>
-                                <div class="auth-row">
-                                    <button class="auth-btn github-btn" onClick={() => handleGitLogin()}>
-                                        <span><i class="fa-brands fa-github"></i></span> GITHUB
-                                    </button>
-                                    <button class="auth-btn linkedin-btn" onClick={() => handleLinkedInLogin()}>
-                                        <span><i class="fa-brands fa-linkedin"></i></span> LINKEDIN
-                                    </button>
-                                </div>
+                            <div>
+                                <button onClick={() => handleGoogleLogin()}>GOOGLE</button>
                             </div>
-
-
                             <div className="form-text text-center mb-5 text-dark">
                                 {customTranslate("Forgot your password?")}
                                 <a

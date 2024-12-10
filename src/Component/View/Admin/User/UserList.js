@@ -165,26 +165,7 @@ const UserList = () => {
       <div className="user-list-container">
         <h2 className="user-list-title">{customTranslate("Account List")}</h2>
 
-        {/* Import/Export Section */}
-        <div className="import-export-container">
-          <h2>{customTranslate("Import/Export Users")}</h2>
-          <div>
-            <input
-              type="file"
-              accept=".xlsx, .xls"
-              onChange={handleFileChange}
-            />
-            <div className="import-export-buttons">
-              <button className="btn-import-export" onClick={handleImport}>
-                {customTranslate("Import Users")}
-              </button>
-              <button className="btn-import-export" onClick={exportExcel}>
-                {customTranslate("Export Users")}
-              </button>
-            </div>
-          </div>
-        </div>
-        {/* Button to create a new user */}
+       
         <NavLink className="user-btn-create" to="/admin/user/create">
           {customTranslate("New User")}
         </NavLink>
@@ -201,7 +182,7 @@ const UserList = () => {
             <button className="user-btn-import" onClick={handleImport}>
               {customTranslate("Import Users")}
             </button>
-            <button className="user-btn-export" onClick={handleExport}>
+            <button className="user-btn-export" onClick={exportExcel}>
               {customTranslate("Export Users")}
             </button>
           </div>

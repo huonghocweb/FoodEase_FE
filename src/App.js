@@ -58,11 +58,12 @@ import ThanksReser from './Component/View/Home/Thank/ThanksReser.js';
 function App() {
 
   useEffect(() => {
-    // Load Dialogflow Messenger script
-    const script = document.createElement('script');
-    script.src = 'https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1';
-    script.async = true;
-    document.body.appendChild(script);
+    if (!document.querySelector('script[src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"]')) {
+      const script = document.createElement('script');
+      script.src = 'https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1';
+      script.async = true;
+      document.body.appendChild(script);
+    }
   }, []);
 
   return (

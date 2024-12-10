@@ -184,10 +184,8 @@ const FoodMenu = () => {
                   {customTranslate(`${item.food.description}`)}
                 </h5>
                 <div className="menu-footer">
-                  <p>
-                    {customTranslate("Sold")}:{item.quantityStock}
-                  </p>
-                  <p>{customTranslate("Rating")}: 5⭐</p>
+                  <p>Stock:{item.quantityStock}</p>
+                  
                 </div>
               </div>
               <div className="row d-flex justify-content-center ">

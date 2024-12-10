@@ -187,6 +187,8 @@ const FoodMenu = () => {
                     {customTranslate("Sold")}:{item.quantityStock}
                   </p>
                   <p>{customTranslate("Rating")}: 5⭐</p>
+                  <p>Stock:{item.quantityStock}</p>
+                  
                 </div>
               </div>
               <div className="row d-flex justify-content-center ">
