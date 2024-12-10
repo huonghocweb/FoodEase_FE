@@ -149,10 +149,10 @@ const ReservationOccupiedPage = () => {
           userName : userName
         }
       })
-      // console.log(resCheckOutReservationOrder.data.data);
-      //  if(paymentMethodId !== 5 && resCheckOutReservationOrder.data.data !== null){
-      //   window.location.href = resCheckOutReservationOrder.data.data;
-      //  }
+      console.log(resCheckOutReservationOrder.data.data);
+       if(paymentMethodId !== 5 && resCheckOutReservationOrder.data.data !== null){
+        window.location.href = resCheckOutReservationOrder.data.data;
+       }
       if(resCheckOutReservationOrder.data.data !== null){
         setAlert({type : 'success' , message : 'Checkout Success'});
         navigate('/admin/reservation');

@@ -1,4 +1,4 @@
-import { isAfter, parse } from "date-fns";
+import { isAfter, isBefore, isEqual, parse } from "date-fns";
 import React, { useEffect, useState } from "react";
 import axiosConfig from "../../../Config/AxiosConfig";
 import CustomAlert from "../../../Config/CustomAlert";
@@ -113,7 +113,7 @@ const BookTablePage = () => {
           },
         }
       );
-      // console.log(resTableReserved.data.data);
+      console.log(resTableReserved.data.data);
       setReservted(resTableReserved.data.data);
     } catch (error) {
       console.error("error in CheckTimePopup", error);
@@ -136,13 +136,14 @@ const BookTablePage = () => {
     const endDate = parse(formStateCheckTime.checkoutTime, "HH:mm", new Date());
     const date = parse(formStateCheckTime.date, "yyyy-MM-dd", new Date());
     const datenow = new Date();
+    datenow.setHours(0, 0, 0, 0); // Đặt giờ của datenow về 00:00:00 để so sánh chỉ ngày
     console.log(datenow);
-    // console.log(startDate);
-    // console.log(endDate);
-    if (!isAfter(date, datenow)) {
-      handleErrorCheckTime("date", "Date is need after to day");
+    
+    if (!isAfter(date, datenow) && !isEqual(date, datenow)) {
+      handleErrorCheckTime("date", "Date must be today or a future date");
       return;
     }
+    
     if (isAfter(startDate, endDate)) {
       console.log("Check out Time is need Afted checkin Time");
       handleErrorCheckTime(
@@ -174,12 +175,12 @@ const BookTablePage = () => {
 
       console.log(resCheckResTableVai.data.data);
       if (resCheckResTableVai.data.data !== null) {
-        openCheckTimePopup();
-        resetFormStateCheckTime();
         setAlert({
           type: "success",
           message: "Book Table successfully, check email",
         });
+        openCheckTimePopup();
+        resetFormStateCheckTime();
       } else {
         setAlert({ type: "error", message: "Book Table failed!" });
       }

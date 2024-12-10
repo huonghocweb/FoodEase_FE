@@ -54,6 +54,7 @@ import FoodBuyMost from './Component/View/Admin/FoodBuyMost/foodBuyMost.js';
 import FoodRating from './Component/View/Admin/FoodRating/FoodRating.js';
 import "./i18n";
 import OrderPage from "./Component/View/Admin/Order/OrderPage";
+import ThanksReser from './Component/View/Home/Thank/ThanksReser.js';
 function App() {
 
   useEffect(() => {
@@ -104,6 +105,7 @@ function App() {
               element={<OrderHistoryPage />}
             />
             <Route path="/myOrder" element={<OrderStatus />} />
+            <Route path='thanks/reser/:paymentMethodId' element={ <ThanksReser/>} />
           </Route>
 
           <Route path="/admin"  element={<AdminLayOut />}>

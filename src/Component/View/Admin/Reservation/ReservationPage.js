@@ -12,7 +12,7 @@ const ReservationPage = () => {
   const [reservations, setReservations] = useState([]);
   const [paginationState, setPaginationState] = useState({
     pageCurrent: 0,
-    pageSize: 4,
+    pageSize: 8,
     sortOrder: "desc",
     sortBy: "reservationId",
     totalPage: 0,

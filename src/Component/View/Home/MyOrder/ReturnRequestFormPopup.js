@@ -34,22 +34,6 @@ const OrderReturnFormPopUp = ({
                 />
               </div>
               <div className="form-group">
-                <label>{customTranslate("Total Quantity")}:</label>
-                <input
-                  className="status-input"
-                  value={orderByOrderId.totalQuantity.toLocaleString('vi')}
-                  readOnly
-                />
-              </div>
-              <div className="form-group">
-                <label>{customTranslate("Total Price")}:</label>
-                <input
-                  className="status-input"
-                  value={orderByOrderId.totalPrice.toLocaleString('vi')}
-                  readOnly
-                />
-              </div>
-              <div className="form-group">
                 <label>{customTranslate("Payment DateTime ")}:</label>
                 <input
                   className="status-input"

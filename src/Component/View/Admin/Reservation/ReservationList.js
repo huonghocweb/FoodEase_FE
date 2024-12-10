@@ -11,6 +11,7 @@ const ReservationList = ({
   sortOptions,
   handleReservationById,
 }) => {
+  console.log(reservations);
   return (
     <>
       <div className="body" style={{ padding: "20px" }}>
@@ -75,7 +76,7 @@ const ReservationList = ({
                                 <img
                                   src={item.resTable.imageUrl}
                                   alt="coupon_image"
-                                  style={{ width: "180px", height: "120px" }}
+                                  style={{ width: "120px", height: "70px" }}
                                 />
                               </td>
                               <td>
@@ -126,9 +127,12 @@ const ReservationList = ({
                                   >
                                     {customTranslate("Order Food")}
                                   </NavLink>
-                                ) : (
-                                  " "
-                                )}
+                                ) : item.reservationStatus.reservationStatusId === 5 ? (
+                                  <button
+                                  >
+                                     Reason
+                                  </button>
+                                ) : ('')}
                               </td>
                             </tr>
                           </>

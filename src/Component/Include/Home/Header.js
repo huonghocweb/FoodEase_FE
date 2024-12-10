@@ -14,11 +14,17 @@ const Header = () => {
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
+    localStorage.setItem("language", lng);
+    window.location.reload();
     setIsOpen(false); // Đóng dropdown sau khi chọn ngôn ngữ
   };
 
   useEffect(() => {
     fetchData();
+    const savedLanguage = localStorage.getItem("language");
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage); // Áp dụng ngôn ngữ lưu trước đó
+    }
   }, []);
 
   const fetchData = async () => {

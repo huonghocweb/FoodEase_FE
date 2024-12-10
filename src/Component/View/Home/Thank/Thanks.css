@@ -1,0 +1,98 @@
+/* Thanks.css */
+
+#thanksPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f7f9fc;
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+  }
+  
+  .thanks-container {
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .thanks-status-icon {
+    margin-bottom: 20px;
+  }
+  
+  .thanks-status-icon svg {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .thanks-status-text {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 20px;
+  }
+  
+  .thanks-details {
+    background: #f9fafc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .thanks-details p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #555555;
+  }
+  
+  .thanks-details p strong {
+    color: #333333;
+  }
+  
+  .thanks-button {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .thanks-button button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .thanks-button button:hover {
+    background-color: #45a049;
+  }
+  
+  .thanks-error svg {
+    color: #e74c3c;
+  }
+  
+  .thanks-success svg {
+    color: #27ae60;
+  }
+  
+  .thanks-loading svg {
+    color: #3498db;
+  }
+  
+  .thanks-footer {
+    margin-top: 30px;
+    font-size: 20px;
+    color: #110f0f;
+    text-align: center;
+    font-weight: 900;
+  }
+  
