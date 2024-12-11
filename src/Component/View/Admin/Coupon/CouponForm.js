@@ -17,19 +17,6 @@ const CouponForm = ({register, handleSubmit,handleImage, fileInputRef , reset , 
          <div className="body">
             <div className="container mt-5">
         <div className="row tm-content-row">
-          <div className="col-10 tm-block-col">
-            <div className="tm-bg-primary-dark tm-block tm-block-h-auto">
-              <h2 className="tm-block-title">{customTranslate("List of Accounts")}</h2>
-              <p className="text-white">{customTranslate("Accounts")}</p>
-              <select className="custom-select">
-                <option value="0">{customTranslate("Select account")}</option>
-                <option value="1">{customTranslate("Admin")}</option>
-                <option value="2">{customTranslate("Editor")}</option>
-                <option value="3">{customTranslate("Merchant")}</option>
-                <option value="4">{customTranslate("Customer")}</option>
-              </select>
-            </div>
-          </div>
         </div>
         <div className="row tm-content-row">
           <div className="tm-block-col tm-col-avatar">

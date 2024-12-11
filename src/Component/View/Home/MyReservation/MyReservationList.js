@@ -25,14 +25,16 @@ const MyReservationList = ({
         {bookingInfo && bookingInfo.length > 0 ? (
           bookingInfo.map((item, index) => (
             <>
-              <div className="booking-info-form-details" key={index}>
+              {
+              item.reservationStatus.reservationStatusId !== 6 && (
+                <>
+                <div className="booking-info-form-details" key={index}>
                 <img
                   style={{ width: "160px" , height: "100px" }}
                   className="booking-info-form-image"
                   src={item.resTable.imageUrl}
                   alt={`Table ${item.resTable.tableName}`}
                 />
-
                 <div className="booking-info-form-item">
                   <span className="booking-info-form-label">
                     {customTranslate("Table ID")}:
@@ -133,6 +135,9 @@ const MyReservationList = ({
                   }
                 </div>
               </div>
+                </>
+              )
+              }
             </>
           ))
         ) : (

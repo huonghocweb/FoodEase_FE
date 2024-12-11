@@ -10,11 +10,17 @@ const CheckTimePopup = ({
   formStateCheckTime,
   handleInputChange,
   resetFormStateCheckTime,
-  handleCheckResTableAvailable,
+  // handleCheckResTableAvailable,
   selectedServiceIds,
   isOpenServicesPopup,
   handleServicesPopup,
   errorCheckTimeState,
+  register, 
+  reset,
+  handleSubmit , 
+  handleBookTable , 
+  errors , 
+  watch
 }) => {
   return (
     <>
@@ -54,6 +60,8 @@ const CheckTimePopup = ({
                   />
                 </div>
               </div>
+
+              <form onSubmit={ handleSubmit(handleBookTable)} >
               <div className="checktime-form-group-row">
                 <div className="checktime-form-group">
                   <label htmlFor="datePicker">
@@ -61,14 +69,25 @@ const CheckTimePopup = ({
                   </label>
                   <input
                     type="date"
-                    value={formStateCheckTime.date}
-                    onChange={(e) => handleCheckTimePopup(e.target.value)}
+                    // value={formStateCheckTime.date}
+                    // onChange={(e) => handleCheckTimePopup(e.target.value)}
                     className="checktime-input-date"
-                    required
+                    {...register('date' , {
+                      required  : 'Date is Required' , 
+                      validate : (value) => {
+                        const selectedDate = new Date(value);
+                        const today = new Date();
+                        today.setHours(0,0,0,0);
+                        return selectedDate >=today || "Date cannot be in the past";
+                      }
+                    })}
                   />
-                  {errorCheckTimeState.date && (
-                    <div>{errorCheckTimeState.date}</div>
+                  {errors.date && (
+                    <p className="errors-form"> {errors.date.message} </p>
                   )}
+                  {/* {errorCheckTimeState.date && (
+                    <div>{errorCheckTimeState.date}</div>
+                  )} */}
                 </div>
                 <div className="checktime-form-group">
                   <label htmlFor="tableIdDisplay">
@@ -93,16 +112,25 @@ const CheckTimePopup = ({
                   </label>
                   <input
                     type="time"
-                    value={formStateCheckTime.checkinTime}
-                    onChange={(e) =>
-                      handleInputChange("checkinTime", e.target.value)
-                    }
+                    // value={formStateCheckTime.checkinTime}
+                    // onChange={(e) =>
+                    //   handleInputChange("checkinTime", e.target.value)
+                    // }
+                    // required
+                    lang="en-GB"
                     className="checktime-input-time"
-                    required
+                   {...register('checkinTime', {
+                    required : 'Checkin Time is required'
+                   })}
                   />
-                  {errorCheckTimeState.checkinTime && (
+                  {
+                    errors.checkinTime && (
+                      <p className="errors-form">{errors.checkinTime.message}</p>
+                    )
+                  }
+                  {/* {errorCheckTimeState.checkinTime && (
                     <div>{errorCheckTimeState.checkinTime}</div>
-                  )}
+                  )} */}
                 </div>
                 <div className="checktime-form-group">
                   <label htmlFor="checkOutTime">
@@ -110,18 +138,38 @@ const CheckTimePopup = ({
                   </label>
                   <input
                     type="time"
-                    value={formStateCheckTime.checkoutTime}
-                    onChange={(e) =>
-                      handleInputChange("checkoutTime", e.target.value)
-                    }
+                    // value={formStateCheckTime.checkoutTime}
+                    // onChange={(e) =>
+                    //   handleInputChange("checkoutTime", e.target.value)
+                    // }
+                    // required
                     className="checktime-input-time"
-                    required
+                    {...register('checkoutTime', {
+                      required : 'Checkout Time is required' , 
+                      validate : (value) => {
+                        const checkinTime = watch('checkinTime');
+                        if(!checkinTime) return true;
+                        const checkinDate = new Date(`1970-01-01T${checkinTime}:00`);
+                        const checkoutDate = new Date(`1970-01-01T${value}:00`);
+                        return (
+                          checkoutDate.getTime() - checkinDate.getTime() >= 3600000 || 
+                          "Check-out Time must be at least 1 hour after Check-in Time"
+                        );
+                      }
+                    })}
                   />
-                  {errorCheckTimeState.checkoutTime && (
+                  {
+                    errors.checkoutTime && (
+                      <p className="errors-form"> {errors.checkoutTime.message}</p>
+                    )
+                  }
+                  {/* {errorCheckTimeState.checkoutTime && (
                     <div>{errorCheckTimeState.checkoutTime}</div>
-                  )}
+                  )} */}
                 </div>
               </div>
+              <button type="submit"> Book </button>
+              </form>
 
               <div className="services-container">
                 <h3>{customTranslate("Selected Services")}:</h3>
@@ -192,13 +240,13 @@ const CheckTimePopup = ({
                 >
                   {customTranslate("Change Services")}{" "}
                 </button>
-                <button
+                {/* <button
                   type="submit"
                   className="checktime-btn checktime-btn-primary"
                   onClick={handleCheckResTableAvailable}
                 >
                   {customTranslate("Book Now")}
-                </button>
+                </button> */}
                 <button
                   type="button"
                   className="checktime-btn checktime-btn-secondary"

@@ -170,6 +170,14 @@ const Login = () => {
                                     {customTranslate("Remember me")}
                                 </label>
                             </div>
+
+                            <div className="text-center">
+                                <button type="submit" className="btn login-btn-color px-5 mb-5 w-100">
+                                    {customTranslate("Login")}
+                                </button>
+                            </div>
+
+                            
                             <div class="auth-buttons">
                                 <div class="auth-row">
                                     <button class="auth-btn google-btn" onClick={() => handleGoogleLogin()}>
@@ -188,9 +196,7 @@ const Login = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div>
-                                <button onClick={() => handleGoogleLogin()}>GOOGLE</button>
-                            </div>
+                            <br></br>
                             <div className="form-text text-center mb-5 text-dark">
                                 {customTranslate("Forgot your password?")}
                                 <a

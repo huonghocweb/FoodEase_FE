@@ -15,7 +15,9 @@ const ReservationOccupiedList = ({
   handleFoodOrderItemChange,
   reservationOrder,
   handleOpenCheckoutPopup,
+  handleOpenResTableMap
 }) => {
+  console.log(reservationById);
   const [tables, setTables] = useState([
     { id: "T-01", status: "available", image: "path/to/table01.jpg" },
     { id: "T-02", status: "reserved", image: "path/to/table02.jpg" },
@@ -54,28 +56,29 @@ const ReservationOccupiedList = ({
                     />
 
                     <div className="reservation-details">
+                    <p><strong>Table:</strong> #{reservationById.resTable?.tableId} - Capacity :  {reservationById.resTable?.capacity} </p>
                       <p>
                         <strong>{customTranslate("User")}:</strong>{" "}
                         {reservationById.user?.userName || "N/A"}
                       </p>
-                      <p>
+                      {/* <p>
                         <strong>{customTranslate("Date")}:</strong>{" "}
                         {new Date(
-                          reservationById.reservationDate
+                          reservationById.checkinTime
                         ).toLocaleDateString("vi-VN")}
-                      </p>
+                      </p> */}
                       <p>
                         <strong>{customTranslate("Time")}:</strong>{" "}
                         {new Date(
-                          reservationById.reservationDate
+                          reservationById.checkinTime
                         ).toLocaleTimeString("vi-VN", {
                           hour: "2-digit",
                           minute: "2-digit",
                         })}
                       </p>
                       <p>
-                        <strong>{customTranslate("Total Price")}:</strong>{" "}
-                        {reservationById.totalPrice?.toLocaleString("vi-VN")} đ
+                        <strong>{customTranslate("Total Deposit")}:</strong>{" "}
+                        {reservationById.totalDeposit?.toLocaleString("vi-VN")} đ
                       </p>
                       <p>
                         <strong>{customTranslate("Status")}:</strong>{" "}
@@ -86,6 +89,7 @@ const ReservationOccupiedList = ({
                           }`
                         )}
                       </p>
+                      <button onClick={handleOpenResTableMap}>Change Table</button>
                     </div>
                   </div>
                 </div>

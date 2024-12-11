@@ -32,7 +32,7 @@ const MyReservationPage = () => {
             const resCancelRequestReservation = await axiosConfig.get(`/reservation/cancelReservationRequest/${reservationId}`);
             console.log(resCancelRequestReservation.data.data);
             if(resCancelRequestReservation.data.data !== null){
-                setAlert({type : 'success',message : 'Cancel Request success , please wait approve from Admin'});
+                setAlert({type : 'success',message : 'Cancel Reservation Success '});
             }else{
                 setAlert({type : 'error',message : 'Cannot cancel Reservation , you need cancel before 24h'});
             }

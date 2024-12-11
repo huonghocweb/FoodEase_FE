@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axiosConfig from '../../../Config/AxiosConfig';
 import './Order.css';
 import CustomAlert from '../../../Config/CustomAlert';
+import { useNavigate } from 'react-router-dom';
 
 const Order  = ({ product, onClose }) => {
 
@@ -24,6 +25,7 @@ const Order  = ({ product, onClose }) => {
   const [sold,setSold]= useState([]);
 
   const cartId =localStorage.getItem('userIdLogin');
+  const navigate = useNavigate();
   // lấy dử liệu từ bảng topping
   const fetchToppings = async  ()=>{
     axiosConfig.get('/user/topping/findAllTopping')
@@ -158,7 +160,14 @@ const fetchToTal = async ()=>{
   const handleAddToCart = async (foodVaId) => {
     console.log(foodVaId);
     const quantity =1;
-
+    if (!cartId) {
+      setAlert({ type: 'error', message: 'You need to log in to add items to the cart!' });
+      setTimeout(() => {
+        setAlert(null);
+        navigate('/login'); // Chuyển hướng đến trang đăng nhập
+      }, 2000);
+      return;
+    }
       try {
         const resCart = await axiosConfig.post(`/cart/addCartItem/${cartId}/${foodVaId}/${quantity}`);
        

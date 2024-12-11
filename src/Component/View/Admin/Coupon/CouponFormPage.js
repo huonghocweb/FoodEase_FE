@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CouponForm from './CouponForm';
 import axiosConfig from '../../../Config/AxiosConfig';
+import CustomAlert from '../../../Config/CustomAlert';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const CouponFormPage = () => {
@@ -12,6 +13,7 @@ const CouponFormPage = () => {
     const [imageCoupon,setImageCoupon] = useState([]);
     const navigate = useNavigate();
     const fileInputRef = useRef(null); 
+    const [alert , setAlert] = useState(null);
 
     useEffect (() => {
         if(couponId ){
@@ -71,21 +73,29 @@ const CouponFormPage = () => {
             if(couponId){
                 const resCouponUpdate= await axiosConfig.put(`/coupon/coupon/${couponId}`,formData,{headers : {'Content-Type' : 'multipart/form-data'}});
                 if(resCouponUpdate.data.data !== null){
-                    alert('Update Coupon Success');
+                    setAlert({type : 'success' , message : 'Update Coupon Success'})
                 }
                 console.log(resCouponUpdate.data.data);
             }else{
                 const resCouponCreate = await axiosConfig.post(`/coupon/coupon`,formData,{headers : {'Content-Type' : 'multipart/form-data'}});
                 if(resCouponCreate.data.data !== null){
-                    alert('Create Coupon Success');
+                    setAlert({type : 'success' , message : 'Create Coupon Success'})
                 }
                 console.log(resCouponCreate.data.data);
             }
             navigate(`/admin/coupons`);
         } catch (error) {
+            if (error.response) {
+                // Kiểm tra lỗi HTTP
+                if (error.response.status === 403) {
+                    setAlert({type : 'error' , message : ' You do not have permission. !'});
+                } else {
+                    alert(`Error: ${error.response.statusText}`);
+                }
             console.error('error in submitCoupon',error);
         }
-    }
+            }
+        }
 
     const handleImage = async () =>{
         // Khi liên kết useRef với input file , truy cập vào current.files để lấy ra files
@@ -101,7 +111,16 @@ const CouponFormPage = () => {
       }
     
     return (
-        <div>
+        <>
+            {
+                alert && (
+                    <CustomAlert 
+                        type={alert.type}
+                        message={alert.message}
+                        onClose={() => setAlert(null)}
+                    />
+                )
+            }
             <CouponForm
             register ={register}
             handleSubmit = {handleSubmit}
@@ -113,7 +132,7 @@ const CouponFormPage = () => {
             errors = {errors}
             imageCoupon = {imageCoupon}
              /> 
-        </div>
+        </>
     );
 };
 

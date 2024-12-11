@@ -86,3 +86,8 @@ button {
     cursor: pointer;
 }
 
+.errors-form {
+    font-size: 14px;
+    color: red;
+    font-weight: 500;
+}

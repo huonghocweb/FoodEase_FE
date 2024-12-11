@@ -1,4 +1,5 @@
 import { isAfter, isBefore, isEqual, parse } from "date-fns";
+import {useForm} from 'react-hook-form';
 import React, { useEffect, useState } from "react";
 import axiosConfig from "../../../Config/AxiosConfig";
 import CustomAlert from "../../../Config/CustomAlert";
@@ -9,6 +10,8 @@ import ServicesPopup from "./ServicesPopup";
 import TableAvailablePopup from "./TableAvailablePopup";
 
 const BookTablePage = () => {
+
+  const {register,reset,handleSubmit ,watch, formState : {errors}} = useForm();
   const [yourReservation, setYourReservation] = useState([]);
   const [alert, setAlert] = useState(null);
   const fetchtUserByUserName = async () => {
@@ -101,6 +104,8 @@ const BookTablePage = () => {
     //   console.log(tableId);
     setTableIdSelected(tableId);
   };
+
+
   const handleCheckTimePopup = async (dateCheckTime) => {
     console.log(dateCheckTime);
     handleInputChange("date", dateCheckTime);
@@ -120,47 +125,22 @@ const BookTablePage = () => {
     }
   };
 
-  const handleCheckResTableAvailable = async () => {
+
+  const handleBookTable = async(data) => {
+    console.log(data);
     const formData = new FormData();
     // Thêm các giá trị vào FormData
     formData.append("tableId", tableIdSelected);
-    formData.append("date", formStateCheckTime.date);
-    formData.append("checkinTime", formStateCheckTime.checkinTime);
-    formData.append("checkoutTime", formStateCheckTime.checkoutTime);
+    formData.append("date", data.date);
+    formData.append("checkinTime", data.checkinTime);
+    formData.append("checkoutTime", data.checkoutTime);
     formData.append("userId", formStateCheckTime.user?.userId);
-    const startDate = parse(
-      formStateCheckTime.checkinTime,
-      "HH:mm",
-      new Date()
-    );
-    const endDate = parse(formStateCheckTime.checkoutTime, "HH:mm", new Date());
-    const date = parse(formStateCheckTime.date, "yyyy-MM-dd", new Date());
-    const datenow = new Date();
-    datenow.setHours(0, 0, 0, 0); // Đặt giờ của datenow về 00:00:00 để so sánh chỉ ngày
-    console.log(datenow);
-    
-    if (!isAfter(date, datenow) && !isEqual(date, datenow)) {
-      handleErrorCheckTime("date", "Date must be today or a future date");
-      return;
-    }
-    
-    if (isAfter(startDate, endDate)) {
-      console.log("Check out Time is need Afted checkin Time");
-      handleErrorCheckTime(
-        "checkinTime",
-        "Check Int Time is need Afted checkin Time"
-      );
-      handleErrorCheckTime(
-        "checkoutTime",
-        "Check out Time is need Afted checkin Time"
-      );
-      return;
-    }
-    // Thêm từng serviceId vào FormData
-    selectedServiceIds.forEach((item) => {
-      formData.append("serviceIds", item.serviceId);
-    });
-
+        // Thêm từng serviceId vào FormData
+        selectedServiceIds.forEach((item) => {
+          formData.append("serviceIds", item.serviceId);
+        });
+        console.log(formStateCheckTime.user?.userId);
+        console.log(tableIdSelected);
     try {
       console.log("Checkin");
       const resCheckResTableVai = await axiosConfig.post(
@@ -180,14 +160,84 @@ const BookTablePage = () => {
           message: "Book Table successfully, check email",
         });
         openCheckTimePopup();
-        resetFormStateCheckTime();
+       // resetFormStateCheckTime();
+       reset();
       } else {
         setAlert({ type: "error", message: "Book Table failed!" });
       }
     } catch (error) {
-      console.error("error in handleCheckResTableAvailable", error);
+           console.error("error in handleCheckResTableAvailable", error);
     }
-  };
+  }
+
+  // const handleCheckResTableAvailable = async () => {
+  //   const formData = new FormData();
+  //   // Thêm các giá trị vào FormData
+  //   formData.append("tableId", tableIdSelected);
+  //   formData.append("date", formStateCheckTime.date);
+  //   formData.append("checkinTime", formStateCheckTime.checkinTime);
+  //   formData.append("checkoutTime", formStateCheckTime.checkoutTime);
+  //   formData.append("userId", formStateCheckTime.user?.userId);
+  //   const startDate = parse(
+  //     formStateCheckTime.checkinTime,
+  //     "HH:mm",
+  //     new Date()
+  //   );
+  //   const endDate = parse(formStateCheckTime.checkoutTime, "HH:mm", new Date());
+  //   const date = parse(formStateCheckTime.date, "yyyy-MM-dd", new Date());
+  //   const datenow = new Date();
+  //   datenow.setHours(0, 0, 0, 0); // Đặt giờ của datenow về 00:00:00 để so sánh chỉ ngày
+  //   console.log(datenow);
+    
+  //   if (!isAfter(date, datenow) && !isEqual(date, datenow)) {
+  //     handleErrorCheckTime("date", "Date must be today or a future date");
+  //     return;
+  //   }
+    
+  //   if (isAfter(startDate, endDate)) {
+  //     console.log("Check out Time is need Afted checkin Time");
+  //     handleErrorCheckTime(
+  //       "checkinTime",
+  //       "Check Int Time is need Afted checkin Time"
+  //     );
+  //     handleErrorCheckTime(
+  //       "checkoutTime",
+  //       "Check out Time is need Afted checkin Time"
+  //     );
+  //     return;
+  //   }
+  //   // Thêm từng serviceId vào FormData
+  //   selectedServiceIds.forEach((item) => {
+  //     formData.append("serviceIds", item.serviceId);
+  //   });
+
+  //   try {
+  //     console.log("Checkin");
+  //     const resCheckResTableVai = await axiosConfig.post(
+  //       `/restables/checkResTableAvailable`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data", // Đặt kiểu dữ liệu cho FormData
+  //         },
+  //       }
+  //     );
+
+  //     console.log(resCheckResTableVai.data.data);
+  //     if (resCheckResTableVai.data.data !== null) {
+  //       setAlert({
+  //         type: "success",
+  //         message: "Book Table successfully, check email",
+  //       });
+  //       openCheckTimePopup();
+  //       resetFormStateCheckTime();
+  //     } else {
+  //       setAlert({ type: "error", message: "Book Table failed!" });
+  //     }
+  //   } catch (error) {
+  //     console.error("error in handleCheckResTableAvailable", error);
+  //   }
+  // };
 
   const [isOpenServicesPopup, setIsOpenServicesPopup] = useState(false);
   const [serPageCurrent, setSerPageCurrent] = useState(0);
@@ -314,11 +364,17 @@ const BookTablePage = () => {
         formStateCheckTime={formStateCheckTime}
         handleInputChange={handleInputChange}
         resetFormStateCheckTime={resetFormStateCheckTime}
-        handleCheckResTableAvailable={handleCheckResTableAvailable}
+        // handleCheckResTableAvailable={handleCheckResTableAvailable}
         selectedServiceIds={selectedServiceIds}
         isOpenServicesPopup={isOpenServicesPopup}
         handleServicesPopup={handleServicesPopup}
         errorCheckTimeState={errorCheckTimeState}
+        register = {register}
+        reset = {reset}
+        handleSubmit = {handleSubmit}
+        handleBookTable = {handleBookTable}
+        errors = {errors}
+        watch = {watch}
       />
       <ServicesPopup
         isOpenServicesPopup={isOpenServicesPopup}

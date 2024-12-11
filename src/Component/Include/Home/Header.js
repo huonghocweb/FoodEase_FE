@@ -124,11 +124,15 @@ const Header = () => {
               <i className="fa-solid fa-cart-shopping fa-lg"></i>
             </NavLink>
           </li>
-          <li>
+          {
+            user && (
+              <li>
             <NavLink to={`/admin`}>
               <i className="fa-solid fa-user-gear fa-xl"></i>
             </NavLink>
           </li>
+            )
+          }
           <li>
             <NavLink to={`/notification`}>
               <i className="fa-solid fa-bell fa-lg"></i>

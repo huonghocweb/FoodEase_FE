@@ -45,10 +45,7 @@ const ReservationList = ({
                           <th scope="col">{customTranslate("Image")}</th>
                           <th scope="col">{customTranslate("Booking Date")}</th>
                           <th scope="col">
-                            {customTranslate("Checkin Time")}{" "}
-                          </th>
-                          <th scope="col">
-                            {customTranslate("Checkout Time")}{" "}
+                            {customTranslate("Checkin")}{" "} - {customTranslate("Checkout Time")}{" "}
                           </th>
                           <th scope="col">
                             {customTranslate("Total Deposit")}
@@ -87,13 +84,12 @@ const ReservationList = ({
                               <td>
                                 {new Date(item.checkinTime).toLocaleTimeString(
                                   "vi-VN"
-                                )}
-                              </td>
-                              <td>
+                                )} -
                                 {new Date(item.checkoutTime).toLocaleTimeString(
                                   "vi-VN"
                                 )}
                               </td>
+                               
                               <td>
                                 {item.totalDeposit?.toLocaleString("vi-VN")} đ
                               </td>
