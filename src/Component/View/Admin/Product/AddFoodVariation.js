@@ -191,15 +191,19 @@ const AddFoodVariation = ({ onClose, item }) => {
                         </select>
                         {errors.FoodSizeId && <p  className="error">{errors.FoodSizeId.message}</p>}
                         </div>
-                       
-                            <div>
-                            <input
+                        <div class="file-upload">
+                        <label for="file-input" class="custom-file-upload">
+                           Chọn ảnh
+                        </label>
+                        <input
+                            id="file-input"
                             type="file"
                             multiple
                             {...register('file', { required: 'Files are required' })}
+                            style={{ display: 'none' }}  
                         />
-                        {errors.file && <p  className="error">{errors.file.message}</p>} 
-                            </div>
+                        {errors.file && <p className="error">{errors.file.message}</p>}
+                    </div>
                         
 
                         <button type="submit">{edit1 ? 'Update': 'Create'}</button>

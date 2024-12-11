@@ -14,6 +14,7 @@ const AddFood = () => {
   const [discount, setdiscount] = useState(0);
   const [file, setFile] = useState(null);
   const [categoriesId, setcategoriesId] = useState(1);
+  const [Image,setImage]= useState([null]);
   const {
     register,
     handleSubmit,
@@ -60,6 +61,9 @@ const AddFood = () => {
     } catch (error) {
       console.log("Error in adding product:", error);
       setAlert({ type: "error", message: "Added Failed!" });
+      setTimeout(() => {
+        setAlert(null); // Xóa thông báo
+    }, 2000);
     }
   };
 
@@ -91,6 +95,9 @@ const AddFood = () => {
     } catch (error) {
       console.log("Error in updating product:", error);
       setAlert({ type: "error", message: "update Failed!" });
+      setTimeout(() => {
+        setAlert(null); // Xóa thông báo
+    }, 2000);
     }
   };
 
@@ -152,6 +159,7 @@ const AddFood = () => {
                 <p className="error">{errors.foodName.message}</p>
               )}
             </div>
+            
 
             <div className="form-group col-lg-6">
               <label>{customTranslate("Description")}:</label>
@@ -190,22 +198,7 @@ const AddFood = () => {
               )}
             </div>
 
-            <div className="form-group col-lg-6">
-              <label>{customTranslate("Image")}:</label>
-              <input
-                className="input-field"
-                type="file"
-                {...register("file", {
-                  required: customTranslate("Image is required"),
-                })} // Thêm xác thực để yêu cầu nhập file
-                onChange={(e) => {
-                  const selectedFiles = e.target.files[0];
-                  setFile(selectedFiles); // Lưu trữ danh sách file được chọn vào state
-                }}
-              />
-              {errors.file && <p className="error">{errors.file.message}</p>}{" "}
-              {/* Hiển thị thông báo lỗi nếu không có file */}
-            </div>
+           
 
             <div className="form-group col-lg-6">
               <label>{customTranslate("Discount")}:</label>
@@ -218,7 +211,28 @@ const AddFood = () => {
                 placeholder={customTranslate("Enter Discount")}
               />
             </div>
-
+            <div className="form-group col-lg-6">
+              <label>{customTranslate("Image")}:</label>
+              <input
+                className="input-field"
+                type="file"
+                {...register("file", {
+                  required: customTranslate("Image is required"),
+                })} // Thêm xác thực để yêu cầu nhập file
+                onChange={(e) => {
+                  const selectedFiles = e.target.files[0];
+                  setFile(selectedFiles); // Lưu trữ danh sách file được chọn vào state
+                  setImage(URL.createObjectURL(selectedFiles))
+                }}
+              />
+              {errors.file && <p className="error">{errors.file.message}</p>}{" "}
+              {/* Hiển thị thông báo lỗi nếu không có file */}
+              {Image && (
+        <div className="comment-Image">
+          <img src={Image} />
+        </div>
+      )}
+            </div>
             <div className="form-group col-lg-6">
               <label>{customTranslate("Category")}:</label>
               <select

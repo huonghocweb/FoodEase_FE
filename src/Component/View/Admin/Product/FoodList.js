@@ -120,6 +120,7 @@ if(categories == null)
               <table className="table table-hover tm-table-small tm-product-table revenue-table">
                 <thead>
                   <tr>
+                  <th className='food-no'>#</th>
                   <th className='food-no'>FOOD NO.</th>
                     <th scope="col">FOOD NAME</th>
                     <th scope="col">BASE PRICE</th>
@@ -137,8 +138,11 @@ if(categories == null)
                 <tbody>
                  {
                     Food.map((item,index)=>(
+                      
                       <tr  key={item.foodId}>
+                       
                     <td className='food-no'>{index +1}</td>
+                    <td>{item.foodId}</td>
                     <td className="tm-product-name">{item.foodName}</td>
                     <td>{item.basePrice.toLocaleString("vi-VN")}đ</td>
                     <td className='tm-product-name'  onClick={() => handleRowClick(item)}><img src={`${item.imageUrl}`}/></td>
