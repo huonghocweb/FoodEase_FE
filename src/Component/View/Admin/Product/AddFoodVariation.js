@@ -12,6 +12,7 @@ const AddFoodVariation = ({ onClose, item }) => {
     const [alert, setAlert] = useState(null); 
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
+    
     const sizes = [
         { id: 1, name: 'Size S' },
         { id: 2, name: 'Size M' },

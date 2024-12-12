@@ -18,6 +18,8 @@ const Modal = ({ item, order, onClose }) => {
   };
   useEffect(() => {
     featchOrderDetails();
+    console.log('item là:',item)
+    console.log('order là:',order)
   }, []);
   if (!item) return null;
   return (
@@ -59,6 +61,25 @@ const Modal = ({ item, order, onClose }) => {
           ))}
         </div>
         <div className="order-details-container">
+        <div className="order-detail-item">
+            <span className="detail-label">Payment Method:</span>
+            <span className="detail-value">
+              <img className="img-payment" src={order.paymentMethod.imageUrl}/>
+            </span>
+          </div>
+          
+          <div className="order-detail-item">
+            <span className="detail-label">
+              {customTranslate("Total Quantity")}
+            </span>
+            <span className="detail-value">{order.totalQuantity}</span>
+          </div>
+          <div className="order-detail-item">
+            <span className="detail-label">{customTranslate("Shipping fee")}:</span>
+            <span className="detail-value">
+              {order.shipMethod.shipFee.toLocaleString("vi-vn")}đ
+            </span>
+          </div>
           <div className="order-detail-item">
             <span className="detail-label">{customTranslate("Total")}:</span>
             <span className="detail-value">
@@ -66,17 +87,24 @@ const Modal = ({ item, order, onClose }) => {
             </span>
           </div>
 
-          <div className="order-detail-item">
-            <span className="detail-label">
-              {customTranslate("Total Quantity")}
-            </span>
-            <span className="detail-value">{order.totalQuantity}</span>
-          </div>
 
+         
+
+          
+        </div>
+
+
+        <div className="order-details-container">
           <div className="order-detail-item">
-            <span className="detail-label">{customTranslate("Shipping fee")}:</span>
+            <span className="detail-label">User name:</span>
             <span className="detail-value">
-              {order.shipMethod.shipFee.toLocaleString("vi-vn")}đ
+              {order.user.fullName}
+            </span>
+          </div>
+          <div className="order-detail-item">
+            <span className="detail-label">Email:</span>
+            <span className="detail-value">
+              {order.user.email}
             </span>
           </div>
 
@@ -95,6 +123,23 @@ const Modal = ({ item, order, onClose }) => {
                   "0"
                 )}`;
               })()}
+            </span>
+          </div>
+
+          <div className="order-detail-item">
+            <span className="detail-label">Order time:</span>
+            <span className="detail-value">
+              {order.orderTime}
+            </span>
+          </div>
+
+          
+          <div className="order-detail-item">
+            <span className="detail-label">
+             Order status:
+            </span>
+            <span className="detail-value">
+             {order.orderStatus.orderStatusName}
             </span>
           </div>
         </div>

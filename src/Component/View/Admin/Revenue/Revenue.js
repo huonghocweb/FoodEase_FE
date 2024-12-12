@@ -8,14 +8,20 @@ const Revenue = () => {
     const [year, setYear] = useState([]);
     const [activeTable, setActiveTable] = useState('daily'); // Biến trạng thái để theo dõi bảng nào đang hoạt động
     const [date,setDate]= useState('');
+    const [endDate,setEndDate]=useState('');
     const [page,setPage]= useState(0);
     const [TotalPage,setTotalPage] = useState();
     const [inputFind, setInputFind] = useState('');
+     const [inputFindEndDate, setinputFindEndDate] = useState("");
+     const handleinputFindendDate = (e) => {
+        setinputFindEndDate(e.target.value);
+      };
     const fetchDaily = async () => {
         try {
-            const response = await axiosConfig.get(`/order/ReportOrderByToday?date=${date}&page=${page}`);
+            const response = await axiosConfig.get(`/order/findRevenueByDaily?date=${date}&EndDate=${endDate}&page=${page}`);
             setDaily(response.data.content);
            setTotalPage(response.data.totalPages);
+          
         } catch (error) {
             console.error("Error fetching daily data: ", error);
         }
@@ -46,12 +52,30 @@ const Revenue = () => {
         }
       const findDate =()=>{
           const formattedDate = inputFind.replace(/\//g, '-');
+          const formattedEndDate = inputFindEndDate.replace(/\//g, "-");
           setDate(formattedDate)
+          setEndDate(formattedEndDate);
           if(inputFind == null){
             setDate('');
           }
+          if (inputFindEndDate == null) {
+            setEndDate("");
+          }
           console.log(inputFind);
         }
+        const Next = () => {
+            setPage((prevPage) => {
+              if (prevPage >= TotalPage - 1) {
+                return 0; // Đặt lại page về 0 nếu prevPage lớn hơn hoặc bằng totalPages
+              }
+              return prevPage + 1; // Tăng page lên 1 nếu chưa quá totalPages
+            });
+          };
+          const Previous = () => {
+            if (page > 0) {
+              setPage((prevPage) => prevPage - 1);
+            }
+          };
     useEffect(() => {
         fetchDaily(); // Tải dữ liệu ngày khi component mount
     }, [daily]);
@@ -85,6 +109,11 @@ const Revenue = () => {
                 <div>
                  <div className='orderlist-find'>
                  <input type='date' value={inputFind}onChange={handleinputFind}/>
+                 <input
+                      type="date"
+                      value={inputFindEndDate}
+                      onChange={handleinputFindendDate}
+                    />
                  <button onClick={findDate}>{customTranslate("find")}</button>
                </div>
                 <table className="revenue-table">
@@ -93,23 +122,32 @@ const Revenue = () => {
                         <tr>
                             <th className="revenue-th">{customTranslate("No.")}</th>
                             <th className="revenue-th">{customTranslate("Order date")}</th>
-                            <th className="revenue-th">{customTranslate("Order time")}</th>
+                            
                             <th className="revenue-th">{customTranslate("Total price")}</th>
-                            <th className="revenue-th">{customTranslate("Quantity")}</th>
+                           
                         </tr>
                     </thead>
                     <tbody>
                         {daily.map((item, index) => (
                             <tr key={index}>
                                 <td className="revenue-td">{index + 1}</td>
-                                <td className="revenue-td">{item.orderDate}</td>
-                                <td className="revenue-td">{item.orderTime}</td>
-                                <td className="revenue-td">{item.totalPrice.toLocaleString('vi-vn')}đ</td>
-                                <td className="revenue-td">{item.totalQuantity}</td>
+                                <td className="revenue-td">{item.date}</td>
+                               
+                                <td className="revenue-td">{item.sum.toLocaleString('vi-vn')}đ</td>
+                                
                             </tr>
                         ))}
                     </tbody>
                 </table>
+                 <h6>
+                                    {page + 1}/{TotalPage}
+                                  </h6>
+                                  <button className="Button-Previous" onClick={Previous}>
+                                    {customTranslate("Previous")}
+                                  </button>
+                                  <button className="Button-next" onClick={Next}>
+                                    {customTranslate("Next")}
+                                  </button>
                 </div>
             )}
 
