@@ -89,7 +89,7 @@ const Delete=(id)=>{
           }, 2000);
             Reset();
         } catch (error) {
-          setAlert({type : 'error', message : 'Comment Failed!'});
+          setAlert({type : 'error', message : 'Please fill in the information completely?'});
           setTimeout(() => {
             setAlert(null); // Xóa thông báo
         }, 2000);
@@ -208,7 +208,7 @@ const Delete=(id)=>{
               
             </div>
             <div className="rating">
-              {comment.rating}⭐
+              {comment.rating.toFixed(1)}ád⭐
             </div>
             <div className="comment">
               {comment.review}

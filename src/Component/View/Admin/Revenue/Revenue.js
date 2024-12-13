@@ -2,6 +2,16 @@ import React, { useEffect, useState } from "react";
 import { customTranslate } from "../../../../i18n";
 import axiosConfig from "../../../Config/AxiosConfig";
 import './Revenue.css';
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer
+  } from "recharts";
 const Revenue = () => {
     const [daily, setDaily] = useState([]);
     const [month, setMonth] = useState([]);
@@ -14,6 +24,8 @@ const Revenue = () => {
     const [inputFind, setInputFind] = useState('');
      const [inputFindEndDate, setinputFindEndDate] = useState("");
      const [inputYear,setInputYearset]= useState(2024);
+     const [inputYear1,setInputYearset1]= useState(null);
+    
      const handleinputFindendDate = (e) => {
         setinputFindEndDate(e.target.value);
       };
@@ -40,7 +52,7 @@ const Revenue = () => {
 
     const fetchYear = async () => {
         try {
-            const response = await axiosConfig.get(`/order/ReportRevenueByYear`);
+            const response = await axiosConfig.get(`/order/findRevenueByYear1?year=${inputYear1}`);
             setYear(response.data);
            
         } catch (error) {
@@ -62,7 +74,7 @@ const Revenue = () => {
           if (inputFindEndDate == null) {
             setEndDate("");
           }
-          console.log(inputFind);
+         
         }
         const Next = () => {
             setPage((prevPage) => {
@@ -80,7 +92,10 @@ const Revenue = () => {
     useEffect(() => {
         fetchDaily(); // Tải dữ liệu ngày khi component mount
         fetchMonth();
-    }, [daily]);
+        fetchYear();
+       
+       
+    }, [daily,inputYear1]);
 
     const handleShowDaily = () => {
         fetchDaily();
@@ -98,7 +113,11 @@ const Revenue = () => {
     };
     const handleYearChange = (event) => {
         setInputYearset(parseInt(event.target.value)); // Cập nhật selectedYear
-        console.log(event.target.value);
+        
+    };
+    const handleYearChange1 = (event) => {
+        setInputYearset1(parseInt(event.target.value)); // Cập nhật selectedYear
+        
     };
     return (
         <div>
@@ -112,7 +131,7 @@ const Revenue = () => {
            
             {activeTable === 'daily' && (
                 <div>
-                 <div className='orderlist-find'>
+                     <div className='orderlist-find'>
                  <input type='date' value={inputFind}onChange={handleinputFind}/>
                  <input
                       type="date"
@@ -121,6 +140,17 @@ const Revenue = () => {
                     />
                  <button onClick={findDate}>{customTranslate("find")}</button>
                </div>
+                    <ResponsiveContainer width="100%" height={400}>
+        <BarChart data={daily}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="date" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="sum" fill="#ff7f50" />
+        </BarChart>
+      </ResponsiveContainer>
+                
                 <table className="revenue-table">
                     
                     <thead>
@@ -158,6 +188,16 @@ const Revenue = () => {
 
 {activeTable === 'month' && (
                 <div>
+                       <ResponsiveContainer width="100%" height={400}>
+        <BarChart data={month}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="month" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="totalPrice" fill="#ff7f50" />
+        </BarChart>
+      </ResponsiveContainer>
                     <select value={inputYear} onChange={handleYearChange}>
                         <option value={2021}>2021</option>
                         <option value={2022}>2022</option>
@@ -193,6 +233,24 @@ const Revenue = () => {
    
 
             {activeTable === 'year' && (
+                <div>
+                 <select value={inputYear1} onChange={handleYearChange1}>
+                 <option value={''}></option>
+                 <option value={2021}>2021</option>
+                 <option value={2022}>2022</option>
+                 <option value={2023}>2023</option>
+                 <option  value={2024}>2024</option>
+             </select>
+             <ResponsiveContainer width="100%" height={400}>
+        <BarChart data={year}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="year" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="totalPrice" fill="#ff7f50" />
+        </BarChart>
+      </ResponsiveContainer>
                 <table  className="revenue-table">
                     <thead>
                         <tr>
@@ -213,6 +271,7 @@ const Revenue = () => {
                         ))}
                     </tbody>
                 </table>
+                </div>
             )}
         </div>
         
