@@ -24,7 +24,7 @@ const Revenue = () => {
     const [inputFind, setInputFind] = useState('');
      const [inputFindEndDate, setinputFindEndDate] = useState("");
      const [inputYear,setInputYearset]= useState(2024);
-     const [inputYear1,setInputYearset1]= useState(null);
+     const [inputYear1,setInputYearset1]= useState(2024);
     
      const handleinputFindendDate = (e) => {
         setinputFindEndDate(e.target.value);
@@ -120,7 +120,7 @@ const Revenue = () => {
         
     };
     return (
-        <div>
+        <div className="container">
         <div  className="revenue-container">
             
             <div className="revenue-button-container">
@@ -187,7 +187,7 @@ const Revenue = () => {
             )}
 
 {activeTable === 'month' && (
-                <div>
+                <div >
                        <ResponsiveContainer width="100%" height={400}>
         <BarChart data={month}>
           <CartesianGrid strokeDasharray="3 3" />
