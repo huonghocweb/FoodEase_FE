@@ -13,6 +13,7 @@ const Revenue = () => {
     const [TotalPage,setTotalPage] = useState();
     const [inputFind, setInputFind] = useState('');
      const [inputFindEndDate, setinputFindEndDate] = useState("");
+     const [inputYear,setInputYearset]= useState(2024);
      const handleinputFindendDate = (e) => {
         setinputFindEndDate(e.target.value);
       };
@@ -29,9 +30,9 @@ const Revenue = () => {
 
     const fetchMonth = async () => {
         try {
-            const response = await axiosConfig.get(`/order/ReportRevenueByMonth`);
+            const response = await axiosConfig.get(`/order/findRevenueByMonthAndYear?year=${inputYear}`);
             setMonth(response.data);
-            console.log(response.data);
+            
         } catch (error) {
             console.error("Error fetching monthly data: ", error);
         }
@@ -41,7 +42,7 @@ const Revenue = () => {
         try {
             const response = await axiosConfig.get(`/order/ReportRevenueByYear`);
             setYear(response.data);
-            console.log(response.data);
+           
         } catch (error) {
             console.error("Error fetching yearly data: ", error);
         }
@@ -78,6 +79,7 @@ const Revenue = () => {
           };
     useEffect(() => {
         fetchDaily(); // Tải dữ liệu ngày khi component mount
+        fetchMonth();
     }, [daily]);
 
     const handleShowDaily = () => {
@@ -94,7 +96,10 @@ const Revenue = () => {
         fetchYear();
         setActiveTable('year'); // Đặt bảng hoạt động là bảng năm
     };
-
+    const handleYearChange = (event) => {
+        setInputYearset(parseInt(event.target.value)); // Cập nhật selectedYear
+        console.log(event.target.value);
+    };
     return (
         <div>
         <div  className="revenue-container">
@@ -151,30 +156,41 @@ const Revenue = () => {
                 </div>
             )}
 
-            {activeTable === 'month' && (
-                <table  className="revenue-table">
-                    <thead>
-                        <tr>
-                            <th className="revenue-th">{customTranslate("No.")}</th>
-                            <th className="revenue-th">{customTranslate("Year")}</th>
-                            <th className="revenue-th">{customTranslate("Month")}</th>
-                            <th className="revenue-th">{customTranslate("total Price")}</th>
-                            <th className="revenue-th">{customTranslate("total Quantity")}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {month.map((item, index) => (
-                            <tr key={index}>
-                                <td className="revenue-td">{index + 1}</td>
-                                <td className="revenue-td">{item.year}</td>
-                                <td className="revenue-td">{item.month}</td>
-                                <td className="revenue-td">{item.totalPrice.toLocaleString('vi-vn')}đ</td>
-                                <td className="revenue-td">{item.totalQuantity}</td>
+{activeTable === 'month' && (
+                <div>
+                    <select value={inputYear} onChange={handleYearChange}>
+                        <option value={2021}>2021</option>
+                        <option value={2022}>2022</option>
+                        <option value={2023}>2023</option>
+                        <option defaultChecked value={2024}>2024</option>
+                    </select>
+
+                    <table className="revenue-table">
+                        <thead>
+                            <tr>
+                                <th className="revenue-th">{customTranslate("No.")}</th>
+                                <th className="revenue-th">{customTranslate("Year")}</th>
+                                <th className="revenue-th">{customTranslate("Month")}</th>
+                                <th className="revenue-th">{customTranslate("total Price")}</th>
+                                <th className="revenue-th">{customTranslate("total Quantity")}</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {month.map((item, index) => (
+                                <tr key={index}>
+                                    <td className="revenue-td">{index + 1}</td>
+                                    <td className="revenue-td">{item.year}</td>
+                                    <td className="revenue-td">{item.month}</td>
+                                    <td className="revenue-td">{item.totalPrice.toLocaleString('vi-VN')} đ</td>
+                                    <td className="revenue-td">{item.totalQuantity}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             )}
+        </div>
+   
 
             {activeTable === 'year' && (
                 <table  className="revenue-table">
@@ -199,7 +215,7 @@ const Revenue = () => {
                 </table>
             )}
         </div>
-        </div>
+        
     );
 };
 
