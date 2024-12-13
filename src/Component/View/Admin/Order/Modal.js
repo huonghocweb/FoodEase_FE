@@ -31,35 +31,7 @@ const Modal = ({ item, order, onClose }) => {
         <h3>{customTranslate("Thanks for your order")}</h3>
         <h4 className="order-Receipt">{customTranslate("Receipt")}</h4>
 
-        <div>
-          {orderDetails.map((item) => (
-            <div className="custom-modal-body">
-              <img
-                className="order-image"
-                src={`${item.foodVariations.food.imageUrl}`}
-                alt={item.foodVariations.food.foodName}
-              />
-              <div className="order-details">
-                <h4>
-                  {customTranslate(`${item.foodVariations.food.foodName}`)}
-                </h4>
-                <h4>
-                  {customTranslate("Size")}:{" "}
-                  {customTranslate(
-                    `${item.foodVariations.foodSize.foodSizeName}`
-                  )}
-                </h4>
-                <h4>
-                  {customTranslate("Quantity")}: {item.quantity}
-                </h4>
-                <h4>
-                  {customTranslate("Price")}:{" "}
-                  {item.price.toLocaleString("vi-VN")}đ
-                </h4>
-              </div>
-            </div>
-          ))}
-        </div>
+        
         <div className="order-details-container">
         <div className="order-detail-item">
             <span className="detail-label">Payment Method:</span>
@@ -143,7 +115,37 @@ const Modal = ({ item, order, onClose }) => {
             </span>
           </div>
         </div>
+        <div>
+          {orderDetails.map((item) => (
+            <div className="custom-modal-body">
+              <img
+                className="order-image"
+                src={`${item.foodVariations.food.imageUrl}`}
+                alt={item.foodVariations.food.foodName}
+              />
+              <div className="order-details">
+                <h4>
+                  {customTranslate(`${item.foodVariations.food.foodName}`)}
+                </h4>
+                <h4>
+                  {customTranslate("Size")}:{" "}
+                  {customTranslate(
+                    `${item.foodVariations.foodSize.foodSizeName}`
+                  )}
+                </h4>
+                <h4>
+                  {customTranslate("Quantity")}: {item.quantity}
+                </h4>
+                <h4>
+                  {customTranslate("Price")}:{" "}
+                  {item.price.toLocaleString("vi-VN")}đ
+                </h4>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+      
     </div>
   );
 };
