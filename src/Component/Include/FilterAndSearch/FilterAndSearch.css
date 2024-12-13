@@ -6,6 +6,10 @@
     gap: 20px;
 }
 
+.filter-controls label {
+    color : rgb(9, 106, 64);
+}
+
 .search-box, .date-filter {
     display: flex;
     align-items: center;

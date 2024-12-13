@@ -86,16 +86,55 @@ const Header = () => {
                       {customTranslate("Reservation Order Payment List")}
                     </NavLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <NavLink
                       className="dropdown-item"
                       to="/admin/reservation-cancelled-list"
                     >
                       {customTranslate("Reservation Cancelled List")}
                     </NavLink>
-                  </li>
+                  </li> */}
                 </ul>
               </li>
+
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                 <i class="fa-solid fa-warehouse"></i>
+                  <span>
+                  {customTranslate("Report")} <i className="fas fa-angle-down"></i>
+                  </span>
+                </a>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/admin/inventory">
+                      {customTranslate("Inventory")}
+                    </Link>
+                  </li>
+                  <li className="nav-item dropdown">
+                <NavLink
+                  to="/admin/revenue"
+                  className="nav-link dropdown-toggle"
+                >
+                  <span>{customTranslate("Reports Revenue")}</span>
+                </NavLink>
+              </li>
+
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/admin/reportpayment">
+                  {customTranslate("Payment Report")}
+                </NavLink>
+              </li>
+              
+                </ul>
+              </li>
+
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/admin/foods">
                             <i class="fa-solid fa-pizza-slice"></i>
@@ -127,33 +166,19 @@ const Header = () => {
                   {customTranslate("Accounts")}
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/admin/inventory">
-                  <i class="fa-solid fa-warehouse"></i>
-                  {customTranslate("Inventory")}
-                </Link>
-              </li>
+
               <li className="nav-item">
                 <Link className="nav-link" to="/admin/coupons">
                   <i class="fa-solid fa-ticket-simple"></i>
                   {customTranslate("Coupon")}
                 </Link>
               </li>
-              <li className="nav-item dropdown">
-                <NavLink
-                  to="/admin/revenue"
-                  className="nav-link dropdown-toggle"
-                >
-                  <i className="far fa-file-alt"></i>
-                  <span>{customTranslate("Reports Revenue")}</span>
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/admin/reportpayment">
-                  <i class="far fa-file-alt"></i>
-                  {customTranslate("Payment Report")}
-                </NavLink>
-              </li>
+
+
+
+
+              
+            
             </ul>
           </div>
         </div>

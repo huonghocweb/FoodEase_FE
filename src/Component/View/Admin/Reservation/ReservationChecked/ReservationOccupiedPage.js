@@ -90,7 +90,10 @@ const ReservationOccupiedPage = () => {
     pageSize : 4,
     sortOrder : 'desc',
     sortBy : 'foodId',
-    totalPage : ''
+    totalPage : '', 
+    startDate : '', 
+    endDate : '', 
+    keyWord : ''
   })
   const handlePaginationChange  = async (name,value) => {
     setPaginationState(prevState => ({
@@ -139,7 +142,7 @@ const ReservationOccupiedPage = () => {
   const handleCheckoutReservationOrder = async (paymentMethodId, totalAmount) => {
     const reservationOrderId = reservationOrder.reservationOrderId;
    // console.log(reservationOrder.reservationOrderId);
-    //console.log(paymentMethodId);
+    console.log(paymentMethodId);
     //console.log(baseUrlReturn);
     try {
       const resCheckOutReservationOrder = await axiosConfig.get(`/paymentMethod/payment/${reservationOrderId}/${totalAmount}`, {
@@ -150,12 +153,17 @@ const ReservationOccupiedPage = () => {
         }
       })
       // console.log(resCheckOutReservationOrder.data.data);
-      //  if(paymentMethodId !== 5 && resCheckOutReservationOrder.data.data !== null){
-      //   window.location.href = resCheckOutReservationOrder.data.data;
-      //  }
+       
+      console.log(resCheckOutReservationOrder.data.data);
       if(resCheckOutReservationOrder.data.data !== null){
         setAlert({type : 'success' , message : 'Checkout Success'});
-        navigate('/admin/reservation');
+        if(paymentMethodId === 5){
+         setTimeout(() => {
+          navigate(`/thanks/reser/${resCheckOutReservationOrder.data.data.reservationOrderPaymentId}`);
+         },2000)
+        }else if(paymentMethodId !== 5 && resCheckOutReservationOrder.data.data !== null){
+          window.location.href = resCheckOutReservationOrder.data.data;
+         }
       }else {
         setAlert({type : 'error' , message : 'Checkout Failed'});
       }
@@ -185,13 +193,17 @@ const ReservationOccupiedPage = () => {
     setIsOpentCheckoutPopup(!isOpentCheckoutPopup);
   }
   const fetchFoods = async () => {
+    console.log(paginationState);
     try {
       const resGetAllFood = await axiosConfig.get(`/user/food/getAllFoodByHuong`,{
         params : {
           pageCurrent : paginationState.pageCurrent,
           pageSize : paginationState.pageSize, 
           sortOrder : paginationState.sortOrder,
-          sortBy : paginationState.sortBy
+          sortBy : paginationState.sortBy, 
+          keyWord : paginationState.keyWord,
+          startDate : paginationState.startDate,
+          endDate : paginationState.endDate
         }
       })
       setFoods(resGetAllFood.data.data.content);

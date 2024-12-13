@@ -4,12 +4,14 @@ import CustomAlert from "../../../Config/CustomAlert";
 import axiosConfig from "./../../../Config/AxiosConfig";
 import CheckinForm from "./CheckinForm";
 import ReservationList from "./ReservationList";
+import QrScanner from "../../../Config/QrScanner/QrScanner";
 
 const ReservationPage = () => {
   const [isOpenCheckinForm, setIsOpenCheckinForm] = useState(null);
   const [alert, setAlert] = useState(null);
   const [reservationById, setReservationById] = useState();
   const [reservations, setReservations] = useState([]);
+  const [qrResult, setQrResult] = useState(null);
   const [paginationState, setPaginationState] = useState({
     pageCurrent: 0,
     pageSize: 8,
@@ -20,6 +22,19 @@ const ReservationPage = () => {
     endDate: "",
     keyWord: "",
   });
+
+  const [showScanner, setShowScanner] = useState(false);
+  const handleShowScanner = () => {
+    setShowScanner(!showScanner);
+  };
+  const handleQrScanResult = (result) => {
+    setQrResult(result);
+    console.log("QR Code result:", result);
+    if(result) {
+      handleCheckinReservation(result);
+    }
+  };
+
   const handlePaginationChange = (name, value) => {
     setPaginationState((prevState) => ({
       ...prevState,
@@ -42,14 +57,15 @@ const ReservationPage = () => {
     setIsOpenCheckinForm(null);
   };
 
-  const handleCheckinReservation = async (reservationId, checkinCode) => {
-    console.log(reservationId);
+  const handleCheckinReservation = async (checkinCode) => {
+    console.log(reservationById.reservationId);
     console.log(checkinCode);
+    console.log(qrResult);
     try {
       const resCheckInReservation = await axiosConfig.get(
-        `/reservation/checkinReservation/${reservationId}/${checkinCode}`
+        `/reservation/checkinReservation/${reservationById.reservationId}/${checkinCode}`
       );
-      console.log(resCheckInReservation.data.data);
+      
       if (resCheckInReservation.data.data !== null) {
         setAlert({
           type: "success",
@@ -62,7 +78,10 @@ const ReservationPage = () => {
           type: "error",
           message: customTranslate("CheckIn Fail , please Check Checkin Code!"),
         });
+        console.log('checkin failed')
       }
+
+      console.log(resCheckInReservation.data.data);
     } catch (error) {
       console.error("error in handleCheckinReservation");
     }
@@ -97,7 +116,7 @@ const ReservationPage = () => {
   ];
   useEffect(() => {
     fetchReservations();
-  }, [...Object.values(paginationState)]);
+  }, [...Object.values(paginationState) , qrResult]);
   return (
     <>
       {alert && (
@@ -107,6 +126,10 @@ const ReservationPage = () => {
           onClose={() => setAlert(null)}
         />
       )}
+      {showScanner &&
+       <QrScanner 
+        onQrScanResult = {handleQrScanResult}
+       />}
       <ReservationList
         paginationState={paginationState}
         handlePaginationChange={handlePaginationChange}
@@ -119,6 +142,7 @@ const ReservationPage = () => {
         handleCloseCheckinForm={handleCloseCheckinForm}
         reservationById={reservationById}
         handleCheckinReservation={handleCheckinReservation}
+        handleShowScanner = {handleShowScanner}
       />
     </>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { customTranslate } from "../../../../../i18n";
 import PaginationControls from "../../../../Include/Pagination/PaginationControls";
+import FilterAndSearch from "../../../../Include/FilterAndSearch/FilterAndSearch";
 import "./ReservationOccupied.css";
 
 const ReservationOccupiedList = ({
@@ -17,7 +18,7 @@ const ReservationOccupiedList = ({
   handleOpenCheckoutPopup,
   handleOpenResTableMap
 }) => {
-  console.log(reservationById);
+  console.log(foods);
   const [tables, setTables] = useState([
     { id: "T-01", status: "available", image: "path/to/table01.jpg" },
     { id: "T-02", status: "reserved", image: "path/to/table02.jpg" },
@@ -201,7 +202,10 @@ const ReservationOccupiedList = ({
             handlePaginationChange={handlePaginationChange}
             sortOptions={sortOptions}
           />
-
+          <FilterAndSearch
+            paginationState={paginationState}
+            handlePaginationChange={handlePaginationChange}
+           />
           <div className="reservation-table-list">
             {foods.map((item) => (
               <div key={item.foodId} className="reservation-table-item">

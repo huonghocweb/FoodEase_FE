@@ -43,7 +43,7 @@ const Footer = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-4">
-              <p>{customTranslate("")}Copyright &copy; 2020 Victory Template</p>
+              <p>{customTranslate("")} 2020 Victory Restaurants</p>
             </div>
             <div className="col-md-4">
               <ul className="social-icons">
@@ -75,7 +75,7 @@ const Footer = () => {
               </ul>
             </div>
             <div className="col-md-4">
-              <p>{customTranslate("")}Design: TemplateMo</p>
+              <p>{customTranslate("")}Design: Group 3</p>
             </div>
           </div>
         </div>

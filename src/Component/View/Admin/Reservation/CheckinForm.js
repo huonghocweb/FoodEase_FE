@@ -6,6 +6,7 @@ const CheckinForm = ({
   handleCloseCheckinForm,
   reservationById,
   handleCheckinReservation,
+  handleShowScanner
 }) => {
   const [checkinCode, setCheckInCode] = useState("");
   const handleCheckInCode = (e) => {
@@ -78,7 +79,7 @@ const CheckinForm = ({
                   readOnly
                 />
               </div>
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label>{customTranslate("CheckIn Code")}:</label>
                 <input
                   className="status-input"
@@ -86,18 +87,13 @@ const CheckinForm = ({
                   onChange={(e) => handleCheckInCode(e)}
                   placeholder={customTranslate("Enter Checkin Code")}
                 />
-              </div>
+              </div> */}
               <button
                 type="button"
                 className="submit-btn"
-                onClick={() =>
-                  handleCheckinReservation(
-                    reservationById?.reservationId,
-                    checkinCode
-                  )
-                }
+                onClick={() => handleShowScanner()}
               >
-                {customTranslate("Approve")}
+                {customTranslate("Scan QR Code")}
               </button>
               <button
                 type="button"

@@ -11,7 +11,6 @@ const ReservationList = ({
   sortOptions,
   handleReservationById,
 }) => {
-  console.log(reservations);
   return (
     <>
       <div className="body" style={{ padding: "20px" }}>
@@ -89,7 +88,6 @@ const ReservationList = ({
                                   "vi-VN"
                                 )}
                               </td>
-                               
                               <td>
                                 {item.totalDeposit?.toLocaleString("vi-VN")} đ
                               </td>

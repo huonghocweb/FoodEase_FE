@@ -179,7 +179,8 @@ const fetchToTal = async ()=>{
         console.log(resCart.data);
         setTimeout(() => {
            onClose();
-      }, 3000);
+           setAlert(null);
+      }, 2000);
        
       } catch (error) {
         console.error('error in handle add to Cart',error);

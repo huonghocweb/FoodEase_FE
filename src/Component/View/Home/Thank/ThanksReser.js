@@ -5,40 +5,57 @@ import ReservationOrderPaymentDetailsPopup from '../../Admin/ReservationOrderPay
 
 const ThanksReser = () => {
 
+
+  const {paymentMethodId} = useParams();
   const [paymentInfo, setPaymentInfo] = useState({});
   const [reservationOrderPayment, setReservationOrderPayment] = useState(null);
   const [isOpenReservationOrderDetailsPopup ,setIsOpenReservationOrderDetailsPopup] = useState(null);
 
+
+  const getReservationOrderById = async () => {
+    try {
+      const resReserOrderPayment = await axiosConfig.get(`/reservationOrderPaymentApi/getById/${paymentMethodId}`);
+      console.log(resReserOrderPayment.data.data);
+      setReservationOrderPayment(resReserOrderPayment.data.data);
+    } catch (error) {
+      console.error('error in getReservationOrderById',error);
+    }
+  }
+
   useEffect(() => {
-    const controller = new AbortController();
-    const urlParams = new URLSearchParams(window.location.search);
-    let resPaymentInfo;
-
-    const fetchPaymentInfo = async () => {
-        console.log(urlParams);
-      try {
-        const params = Object.fromEntries(urlParams.entries());
-                resPaymentInfo = await axiosConfig.get(
-            "/paymentMethod/byPaypal/getPaymentInfoReser",
-            { params, signal: controller.signal }
-          );
-          console.log(resPaymentInfo.data);
-        console.log(resPaymentInfo?.data.data);
-        if(resPaymentInfo?.data){
-            setReservationOrderPayment(resPaymentInfo?.data.data);
-        }else {
-            setReservationOrderPayment(0);
-        }
-      } catch (error) {
-        if (error.name !== "AbortError") {
-          console.error("Error fetching payment info:", error);
-        }
+      if(paymentMethodId === 'paypal') { 
+        const controller = new AbortController();
+        const urlParams = new URLSearchParams(window.location.search);
+        let resPaymentInfo;
+    
+        const fetchPaymentInfo = async () => {
+            console.log(urlParams);
+          try {
+            const params = Object.fromEntries(urlParams.entries());
+                    resPaymentInfo = await axiosConfig.get(
+                "/paymentMethod/byPaypal/getPaymentInfoReser",
+                { params, signal: controller.signal }
+              );
+              console.log(resPaymentInfo.data);
+            console.log(resPaymentInfo?.data.data);
+            if(resPaymentInfo?.data){
+                setReservationOrderPayment(resPaymentInfo?.data.data);
+            }else {
+                setReservationOrderPayment(0);
+            }
+          } catch (error) {
+            if (error.name !== "AbortError") {
+              console.error("Error fetching payment info:", error);
+            }
+          }
+        };
+    
+        fetchPaymentInfo();
+    
+        return () => controller.abort();
+      } else {
+        getReservationOrderById();
       }
-    };
-
-    fetchPaymentInfo();
-
-    return () => controller.abort();
   }, []);
 
 

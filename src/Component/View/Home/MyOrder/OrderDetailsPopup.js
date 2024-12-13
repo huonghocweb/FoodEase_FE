@@ -83,7 +83,9 @@ const OrderDetailsPopup = ({ isOpenOrderDetails ,handleOpenOrderDetailsPopup , o
                         <div className="order-info-item">
                           <span className="order-info-icon">🎟️</span>
                           <span className="order-info-label">Coupon:</span>
-                          <span className="order-info-value">{orderByOrderId.coupon.couponCode}</span>
+                          <span className="order-info-value">{orderByOrderId.coupon.description} - 
+                          {orderByOrderId.coupon.maxDiscountAmount.toLocaleString('vi')}đ</span>
+                          
                         </div>
                       )}
                     </div>

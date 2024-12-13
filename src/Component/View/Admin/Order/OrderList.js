@@ -6,6 +6,7 @@ import ReturnRequestPopup from "../OrderReturn/ReturnRequestPopup";
 import InvoiceDownloadComponent from "./InvoiceDownloadComponent";
 import Modal from "./Modal";
 import "./Modal.css";
+import OrderStatusPopup from "./OrderStatusPopup";
 const OrderList = () => {
   const [order, setOrder] = useState([]);
   const [orderDetails, setOrderDetails] = useState([]);
@@ -23,6 +24,22 @@ const OrderList = () => {
   const [sortDirection, setSortDirection] = useState("ASC");
   const [sortBy, setSortBy] = useState("orderDate");
 
+
+
+  const [isOpenOrderStatus, setIsOpenOrderStatus] = useState(null);
+  const [orderById ,setOrderById] = useState();
+
+  const handleOpenOrderStatus = async (orderId) => {
+    setIsOpenOrderStatus(!isOpenOrderStatus);
+    try {
+      const resOrderById = await axiosConfig.get(`/order/byId/${orderId}`);
+      console.log(resOrderById.data.data);
+      setOrderById(resOrderById.data.data);
+    } catch (error) {
+      console.error('error in handle Open OrderStatus !',error);
+    }
+  }
+ 
   const handleSort = (columnName) => {
     if (columnName === sortBy) {
       setSortDirection(sortDirection === "ASC" ? "DESC" : "ASC");
@@ -117,6 +134,32 @@ const OrderList = () => {
       console.error("error in handle Approve OrderReturn", error);
     }
   };
+
+  const handleChangeOrderStatus = async(orderId) => {
+    const orderStatusId = 3;
+    try {
+      const resOrderChangeStatus = await axiosConfig.get(`/order/changeOrderStatus/${orderId}/${orderStatusId}`);
+     
+      if(resOrderChangeStatus.data !== null){
+        setAlert({ type: "success", message : 'Change Order Status To Shipping !'});
+        
+      }else {
+        setAlert({type : "error", message : 'Change Order Status Failed !'});
+      }
+
+      setTimeout(() => {
+        setAlert(null);
+        handleOpenOrderStatus();
+      } , 2000);
+     
+      console.log(resOrderChangeStatus.data.data);
+      featchOrderList();
+    } catch (error) {
+      console.error('error in handle Change Order Status',error);
+    }
+  }
+
+
   const Next = () => {
     setPage((prevPage) => {
       if (prevPage >= TotalPage - 1) {
@@ -133,16 +176,23 @@ const OrderList = () => {
 
   useEffect(() => {
     featchOrderList();
-  }, [order]);
+  }, [order ]);
   return (
+    <>
+             {alert && (
+                <CustomAlert
+                  type={alert.type}
+                  message={alert.message}
+                  onClose={() => {
+                    console.log("Closing alert");
+                    setAlert(null);
+                  }}
+                />
+              )}
+
+
     <div className="body ">
-      {alert && (
-        <CustomAlert
-          type={alert.type}
-          message={alert.message}
-          onClose={() => setAlert(null)}
-        />
-      )}
+     
       <div id="reportsPage">
         <div id="home">
           <div className="container">
@@ -181,14 +231,14 @@ const OrderList = () => {
                         <th scope="col">
                           {customTranslate("Delivery Address")}
                         </th>
-                        <th scope="col">{customTranslate("Order Status")}</th>
                         <th scope="col">{customTranslate("Payment Method")}</th>
                         <th scope="col">{customTranslate("Ship Method")}</th>
                         <th scope="col">{customTranslate("Total Price")}</th>
                         <th scope="col">{customTranslate("Total Quantity")}</th>
+                        <th scope="col">{customTranslate("Order Status")}</th>
                         <th scope="col">{customTranslate("Function")}</th>
-                        <th scope="col"> </th>
                         <th scope="col">{customTranslate("Export")}</th>
+                        <th scope="col"> Manage Status </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -217,26 +267,30 @@ const OrderList = () => {
                           <td>
                             <b>{item.deliveryAddress}</b>
                           </td>
-                          <td>
-                            {customTranslate(
-                              `${item.orderStatus.orderStatusName}`
-                            )}
-                          </td>
+                       
                           <td>{item.paymentMethod.paymentName}</td>
                           <td>
                             {customTranslate(`${item.shipMethod.shipName}`)}
                           </td>
                           <td>{item.totalPrice.toLocaleString("vi-VN")}đ</td>
                           <td>{item.totalQuantity}</td>
+                          <td>
+                            {customTranslate(
+                              `${item.orderStatus.orderStatusName}`
+                            )}
+                          </td>
                           <td
                             onClick={() => handleInfoClick(item.orderId, item)}
                           >
                             <i className="fa-solid fa-circle-info fa-lg"></i>
                           </td>
                           <td>
+                            <InvoiceDownloadComponent orderId={item.orderId} />
+                          </td>
+                          <td>
                             {" "}
-                            {item.orderStatus.orderStatusName ===
-                              "Return Requested" && (
+                            {item.orderStatus.orderStatusId === 5
+                               ?  (
                               <button
                                 style={{ fontSize: "10px" }}
                                 onClick={() =>
@@ -245,11 +299,17 @@ const OrderList = () => {
                               >
                                 {customTranslate("Check")}
                               </button>
-                            )}
+                            ) :  item.orderStatus.orderStatusId === 2 ? (
+                              <button
+                                style={{ fontSize: "10px" }}
+                                onClick={() => handleOpenOrderStatus(item.orderId)}
+                              >
+                                {customTranslate("Check")}
+                              </button> 
+                            ) : ('')
+                            }
                           </td>
-                          <td>
-                            <InvoiceDownloadComponent orderId={item.orderId} />
-                          </td>
+                          
                         </tr>
                       ))}
                     </tbody>
@@ -276,6 +336,12 @@ const OrderList = () => {
                     orderReturnByOrderId={orderReturnByOrderId}
                     hanldeApproveOrderReturn={hanldeApproveOrderReturn}
                   />
+                  <OrderStatusPopup
+                    isOpenOrderStatus={isOpenOrderStatus}
+                    orderById={orderById}
+                    handleChangeOrderStatus= {handleChangeOrderStatus}
+                    setIsOpenOrderStatus = {setIsOpenOrderStatus}
+                  />
                 </div>
               </div>
             </div>
@@ -283,6 +349,7 @@ const OrderList = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
