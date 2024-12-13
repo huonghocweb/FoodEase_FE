@@ -74,11 +74,17 @@ const AddFoodVariation = ({ onClose, item }) => {
             console.log('Success: Food variation added');
             // Optionally, you might want to refresh the food variations after adding
             setAlert({ type: 'success', message: 'Added Success!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
             fetchFoodVariation();
             reset();
 
         } catch (error) {
             setAlert({ type: 'error', message: 'Added Failed,Size already exists!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
             console.error('Error:', error);
         }
     };
@@ -106,10 +112,16 @@ const AddFoodVariation = ({ onClose, item }) => {
             console.log('Success: Food variation added');
             // Optionally, you might want to refresh the food variations after adding
             setAlert({ type: 'success', message: 'Update Success!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
             fetchFoodVariation();
 
         } catch (error) {
             setAlert({ type: 'error', message: 'Update Failed!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
             console.error('Error:', error);
         }
     }
@@ -130,8 +142,14 @@ const AddFoodVariation = ({ onClose, item }) => {
         try {
             await axiosConfig.delete(`/user/foodvariation/deleteFoodVariation/${id}`)
             setAlert({ type: 'success', message: 'Delete Success!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
         } catch (error) {
             setAlert({ type: 'error', message: 'Delete Failed!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
         }
         
     }
@@ -151,9 +169,15 @@ const AddFoodVariation = ({ onClose, item }) => {
             const response = await axiosConfig.post('/user/topping/create', toppings);
             setIsFormOpen(false);
             setAlert({ type: 'success', message: 'Add topping Success!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
         } catch (error) {
             console.error(error);
             setAlert({ type: 'error', message: 'Add topping error!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
         }
         
     }; 

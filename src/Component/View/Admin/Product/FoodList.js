@@ -66,9 +66,15 @@ const Next = () => {
       await axiosConfig.post(`/categories/addFoodCategory?categoryName=${inputCategory}`)
       setInputCategory('')
       setAlert({ type: 'success', message: 'Delete Success!' });
+      setTimeout(() => {
+        setAlert(null); // Xóa thông báo
+    }, 2000);
     } catch (error) {
       
       setAlert({ type: 'error', message: 'Delete error!' });
+      setTimeout(() => {
+        setAlert(null); // Xóa thông báo
+    }, 2000);
     }
     
   }
@@ -81,9 +87,15 @@ const deleteFood= async (foodId)=>{
   try {
     await axiosConfig.delete(`user/food/deleteFood/${foodId}`)
     setAlert({ type: 'success', message: 'Delete Success!' });
+    setTimeout(() => {
+      setAlert(null); // Xóa thông báo
+  }, 2000);
   } catch (error) {
     console.error("Error deleting food:", error);
     setAlert({ type: 'error', message: 'Delete error!' });
+    setTimeout(() => {
+      setAlert(null); // Xóa thông báo
+  }, 2000);
   }
  
 }
@@ -95,8 +107,14 @@ const deleteFood= async (foodId)=>{
     try {
       await axiosConfig.delete(`categories/${index}`)
       setAlert({ type: 'success', message: 'Delete Success!' });
+      setTimeout(() => {
+        setAlert(null); // Xóa thông báo
+    }, 2000);
     } catch (error) {
       setAlert({ type: 'error', message: 'Delete error!' });
+      setTimeout(() => {
+        setAlert(null); // Xóa thông báo
+    }, 2000);
     }
   }
 if(categories == null)
