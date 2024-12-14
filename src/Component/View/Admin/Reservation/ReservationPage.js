@@ -5,8 +5,10 @@ import axiosConfig from "./../../../Config/AxiosConfig";
 import CheckinForm from "./CheckinForm";
 import ReservationList from "./ReservationList";
 import QrScanner from "../../../Config/QrScanner/QrScanner";
+import { useNavigate } from "react-router-dom";
 
 const ReservationPage = () => {
+  const navigate = useNavigate();
   const [isOpenCheckinForm, setIsOpenCheckinForm] = useState(null);
   const [alert, setAlert] = useState(null);
   const [reservationById, setReservationById] = useState();
@@ -71,8 +73,6 @@ const ReservationPage = () => {
           type: "success",
           message: customTranslate("CheckIn Success!"),
         });
-        fetchReservations();
-        handleCloseCheckinForm();
       } else {
         setAlert({
           type: "error",
@@ -80,9 +80,16 @@ const ReservationPage = () => {
         });
         console.log('checkin failed')
       }
+      console.log(resCheckInReservation.data.data);
       setTimeout(() => {
         setAlert(null);
-      },2000)
+      
+        if(resCheckInReservation.data.data !== null){
+          handleCloseCheckinForm();
+          fetchReservations();
+          navigate(`/admin/reservationOccupied/${resCheckInReservation.data.data.reservationId}`);
+        }
+      },2500);
       console.log(resCheckInReservation.data.data);
     } catch (error) {
       console.error("error in handleCheckinReservation");

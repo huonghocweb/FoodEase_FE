@@ -95,6 +95,7 @@ const AddFood = () => {
     } catch (error) {
       console.log("Error in updating product:", error);
       setAlert({ type: "error", message: "update Failed!" });
+      
       setTimeout(() => {
         setAlert(null); // Xóa thông báo
     }, 2000);
@@ -202,9 +203,11 @@ const AddFood = () => {
 
             <div className="form-group col-lg-6">
               <label>{customTranslate("Discount")}:</label>
+              
               <input
                 className="input-field"
                 type="number"
+               
                 name="discount"
                 value={discount}
                 onChange={(e) => setdiscount(e.target.value)}
@@ -214,10 +217,13 @@ const AddFood = () => {
             <div className="form-group col-lg-6">
               <label>{customTranslate("Image")}:</label>
               <input
+
+
                 className="input-field"
                 type="file"
                 {...register("file", {
                   required: customTranslate("Image is required"),
+                  
                 })} // Thêm xác thực để yêu cầu nhập file
                 onChange={(e) => {
                   const selectedFiles = e.target.files[0];

@@ -175,6 +175,7 @@ const OrderList = () => {
     }
   };
 
+  const today = new Date().toISOString().split('T')[0];
   useEffect(() => {
     featchOrderList();
   }, [order ]);
@@ -213,6 +214,7 @@ const OrderList = () => {
                       type="date"
                       value={inputFindEndDate}
                       onChange={handleinputFindendDate}
+                      max={today}
                     />
                     <button onClick={findDate}>
                       <i class="bi bi-search"></i>

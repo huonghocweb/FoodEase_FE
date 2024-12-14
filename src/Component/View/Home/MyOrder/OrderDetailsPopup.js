@@ -175,9 +175,9 @@ const OrderDetailsPopup = ({ isOpenOrderDetails ,handleOpenOrderDetailsPopup , o
 
                         {/* Tracking order */}
                         <p className="lead fw-bold mb-3" style={{ color: "#f37a27" }}>
-                          Tracking Order
+                          Tracking Order : {orderByOrderId.orderStatus.orderStatusName}
                         </p>
-                        <div className="row">
+                        {/* <div className="row">
                           <div className="col-lg-12">
                             <div className="horizontal-timeline">
                               <ul className="list-inline items d-flex justify-content-between">
@@ -217,7 +217,7 @@ const OrderDetailsPopup = ({ isOpenOrderDetails ,handleOpenOrderDetailsPopup , o
                               </ul>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
 
                         {/* Help section */}
                         <p className="mt-4 pt-2 mb-0 text-white">

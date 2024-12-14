@@ -1,5 +1,5 @@
 .service-popup-overlay {
-    position: relative;
+    position: fixed;
     z-index: 1000;
     left: 0;
     top: 0;
@@ -18,14 +18,13 @@
     pointer-events: all;
     opacity: 1;
 }
-
 .service-popup-content {
     background-color: white;
     padding: 20px;
     border-radius: 15px;
     width: 45%; /* Tăng kích thước chiều rộng */
     max-width: 900px; /* Tăng chiều rộng tối đa */
-    min-height: 600px; /* Tăng chiều cao tối thiểu */
+    max-height: 90vh; /* Tăng chiều cao tối thiểu */
     position: fixed;
     top: 50%;
     left: 50%;
@@ -33,6 +32,7 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
     animation: popup-fadein 0.3s ease-in-out;
+    overflow-y: auto;
 }
 
 

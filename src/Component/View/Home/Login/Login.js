@@ -191,9 +191,9 @@ const Login = () => {
                                     <button class="auth-btn github-btn" onClick={() => handleGitLogin()}>
                                         <span><i class="fa-brands fa-github"></i></span> GITHUB
                                     </button>
-                                    <button class="auth-btn linkedin-btn" onClick={() => handleLinkedInLogin()}>
+                                    {/* <button class="auth-btn linkedin-btn" onClick={() => handleLinkedInLogin()}>
                                         <span><i class="fa-brands fa-linkedin"></i></span> LINKEDIN
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                             <br></br>

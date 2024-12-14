@@ -119,6 +119,7 @@ const Revenue = () => {
         setInputYearset1(parseInt(event.target.value)); // Cập nhật selectedYear
         
     };
+    const today = new Date().toISOString().split('T')[0];
     return (
         <div className="container">
         <div  className="revenue-container">
@@ -137,6 +138,7 @@ const Revenue = () => {
                       type="date"
                       value={inputFindEndDate}
                       onChange={handleinputFindendDate}
+                      max={today}
                     />
                  <button onClick={findDate}>{customTranslate("find")}</button>
                </div>

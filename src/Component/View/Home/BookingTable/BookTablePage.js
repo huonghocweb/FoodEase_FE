@@ -11,7 +11,7 @@ import TableAvailablePopup from "./TableAvailablePopup";
 
 const BookTablePage = () => {
 
-  const {register,reset,handleSubmit ,watch, formState : {errors}} = useForm();
+  const {register,reset,handleSubmit ,watch, setValue, formState : {errors}} = useForm();
   const [yourReservation, setYourReservation] = useState([]);
   const [alert, setAlert] = useState(null);
   const fetchtUserByUserName = async () => {
@@ -48,16 +48,22 @@ const BookTablePage = () => {
   };
 
   const resetFormStateCheckTime = () => {
-    setFormStateCheckTime({
-      date: "",
-      checkinTime: "",
-      checkoutTime: "",
-    });
-    setErrorCheckTimeState({
-      checkinTime: "",
-      checkoutTime: "",
-      date: "",
-    });
+    reset({
+      date : "",
+      checkinTime : "",
+      checkoutTime : ""
+    })
+    setSelectdServicesIds([]);
+    // setFormStateCheckTime({
+    //   date: "",
+    //   checkinTime: "",
+    //   checkoutTime: "",
+    // });
+    // setErrorCheckTimeState({
+    //   checkinTime: "",
+    //   checkoutTime: "",
+    //   date: "",
+    // });
     fetchtUserByUserName();
   };
 
@@ -108,6 +114,7 @@ const BookTablePage = () => {
 
   const handleCheckTimePopup = async (dateCheckTime) => {
     console.log(dateCheckTime);
+    console.log(tableIdSelected);
     handleInputChange("date", dateCheckTime);
     try {
       const resTableReserved = await axiosConfig.get(
@@ -162,6 +169,7 @@ const BookTablePage = () => {
         openCheckTimePopup();
        // resetFormStateCheckTime();
        reset();
+       setSelectdServicesIds([]);
       } else {
         setAlert({ type: "error", message: "Book Table failed!" });
       }
@@ -314,7 +322,7 @@ const BookTablePage = () => {
           },
         }
       );
-      //  console.log(resTableByCapaAndCate.data.data);
+       console.log(resTableByCapaAndCate.data.data);
       setTabResTables(resTableByCapaAndCate.data.data?.content);
       setTabToTalPage(resTableByCapaAndCate.data.data?.totalPages);
       setToTalTab(resTableByCapaAndCate.data.data?.totalElements);
@@ -375,6 +383,7 @@ const BookTablePage = () => {
         handleBookTable = {handleBookTable}
         errors = {errors}
         watch = {watch}
+        setValue = {setValue}
       />
       <ServicesPopup
         isOpenServicesPopup={isOpenServicesPopup}

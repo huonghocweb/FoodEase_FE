@@ -20,7 +20,8 @@ const CheckTimePopup = ({
   handleSubmit , 
   handleBookTable , 
   errors , 
-  watch
+  watch , 
+  setValue
 }) => {
   return (
     <>
@@ -62,6 +63,7 @@ const CheckTimePopup = ({
               </div>
 
               <form onSubmit={ handleSubmit(handleBookTable)} >
+
               <div className="checktime-form-group-row">
                 <div className="checktime-form-group">
                   <label htmlFor="datePicker">
@@ -69,8 +71,6 @@ const CheckTimePopup = ({
                   </label>
                   <input
                     type="date"
-                    // value={formStateCheckTime.date}
-                    // onChange={(e) => handleCheckTimePopup(e.target.value)}
                     className="checktime-input-date"
                     {...register('date' , {
                       required  : 'Date is Required' , 
@@ -81,7 +81,13 @@ const CheckTimePopup = ({
                         return selectedDate >=today || "Date cannot be in the past";
                       }
                     })}
+                    onChange={(e) => {
+                      const dateValue = e.target.value;
+                      setValue('date', dateValue);
+                      handleCheckTimePopup(dateValue);
+                    }}
                   />
+
                   {errors.date && (
                     <p className="errors-form"> {errors.date.message} </p>
                   )}
@@ -112,12 +118,6 @@ const CheckTimePopup = ({
                   </label>
                   <input
                     type="time"
-                    // value={formStateCheckTime.checkinTime}
-                    // onChange={(e) =>
-                    //   handleInputChange("checkinTime", e.target.value)
-                    // }
-                    // required
-                    lang="en-GB"
                     className="checktime-input-time"
                    {...register('checkinTime', {
                     required : 'Checkin Time is required'
@@ -128,9 +128,6 @@ const CheckTimePopup = ({
                       <p className="errors-form">{errors.checkinTime.message}</p>
                     )
                   }
-                  {/* {errorCheckTimeState.checkinTime && (
-                    <div>{errorCheckTimeState.checkinTime}</div>
-                  )} */}
                 </div>
                 <div className="checktime-form-group">
                   <label htmlFor="checkOutTime">
@@ -138,11 +135,6 @@ const CheckTimePopup = ({
                   </label>
                   <input
                     type="time"
-                    // value={formStateCheckTime.checkoutTime}
-                    // onChange={(e) =>
-                    //   handleInputChange("checkoutTime", e.target.value)
-                    // }
-                    // required
                     className="checktime-input-time"
                     {...register('checkoutTime', {
                       required : 'Checkout Time is required' , 

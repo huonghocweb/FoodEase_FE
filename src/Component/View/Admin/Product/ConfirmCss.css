@@ -1,0 +1,40 @@
+/* styles.css (hoặc file CSS khác của bạn) */
+
+/* Đặt kiểu cho toàn bộ modal */
+.ReactModal__Overlay {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    background-color: rgba(0, 0, 0, 0.5); /* Nền mờ cho overlay */
+}
+
+/* Định nghĩa kiểu cho modal */
+.ReactModal__Content {
+    background-color: white; /* Nền trắng cho modal */
+    border-radius: 10px; /* Góc bo tròn */
+    padding: 20px; /* Padding bên trong */
+    width: 400px; /* Chiều rộng của modal */
+    max-width: 90vw; /* Chiều rộng tối đa (responsive) */
+    text-align: center; /* Căn giữa chữ trong modal */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng cho modal */
+    margin: 0 auto;
+    height: 250px;
+    font-size: 18px;
+}
+
+/* Nút */
+button {
+    background-color: #007bff; /* Màu nền cho nút */
+    color: white; /* Màu chữ của nút */
+    padding: 10px 15px; /* Padding cho nút */
+    border: none; /* Không viền cho nút */
+    border-radius: 5px; /* Bo tròn các góc của nút */
+    cursor: pointer; /* Hiệu ứng con trỏ khi hover lên nút */
+    margin: 10px; /* Khoảng giữa các nút */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+}
+
+/* Hiệu ứng hover cho nút */
+button:hover {
+    background-color: #0056b3; /* Thay đổi màu/buttons khi hover */
+}
