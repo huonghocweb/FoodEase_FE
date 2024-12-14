@@ -32,6 +32,7 @@
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
     "react-i18next": "^15.0.3",
+    "react-modal": "^3.16.1",
     "react-qr-scanner": "^1.0.0-alpha.11",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.26.2",
