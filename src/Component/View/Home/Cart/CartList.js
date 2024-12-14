@@ -9,6 +9,7 @@ const CartList = ({
   totalQuantity,
   totalPrice,
   handleAddCartItem,
+  removerCart,
   handleOpenDelivery,
   shipFee,
   points,
@@ -18,7 +19,7 @@ const CartList = ({
   couponByCode, 
   handleRemoveCoupon
 }) => {
-  console.log(addressState);
+  // console.log(addressState);
   return (
     <div>
       <section
@@ -87,7 +88,7 @@ const CartList = ({
                                   value={item.quantity}
                                   type="text"
                                   className="formCart-control form-control-sm"
-                                  style={{ width: "35px" }}
+                                  style={{ width: "45px" }}
                                 />
                                 <button
                                   className="btn btn-link px-2"
@@ -108,7 +109,7 @@ const CartList = ({
                               </div>
                               <div className="col-md-1 col-lg-1 col-xl-1 text-end">
                                 <div
-                                //  onClick={()=> removeCartItem(item.productVariationResponse.id)}
+                                 onClick={()=> removerCart(item.foodVariation.foodVariationId)}
                                 >
                                   <i class="fa-solid fa-trash"></i>
                                 </div>

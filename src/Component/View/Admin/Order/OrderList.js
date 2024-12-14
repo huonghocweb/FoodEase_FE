@@ -150,6 +150,7 @@ const OrderList = () => {
       setTimeout(() => {
         setAlert(null);
         handleOpenOrderStatus();
+        window.location.reload();
       } , 2000);
      
       console.log(resOrderChangeStatus.data.data);

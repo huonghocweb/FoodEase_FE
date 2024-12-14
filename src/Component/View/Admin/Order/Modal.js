@@ -18,6 +18,8 @@ const Modal = ({ item, order, onClose }) => {
   };
   useEffect(() => {
     featchOrderDetails();
+    console.log('item là:',item)
+    console.log('order là:',order)
   }, []);
   if (!item) return null;
   return (
@@ -29,6 +31,90 @@ const Modal = ({ item, order, onClose }) => {
         <h3>{customTranslate("Thanks for your order")}</h3>
         <h4 className="order-Receipt">{customTranslate("Receipt")}</h4>
 
+        
+        <div className="order-details-container">
+        <div className="order-detail-item">
+            <span className="detail-label">Payment Method:</span>
+            <span className="detail-value">
+              <img className="img-payment" src={order.paymentMethod.imageUrl}/>
+            </span>
+          </div>
+          
+          <div className="order-detail-item">
+            <span className="detail-label">
+              {customTranslate("Total Quantity")}
+            </span>
+            <span className="detail-value">{order.totalQuantity}</span>
+          </div>
+          <div className="order-detail-item">
+            <span className="detail-label">{customTranslate("Shipping fee")}:</span>
+            <span className="detail-value">
+              {order.shipMethod.shipFee.toLocaleString("vi-vn")}đ
+            </span>
+          </div>
+          <div className="order-detail-item">
+            <span className="detail-label">{customTranslate("Total")}:</span>
+            <span className="detail-value">
+              {order.totalPrice.toLocaleString("vi-Vn")}đ
+            </span>
+          </div>
+
+
+         
+
+          
+        </div>
+
+
+        <div className="order-details-container">
+          <div className="order-detail-item">
+            <span className="detail-label">User name:</span>
+            <span className="detail-value">
+              {order.user.fullName}
+            </span>
+          </div>
+          <div className="order-detail-item">
+            <span className="detail-label">Email:</span>
+            <span className="detail-value">
+              {order.user.email}
+            </span>
+          </div>
+
+          <div className="order-detail-item">
+            <span className="detail-label">
+              {customTranslate("Invoice Date")}:
+            </span>
+            <span className="detail-value">
+              {" "}
+              {(() => {
+                const orderDate = new Date(order.orderDate);
+                return `${orderDate.getFullYear()}/${String(
+                  orderDate.getMonth() + 1
+                ).padStart(2, "0")}/${String(orderDate.getDate()).padStart(
+                  2,
+                  "0"
+                )}`;
+              })()}
+            </span>
+          </div>
+
+          <div className="order-detail-item">
+            <span className="detail-label">Order time:</span>
+            <span className="detail-value">
+              {order.orderTime}
+            </span>
+          </div>
+
+          
+          <div className="order-detail-item">
+            <span className="detail-label">
+             Order status:
+            </span>
+            <span className="detail-value">
+             {order.orderStatus.orderStatusName}
+            </span>
+          </div>
+        </div>
         <div>
           {orderDetails.map((item) => (
             <div className="custom-modal-body">
@@ -58,47 +144,8 @@ const Modal = ({ item, order, onClose }) => {
             </div>
           ))}
         </div>
-        <div className="order-details-container">
-          <div className="order-detail-item">
-            <span className="detail-label">{customTranslate("Total")}:</span>
-            <span className="detail-value">
-              {order.totalPrice.toLocaleString("vi-Vn")}đ
-            </span>
-          </div>
-
-          <div className="order-detail-item">
-            <span className="detail-label">
-              {customTranslate("Total Quantity")}
-            </span>
-            <span className="detail-value">{order.totalQuantity}</span>
-          </div>
-
-          <div className="order-detail-item">
-            <span className="detail-label">{customTranslate("Shipping fee")}:</span>
-            <span className="detail-value">
-              {order.shipMethod.shipFee.toLocaleString("vi-vn")}đ
-            </span>
-          </div>
-
-          <div className="order-detail-item">
-            <span className="detail-label">
-              {customTranslate("Invoice Date")}:
-            </span>
-            <span className="detail-value">
-              {" "}
-              {(() => {
-                const orderDate = new Date(order.orderDate);
-                return `${orderDate.getFullYear()}/${String(
-                  orderDate.getMonth() + 1
-                ).padStart(2, "0")}/${String(orderDate.getDate()).padStart(
-                  2,
-                  "0"
-                )}`;
-              })()}
-            </span>
-          </div>
-        </div>
       </div>
+      
     </div>
   );
 };

@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import './OrderStatusPopup.css';
 
-const OrderStatusPopup = ({isOpenOrderStatus , orderById  , handleChangeOrderStatus  , setIsOpenOrderStatus}) => {
+const OrderStatusPopup = ({ isOpenOrderStatus, orderById, handleChangeOrderStatus, setIsOpenOrderStatus }) => {
+  const [isShipping, setIsShipping] = useState(false);
 
-    const [isShipping, setIsShipping] = useState(false);
+  const toggleStatus = () => {
+    setIsShipping(!isShipping);
+    handleChangeOrderStatus(orderById?.orderId);
+  };
 
-    const toggleStatus = () => {
-        setIsShipping(!isShipping);
-        handleChangeOrderStatus(orderById?.orderId);
-    };
+  if (!orderById) {
+    return <p>Loading....</p>;
+  }
 
-   if(!orderById){
-    return (
-        <p>Loading....</p>
-    )
-   }
   return (
     <>
       {isOpenOrderStatus && (
@@ -39,7 +37,7 @@ const OrderStatusPopup = ({isOpenOrderStatus , orderById  , handleChangeOrderSta
                 />
               </div>
               <div className="form-group">
-                <label>Status :</label>
+                <label>Status:</label>
                 <input
                   className="status-input"
                   value={orderById.orderStatus.orderStatusName}
@@ -47,7 +45,7 @@ const OrderStatusPopup = ({isOpenOrderStatus , orderById  , handleChangeOrderSta
                 />
               </div>
               <div className="form-group">
-                <label>Total Quantity :</label>
+                <label>Total Quantity:</label>
                 <input
                   className="status-input"
                   value={`${orderById.totalQuantity} Item`}
@@ -55,18 +53,18 @@ const OrderStatusPopup = ({isOpenOrderStatus , orderById  , handleChangeOrderSta
                 />
               </div>
               <div className="form-group">
-                <label>Payment Status :</label>
+                <label>Payment Status:</label>
                 <input
                   className="status-input"
-                  value={ `${orderById.totalPrice.toLocaleString('vi')} đ -  ${orderById.paymentMethod.paymentName}`}
+                  value={`${orderById.totalPrice.toLocaleString('vi')} đ - ${orderById.paymentMethod.paymentName}`}
                   readOnly
                 />
               </div>
               <div className="form-group">
-                <label>Order Time :</label>
+                <label>Order Time:</label>
                 <input
-                    className="status-input"
-                    value={(() => {
+                  className="status-input"
+                  value={(() => {
                     const now = new Date();
                     const paymentDate = new Date(orderById.paymentDateTime);
                     const diff = now - paymentDate;
@@ -74,26 +72,35 @@ const OrderStatusPopup = ({isOpenOrderStatus , orderById  , handleChangeOrderSta
                     const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
                     const minutes = Math.floor((diff / (1000 * 60)) % 60);
                     return `${hours} hours, ${minutes} minutes ago`;
-                    })()}
-                    readOnly
+                  })()}
+                  readOnly
                 />
+              </div>
+              <div className="order-status-popup-container">
+                <i
+                  className={`fa-solid fa-utensils fa-2xl ${
+                    isShipping ? 'order-status-popup-hidden' : 'order-status-popup-visible'
+                  }`}
+                  style={{ color: '#74C0FC' }}
+                ></i>
+                <div
+                  className={`order-status-popup-toggle ${isShipping ? 'active' : ''}`}
+                  onClick={toggleStatus}
+                >
+                  <div className="toggle-handle"></div>
                 </div>
-                <div className="order-status-container">
-            <i className={`fa-solid fa-utensils fa-2xl ${isShipping ? 'hidden' : 'visible'}`} style={{color:' #74C0FC'}}></i>
-            <div
-                className={`order-status-toggle ${isShipping ? 'active' : ''}`}
-                onClick={toggleStatus}
-            >
-                <div className="toggle-handle"></div>
-            </div>
-
-            <i className={`fa-solid fa-truck-fast  fa-2xl ${!isShipping ? 'hidden' : 'visible'}`}  style={{color:' #74C0FC'}}></i>
-        </div>
-
-                <button
+                <i
+                  className={`fa-solid fa-truck-fast fa-2xl ${
+                    !isShipping ? 'order-status-popup-hidden' : 'order-status-popup-visible'
+                  }`}
+                  style={{ color: '#74C0FC' }}
+                ></i>
+              </div>
+              <button
                 type="button"
                 className="close-btn"
-                onClick={() => setIsOpenOrderStatus(null)} >
+                onClick={() => setIsOpenOrderStatus(null)}
+              >
                 Close
               </button>
             </form>

@@ -96,7 +96,7 @@ const newPrice = foodDetail.food.basePrice- foodDetail.food.basePrice * foodDeta
         </p>
       </div> 
       <div className="portion">
-        <h3>Rating: {rating.rating ? rating.rating : 5}⭐</h3>
+        <h3>Rating: {rating.rating ? rating.rating.toFixed(1) : 5}⭐</h3>
       
       
        

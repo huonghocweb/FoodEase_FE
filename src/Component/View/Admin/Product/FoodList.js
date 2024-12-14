@@ -66,9 +66,15 @@ const Next = () => {
       await axiosConfig.post(`/categories/addFoodCategory?categoryName=${inputCategory}`)
       setInputCategory('')
       setAlert({ type: 'success', message: 'Delete Success!' });
+      setTimeout(() => {
+        setAlert(null); // Xóa thông báo
+    }, 2000);
     } catch (error) {
       
       setAlert({ type: 'error', message: 'Delete error!' });
+      setTimeout(() => {
+        setAlert(null); // Xóa thông báo
+    }, 2000);
     }
     
   }
@@ -81,9 +87,15 @@ const deleteFood= async (foodId)=>{
   try {
     await axiosConfig.delete(`user/food/deleteFood/${foodId}`)
     setAlert({ type: 'success', message: 'Delete Success!' });
+    setTimeout(() => {
+      setAlert(null); // Xóa thông báo
+  }, 2000);
   } catch (error) {
     console.error("Error deleting food:", error);
     setAlert({ type: 'error', message: 'Delete error!' });
+    setTimeout(() => {
+      setAlert(null); // Xóa thông báo
+  }, 2000);
   }
  
 }
@@ -95,8 +107,14 @@ const deleteFood= async (foodId)=>{
     try {
       await axiosConfig.delete(`categories/${index}`)
       setAlert({ type: 'success', message: 'Delete Success!' });
+      setTimeout(() => {
+        setAlert(null); // Xóa thông báo
+    }, 2000);
     } catch (error) {
       setAlert({ type: 'error', message: 'Delete error!' });
+      setTimeout(() => {
+        setAlert(null); // Xóa thông báo
+    }, 2000);
     }
   }
 if(categories == null)
@@ -120,6 +138,7 @@ if(categories == null)
               <table className="table table-hover tm-table-small tm-product-table revenue-table">
                 <thead>
                   <tr>
+                  <th className='food-no'>#</th>
                   <th className='food-no'>FOOD NO.</th>
                     <th scope="col">FOOD NAME</th>
                     <th scope="col">BASE PRICE</th>
@@ -137,8 +156,11 @@ if(categories == null)
                 <tbody>
                  {
                     Food.map((item,index)=>(
+                      
                       <tr  key={item.foodId}>
+                       
                     <td className='food-no'>{index +1}</td>
+                    <td>{item.foodId}</td>
                     <td className="tm-product-name">{item.foodName}</td>
                     <td>{item.basePrice.toLocaleString("vi-VN")}đ</td>
                     <td className='tm-product-name'  onClick={() => handleRowClick(item)}><img src={`${item.imageUrl}`}/></td>

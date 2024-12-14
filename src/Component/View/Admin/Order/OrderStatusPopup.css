@@ -1,69 +1,69 @@
-.order-status-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .order-status-toggle {
-    position: relative;
-    width: 100px;
-    height: 40px;
-    background-color: #ccc;
-    border-radius: 20px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin: 0 10px; /* Optional: adds spacing between icons and toggle */
-  }
-  
-  .order-status-toggle.active {
-    background-color: #007bff;
-  }
-  
-  .order-status-toggle::before {
-    content: 'Đang chờ';
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    font-size: 14px;
-    color: #fff;
-    transition: opacity 0.3s ease;
-  }
-  
-  .order-status-toggle.active::before {
-    content: 'Giao hàng';
-    left: auto;
-    right: 10px;
-  }
-  
-  .order-status-toggle .toggle-handle {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 30px;
-    height: 30px;
-    background-color: #fff;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: left 0.3s ease;
-  }
-  
-  .order-status-toggle.active .toggle-handle {
-    left: 65px;
-  }
-  
-  /* Ẩn icon khi cần */
-  .hidden {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 1.5s ease-in-out, visibility 0s 1.5s; /* Thêm hiệu ứng mờ dần */
-  }
-  
-  /* Hiển thị icon với hiệu ứng mờ dần */
-  .visible {
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 2.5s ease-in-out, visibility 0s; /* Thêm hiệu ứng mờ dần */
-  }
-  
+/* Container chính cho trạng thái đơn hàng */
+.order-status-popup-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.order-status-popup-toggle {
+  position: relative;
+  width: 100px;
+  height: 40px;
+  background-color: #ccc;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0 10px; /* Optional: adds spacing between icons and toggle */
+}
+
+.order-status-popup-toggle.active {
+  background-color: #007bff;
+}
+
+.order-status-popup-toggle::before {
+  content: 'Đang chờ';
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #fff;
+  transition: opacity 0.3s ease;
+}
+
+.order-status-popup-toggle.active::before {
+  content: 'Giao hàng';
+  left: auto;
+  right: 10px;
+}
+
+.order-status-popup-toggle .toggle-handle {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: left 0.3s ease;
+}
+
+.order-status-popup-toggle.active .toggle-handle {
+  left: 65px;
+}
+
+/* Ẩn icon khi cần */
+.order-status-popup-hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.5s ease-in-out, visibility 0s 1.5s; /* Thêm hiệu ứng mờ dần */
+}
+
+/* Hiển thị icon với hiệu ứng mờ dần */
+.order-status-popup-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 2.5s ease-in-out, visibility 0s; /* Thêm hiệu ứng mờ dần */
+}

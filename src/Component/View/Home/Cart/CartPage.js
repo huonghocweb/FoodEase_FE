@@ -250,25 +250,50 @@ const CartPage = () => {
         try {
         const resCart = await axiosConfig.post(`/cart/addCartItem/${cartId}/${foodVaId}/${delta}`);
         setCart(resCart.data.data);
+        const cartItemNew = Object.values(resCart.data.data.items);
+        const quantity = cartItem.find(item => item.foodVariation.foodVariationId === foodVaId).quantity;
+        const quantityNew = cartItemNew.find(item => item.foodVariation.foodVariationId === foodVaId).quantity;
+        console.log(quantity);
+        console.log(quantityNew);
+        if(quantity === quantityNew){
+            console.log('asdfas')
+            setAlert({type : 'error' , message : `Out of Stock! Stock is : ${ quantityNew} Item`});
+        }
         } catch (error) {
         console.error('error in add CartItem',error);
         }
     }
     const removerCart = async (foodVaId) => {
+        console.log(foodVaId);
         try {
             const removeCartItem = await axiosConfig.delete(`/cart/${cartId}/${foodVaId}`);
+            if(removeCartItem.data.data !== null){
+                setAlert({type : 'success', message : 'Remove Item Success'});
+            }else {
+                setAlert({type : 'error', message : 'Remove Item Failed!'});
+            }
+            console.log(removeCartItem);
+            fecthGetCartByCartId();
         } catch (error) {
             console.error('error in remove CartItem',error);
         }
     }
 
     const hanldePayment = async (totalPrice,paymethod,deliveryAddress)=> {
+        console.log(addressState.leadTime);
+        console.log(addressState);
+        if(addressState.leadTime === ''  || addressState.shipFee === ''){
+            console.log('asdlkasd')
+            setAlert({ type : 'error',message : 'Please Choose Ship Service!'});
+            handlePaymentPopup();
+            handleOpenDelivery();
+            return ;
+        }
         try {
             let resPaymentUrl;
             console.log(totalPrice);
-            console.log(addressState.leadTime);
             console.log(deliveryAddress);
-            console.log(addressState.shipFee);
+       
             if(paymethod === "vnpay"){
                  resPaymentUrl= await axiosConfig.post(`/payment/byVnpay/${totalPrice}/${cartId}`,null,
                     {
@@ -504,6 +529,7 @@ const CartPage = () => {
             totalQuantity = {totalQuantity}
             totalPrice = {totalPrice}
             handleAddCartItem = {handleAddCartItem}
+            removerCart = {removerCart}
             handleOpenDelivery = {handleOpenDelivery}
             shipFee = {addressState.shipFee}
             points = {points}

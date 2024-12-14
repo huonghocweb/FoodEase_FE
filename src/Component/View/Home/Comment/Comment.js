@@ -15,7 +15,31 @@ const [review, setReview] = useState('');
 const [file, setFile] = useState(null);
 const [user,setUser]=useState([]);
 const [alert, setAlert] = useState(null);
+const [Image,setImage]=useState([null]);
 const userId =localStorage.getItem('userIdLogin');
+const handleFileChange = (e) => {
+  const selectedFile = e.target.files[0];
+  if (selectedFile) {
+    setFile(selectedFile);
+    setImage(URL.createObjectURL(selectedFile)); 
+  }
+};
+const Delete=(id)=>{
+  try {
+    axiosConfig.delete(`/user/foodReview/deleteByid/${id}`);
+    setAlert({ type: 'success', message: 'Delete success! '});
+    setTimeout(() => {
+      setAlert(null); // Xóa thông báo
+  }, 2000);
+  } catch (error) {
+    setAlert({type : 'error', message : 'Delete Failed!'});
+    setTimeout(() => {
+      setAlert(null); // Xóa thông báo
+  }, 2000);
+  }
+   
+
+}
   const fetchCommnet = async ()=>{
            await axiosConfig.get(`/user/foodReview/findfoodReviewByFoodId/${foodDetail.foodDetail.foodId}`)
         .then(response =>{
@@ -26,7 +50,7 @@ const userId =localStorage.getItem('userIdLogin');
   const fetchUser = async ()=>{
     try {
     
-      await axiosConfig.get(`user/${userId}`)
+      await axiosConfig.get(`/user/findUserByid/${userId}`)
       .then(response =>{
         setUser(response.data)
         
@@ -60,13 +84,15 @@ const userId =localStorage.getItem('userIdLogin');
             );
             
             setAlert({ type: 'success', message: 'Comment success! '});
-            // setTimeout(()=> {
-            //     window.location.reload();
-            // },2000);
+            setTimeout(() => {
+              setAlert(null); // Xóa thông báo
+          }, 2000);
             Reset();
         } catch (error) {
-          setAlert({type : 'error', message : 'Comment Failed!'});
-            console.log('Error in adding product');
+          setAlert({type : 'error', message : 'Please fill in the information completely?'});
+          setTimeout(() => {
+            setAlert(null); // Xóa thông báo
+        }, 2000);
         }
     };
    
@@ -78,12 +104,13 @@ const userId =localStorage.getItem('userIdLogin');
       setFile(null);
       setReview('')
       setRating(0);
+      setImage(null);
 
     }
  useEffect (() =>{
   fetchCommnet ();
   fetchUser();
- 
+
 }
 
 ,[comment])
@@ -104,13 +131,12 @@ const userId =localStorage.getItem('userIdLogin');
       
             <div className="avatar">
               {/* Add an image or icon for the avatar if needed */}
-              <img  src={`/assets/images/${user.imageUrl}`}/>
+              <img  src={user.imageUrl ? `/assets/images/${user.imageUrl} `:`/assets/images/blog_post_01.jpg`}/>
             
               
             </div>
             <div className="user-details">
-              <span className="user-name">{user.fullName}</span>
-              
+              <span className="user-name">{user.fullName ?user.fullName: 'User' }</span>
               <span className="review-date"></span>
             </div>
           </div>
@@ -142,13 +168,26 @@ const userId =localStorage.getItem('userIdLogin');
         className="styled-input"
         placeholder="Comment..."
       />
-      <input
-        type="file"
-        name="file"
-        onChange={(e) => setFile(e.target.files[0])}
-        
-        
-      />
+      
+            <div class="file-upload">
+                        <label for="file-input" class="custom-file-upload">
+                           Chọn ảnh
+                        </label>
+                        <input
+                         id="file-input"
+                  type="file" 
+                  style={{ display: 'none' }} 
+                  onChange={handleFileChange}
+                
+                
+              />
+                       
+                    </div>
+       {Image && (
+        <div className="comment-Image">
+          <img src={Image} />
+        </div>
+      )}
       <button onClick={handleAdd}>Send</button>
     </div>
   </form>
@@ -159,25 +198,23 @@ const userId =localStorage.getItem('userIdLogin');
           <div key={comment.id} className="comment-item">
             <div className="user-info">
               <div className="avatar">
-              <img src={`/assets/images/${comment.user.imageUrl}`}/>
+              <img src={comment.user.imageUrl ? `/assets/images/${comment.user.imageUrl}`: `/assets/images/blog_post_01.jpg`}/>
                 {/* Add an image or icon for the avatar if needed */}
               </div>
               <div className="user-details">
-                <span className="user-name">{comment.user.fullName}</span>
+                <span className="user-name">{comment.user.fullName ? comment.user.fullName :'User'}</span>
                 <span className="review-date">{comment.reviewDate}</span>
               </div>
               
             </div>
             <div className="rating">
-              {comment.rating}⭐
+              {comment.rating.toFixed(1)}ád⭐
             </div>
             <div className="comment">
               {comment.review}
             </div>
             <div className="comment-image">
               <img src={`${comment.imageUrl}`}/>
-              
-              
             </div>
             <div className="reply">
               <span className="reply-from">TASTY Kitchen</span>

@@ -12,6 +12,7 @@ const AddFoodVariation = ({ onClose, item }) => {
     const [alert, setAlert] = useState(null); 
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [currentItem, setCurrentItem] = useState(null);
+    
     const sizes = [
         { id: 1, name: 'Size S' },
         { id: 2, name: 'Size M' },
@@ -73,11 +74,17 @@ const AddFoodVariation = ({ onClose, item }) => {
             console.log('Success: Food variation added');
             // Optionally, you might want to refresh the food variations after adding
             setAlert({ type: 'success', message: 'Added Success!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
             fetchFoodVariation();
             reset();
 
         } catch (error) {
             setAlert({ type: 'error', message: 'Added Failed,Size already exists!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
             console.error('Error:', error);
         }
     };
@@ -105,10 +112,16 @@ const AddFoodVariation = ({ onClose, item }) => {
             console.log('Success: Food variation added');
             // Optionally, you might want to refresh the food variations after adding
             setAlert({ type: 'success', message: 'Update Success!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
             fetchFoodVariation();
 
         } catch (error) {
             setAlert({ type: 'error', message: 'Update Failed!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
             console.error('Error:', error);
         }
     }
@@ -129,8 +142,14 @@ const AddFoodVariation = ({ onClose, item }) => {
         try {
             await axiosConfig.delete(`/user/foodvariation/deleteFoodVariation/${id}`)
             setAlert({ type: 'success', message: 'Delete Success!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
         } catch (error) {
             setAlert({ type: 'error', message: 'Delete Failed!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
         }
         
     }
@@ -150,9 +169,15 @@ const AddFoodVariation = ({ onClose, item }) => {
             const response = await axiosConfig.post('/user/topping/create', toppings);
             setIsFormOpen(false);
             setAlert({ type: 'success', message: 'Add topping Success!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
         } catch (error) {
             console.error(error);
             setAlert({ type: 'error', message: 'Add topping error!' });
+            setTimeout(() => {
+                setAlert(null); // Xóa thông báo
+            }, 2000);
         }
         
     }; 
@@ -191,15 +216,19 @@ const AddFoodVariation = ({ onClose, item }) => {
                         </select>
                         {errors.FoodSizeId && <p  className="error">{errors.FoodSizeId.message}</p>}
                         </div>
-                       
-                            <div>
-                            <input
+                        <div class="file-upload">
+                        <label for="file-input" class="custom-file-upload">
+                           Chọn ảnh
+                        </label>
+                        <input
+                            id="file-input"
                             type="file"
                             multiple
                             {...register('file', { required: 'Files are required' })}
+                            style={{ display: 'none' }}  
                         />
-                        {errors.file && <p  className="error">{errors.file.message}</p>} 
-                            </div>
+                        {errors.file && <p className="error">{errors.file.message}</p>}
+                    </div>
                         
 
                         <button type="submit">{edit1 ? 'Update': 'Create'}</button>

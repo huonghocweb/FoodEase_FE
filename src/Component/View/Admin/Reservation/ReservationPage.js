@@ -80,7 +80,9 @@ const ReservationPage = () => {
         });
         console.log('checkin failed')
       }
-
+      setTimeout(() => {
+        setAlert(null);
+      },2000)
       console.log(resCheckInReservation.data.data);
     } catch (error) {
       console.error("error in handleCheckinReservation");
@@ -116,7 +118,7 @@ const ReservationPage = () => {
   ];
   useEffect(() => {
     fetchReservations();
-  }, [...Object.values(paginationState) , qrResult]);
+  }, [...Object.values(paginationState) , qrResult , reservations]);
   return (
     <>
       {alert && (

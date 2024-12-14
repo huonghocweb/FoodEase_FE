@@ -30,6 +30,8 @@
   border-radius: 10px; /* Bo góc cho khung */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
   margin-top: 20px; /* Khoảng cách phía trên */
+  width: 50%;
+  float: right;
 }
 
 .order-details-header {
@@ -117,7 +119,10 @@
   color: #333;
 }
 
+.img-payment{
+  width: 100px;
 
+}
 
 
 
@@ -131,14 +136,14 @@
   border-radius: 10px; /* Bo góc cho modal */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
   
-  width: 700px;
+  width: 100%;
 }
 
 .order-image {
   width: 70%; /* Ảnh phản hồi */
   max-width: 200px; /* Đặt chiều rộng tối đa cho ảnh */
   border-radius: 8px; /* Bo góc cho hình ảnh */
-  margin-bottom: 15px; /* Khoảng cách dưới ảnh */
+  margin-top: 15px; /* Khoảng cách dưới ảnh */
 }
 
 h4 {
