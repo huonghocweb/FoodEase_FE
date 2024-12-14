@@ -138,21 +138,33 @@ const AddFoodVariation = ({ onClose, item }) => {
         setValue('FoodSizeId',1)
         
     }
-    const deleteFoodVariation = async (id)=>{
-        try {
-            await axiosConfig.delete(`/user/foodvariation/deleteFoodVariation/${id}`)
-            setAlert({ type: 'success', message: 'Delete Success!' });
-            setTimeout(() => {
-                setAlert(null); // Xóa thông báo
-            }, 2000);
-        } catch (error) {
-            setAlert({ type: 'error', message: 'Delete Failed!' });
-            setTimeout(() => {
-                setAlert(null); // Xóa thông báo
-            }, 2000);
+    const deleteFoodVariation = async (id) => {
+        if (window.confirm("Are you sure you want to delete this food variation?")) {
+          try {
+          const response=  await axiosConfig.delete(`/user/foodvariation/deleteFoodVariation/${id}`);
+            if(response.status==200)
+                {
+                    setAlert({ type: 'success', message: 'Delete Success!' });
+                    setTimeout(() => {
+                      setAlert(null); // Xóa thông báo
+                    }, 2000);
+                }
+            
+           
+           
+          } catch (error) {
+            if (error.response && error.response.status === 409) { // Giả sử lỗi 409 cho khóa ngoại
+                        setAlert({ type: 'error', message: 'Cannot delete this food item because it is topping!' });
+                        } else {
+                            setAlert({ type: 'error', message: 'Delete error!' });
+                        }
+                          setTimeout(() => {
+                        setAlert(null); // Xóa thông báo
+                            }, 2000);
+    
         }
-        
     }
+      };
     const handleImgClick = (item) => {
         setCurrentItem(item);
         setIsFormOpen(true);

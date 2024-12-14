@@ -5,6 +5,7 @@ import axios from 'axios';
 import './FoodList.css'
 import Modal from './AddFoodVariation';
 import CustomAlert from '../../../Config/CustomAlert';
+import ConfirmDeleteModal from './ConfirmDeleteModal';
 const FoodList = () => {
 
 const [categories,setCategories]=useState([]);
@@ -16,7 +17,13 @@ const [inputCategory,setInputCategory]=useState();
 const [alert, setAlert] = useState(null); 
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [selectedItem, setSelectedItem] = useState(null);
-
+const [isOpenconfirm, setisOpenconfirm] = useState(false);
+const [isOpenDelete, setOpenDelete] = useState(false);
+  const [foodIdToDelete, setFoodIdToDelete] = useState(null);
+  const handleOpenModal = (foodId) => {
+    setFoodIdToDelete(foodId);
+    setOpenDelete(true);
+  };
 const handleRowClick = (item) => {
   setSelectedItem(item);
   setIsModalOpen(true);
@@ -65,13 +72,13 @@ const Next = () => {
     try {
       await axiosConfig.post(`/categories/addFoodCategory?categoryName=${inputCategory}`)
       setInputCategory('')
-      setAlert({ type: 'success', message: 'Delete Success!' });
+      setAlert({ type: 'success', message: 'CreateCreate Success!' });
       setTimeout(() => {
         setAlert(null); // Xóa thông báo
     }, 2000);
     } catch (error) {
       
-      setAlert({ type: 'error', message: 'Delete error!' });
+      setAlert({ type: 'error', message: 'CreateCreate error!' });
       setTimeout(() => {
         setAlert(null); // Xóa thông báo
     }, 2000);
@@ -83,39 +90,52 @@ useEffect(()=>{
   fetchCategories();
   
 },[page,Food])
-const deleteFood= async (foodId)=>{
-  try {
-    await axiosConfig.delete(`user/food/deleteFood/${foodId}`)
-    setAlert({ type: 'success', message: 'Delete Success!' });
-    setTimeout(() => {
+    const deleteFood = async () => {
+     
+      try {
+      const response = await axiosConfig.delete(`user/food/deleteFood/${foodIdToDelete}`);
+      
+      // Kiểm tra nếu phản hồi thành công
+     if (response.status === 200) { // Hoặc kiểm tra dựa vào cấu trúc phản hồi
+     setAlert({ type: 'success', message: 'Delete Success!' });
+       setTimeout(() => {
       setAlert(null); // Xóa thông báo
-  }, 2000);
-  } catch (error) {
-    console.error("Error deleting food:", error);
-    setAlert({ type: 'error', message: 'Delete error!' });
-    setTimeout(() => {
+      }, 2000);
+      }
+       } catch (error) {
+      // Kiểm tra loại lỗi và hiển thị thông báo phù hợp
+    if (error.response && error.response.status === 409) { // Giả sử lỗi 409 cho khóa ngoại
+     setAlert({ type: 'error', message: 'This dish cannot be deleted because it contains variant dishes.' });
+     } else {
+     setAlert({ type: 'error', message: 'Delete error!' });
+     }
+     setTimeout(() => {
       setAlert(null); // Xóa thông báo
-  }, 2000);
-  }
- 
-}
+      }, 2000);
+       }
+     
+      };
+      
   const edit=async (item)=>{
     
   navigate('/admin/addFood',{state:item})
   }
   const deleteCategory = async(index)=>{
-    try {
-      await axiosConfig.delete(`categories/${index}`)
-      setAlert({ type: 'success', message: 'Delete Success!' });
-      setTimeout(() => {
-        setAlert(null); // Xóa thông báo
-    }, 2000);
-    } catch (error) {
-      setAlert({ type: 'error', message: 'Delete error!' });
-      setTimeout(() => {
-        setAlert(null); // Xóa thông báo
-    }, 2000);
+    if (window.confirm("Are you sure you want to delete this food?")){
+      try {
+        await axiosConfig.delete(`categories/${index}`)
+        setAlert({ type: 'success', message: 'Delete Success!' });
+        setTimeout(() => {
+          setAlert(null); // Xóa thông báo
+      }, 2000);
+      } catch (error) {
+        setAlert({ type: 'error', message: 'Delete error!' });
+        setTimeout(() => {
+          setAlert(null); // Xóa thông báo
+      }, 2000);
+      }
     }
+   
   }
 if(categories == null)
 {
@@ -123,6 +143,7 @@ if(categories == null)
 }
     return (
         <div className="body">
+          
           {alert && (
                 <CustomAlert 
                     type={alert.type} 
@@ -177,7 +198,7 @@ if(categories == null)
                     
                     <td>
                       <a href="#" className="tm-product-delete-link">
-                        <i onClick={()=>deleteFood(item.foodId)} className="far fa-trash-alt tm-product-delete-icon"></i>
+                        <i onClick={()=>handleOpenModal(item.foodId)} className="far fa-trash-alt tm-product-delete-icon"></i>
                       </a>
                     </td>
                   </tr>
@@ -191,6 +212,11 @@ if(categories == null)
               className="btn btn-primary btn-block text-uppercase mb-3">Add Food</Link>
             
               </table>
+              <ConfirmDeleteModal
+        isOpen={isOpenDelete}
+        onRequestClose={() => setOpenDelete(false)}
+        onConfirm={deleteFood} // Khi xác nhận xóa
+      />
               {isModalOpen && (
         <Modal onClose={handleCloseModal} item={selectedItem} />
       )}

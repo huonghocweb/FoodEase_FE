@@ -208,7 +208,7 @@ const Delete=(id)=>{
               
             </div>
             <div className="rating">
-              {comment.rating.toFixed(1)}ád⭐
+              {comment.rating.toFixed(1)}⭐
             </div>
             <div className="comment">
               {comment.review}
@@ -218,7 +218,7 @@ const Delete=(id)=>{
               
               
             </div>
-            <button onClick={() => Delete(comment.reviewId)}>Delete</button>
+            
             <div className="reply">
               <span className="reply-from">TASTY Kitchen</span>
               <div className="reply-message">
