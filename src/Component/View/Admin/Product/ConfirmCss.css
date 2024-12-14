@@ -17,7 +17,7 @@
     max-width: 90vw; /* Chiều rộng tối đa (responsive) */
     text-align: center; /* Căn giữa chữ trong modal */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Đổ bóng cho modal */
-   float: right;
+    margin: 0 auto;
     height: 250px;
 }
 
